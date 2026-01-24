@@ -19,6 +19,7 @@ interface Job {
   description?: string
   extractedQualifications?: string[]
   extractedConstraints?: string[]
+  applyUrl?: string
 }
 
 // Helper function to clean skill strings
@@ -143,6 +144,23 @@ export default function Jobs() {
       localStorage.setItem('savedJobs', JSON.stringify(savedJobs))
       setSaved(true)
     }
+  }
+
+  const handleApply = () => {
+    if (!selectedJob) return
+
+    const savedJobs = JSON.parse(localStorage.getItem('savedJobs') || '[]') as any[]
+    const existingIdx = savedJobs.findIndex((j) => j.id === selectedJob.id)
+    const appliedEntry = { ...selectedJob, status: 'Applied', appliedAt: new Date().toISOString() }
+
+    if (existingIdx >= 0) savedJobs[existingIdx] = appliedEntry
+    else savedJobs.push(appliedEntry)
+
+    localStorage.setItem('savedJobs', JSON.stringify(savedJobs))
+    setSaved(true)
+
+    const applyUrl = selectedJob.applyUrl || `https://www.google.com/search?q=${encodeURIComponent(`${selectedJob.title} ${selectedJob.company} careers`)}`
+    window.open(applyUrl, '_blank', 'noopener,noreferrer')
   }
 
   return (
@@ -311,14 +329,12 @@ export default function Jobs() {
                       >
                         {saved ? 'Saved' : 'Save'}
                       </button>
-                      <a
-                        href={`https://jobs.example.com/apply/${selectedJob.id}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                      <button
+                        onClick={handleApply}
                         className="px-4 py-3 bg-gradient-to-r from-purple-600 to-violet-600 text-white rounded font-semibold hover:from-purple-700 hover:to-violet-700 transition text-center shadow-md hover:shadow-lg"
                       >
                         Apply
-                      </a>
+                      </button>
                     </div>
                   </div>
 

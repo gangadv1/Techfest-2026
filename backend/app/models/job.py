@@ -16,3 +16,4 @@ class Job(BaseModel):
     extractedConstraints: List[str] = []
     category: Optional[str] = None
     visaEligible: Optional[bool] = None
+    applyUrl: Optional[str] = None

@@ -28,7 +28,7 @@ export default function Social() {
       {/* Header Banner */}
       <header className="w-full bg-white border-b border-brand">
         <div className="container mx-auto px-4 py-8">
-          <h1 className="text-5xl font-extrabold text-brand mb-2">JobFit Community</h1>
+          <h1 className="text-5xl font-extrabold text-brand mb-2">Vector Community</h1>
           <p className="text-brand-dark text-lg">Forums, articles, and discussions to stay updated with the latest tech trends</p>
         </div>
       </header>

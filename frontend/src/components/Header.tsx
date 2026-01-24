@@ -7,15 +7,14 @@ export default function Header() {
   const isActive = (path: string) => location.pathname === path
 
   const navItems = [
-    { label: 'Dashboard', path: '/dashboard', icon: '📊' },
-    { label: 'Find Jobs', path: '/jobs', icon: '💼' },
-    { label: 'Applied Jobs', path: '/tracker', icon: '📋' },
-    { label: 'Social', path: '/social', icon: '👥' },
-    { label: 'Interview Prep', path: '/interview-simulator', icon: '🎤' }
+    { label: 'Dashboard', path: '/', iconClass: 'fa-solid fa-chart-line' },
+    { label: 'Find Jobs', path: '/jobs', iconClass: 'fa-solid fa-search' },
+    { label: 'Applied Jobs', path: '/tracker', iconClass: 'fa-solid fa-clipboard-check' },
+    { label: 'Social', path: '/social', iconClass: 'fa-solid fa-comments' }
   ]
 
   return (
-    <header className="bg-gradient-to-r from-brand to-teal border-b-4 border-accent sticky top-0 z-50 shadow-lg">
+    <header className="bg-gradient-to-r from-brand to-teal border-b-8 border-accent sticky top-0 z-50 shadow-2xl">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -23,7 +22,7 @@ export default function Header() {
             onClick={() => navigate('/')}
             className="flex items-center gap-2 cursor-pointer hover:scale-105 transition"
           >
-            <div className="text-2xl font-bold text-white">✨ JobFit</div>
+            <div className="text-2xl font-bold text-white">Vector</div>
           </div>
 
           {/* Navigation */}
@@ -38,7 +37,7 @@ export default function Header() {
                     : 'text-white hover:bg-white hover:bg-opacity-20'
                 }`}
               >
-                <span>{item.icon}</span>
+                <i className={`${item.iconClass} text-base`} aria-hidden="true"></i>
                 <span>{item.label}</span>
               </button>
             ))}

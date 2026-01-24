@@ -95,9 +95,48 @@ export default function Jobs() {
       {/* Full-width header banner */}
       <header className="w-full bg-gradient-to-r from-brand to-teal border-b-4 border-accent shadow-lg">
         <div className="container mx-auto px-4 py-8">
-          <div>
-            <h1 className="text-5xl font-extrabold text-white mb-2">Find Your Perfect Job</h1>
-            <p className="text-blue-100 text-lg font-medium">Browse opportunities tailored to your preferences</p>
+          <div className="flex items-center justify-between gap-4 flex-col md:flex-row">
+            <div>
+              <h1 className="text-5xl font-extrabold text-white mb-2">Find Your Perfect Job</h1>
+              <p className="text-blue-100 text-lg font-medium">Browse opportunities tailored to your preferences</p>
+            </div>
+
+            <div className="flex items-center gap-4 w-full md:w-1/2">
+              <input
+                type="text"
+                placeholder="Search jobs, companies..."
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value)
+                  const params = new URLSearchParams(searchParams)
+                  if (e.target.value.trim()) {
+                    params.set('search', e.target.value)
+                  } else {
+                    params.delete('search')
+                  }
+                  setSearchParams(params)
+                }}
+                className="flex-1 px-4 py-3 border-2 border-white rounded-lg text-sm focus:outline-none focus:border-white bg-white bg-opacity-10 text-white placeholder-white"
+              />
+              <div className="relative">
+                <button
+                  onClick={() => setShowFilters(!showFilters)}
+                  className="px-4 py-2 bg-white text-brand rounded-lg text-sm font-semibold hover:shadow-lg transition flex items-center gap-2"
+                >
+                  <i className="fa-solid fa-filter"></i>
+                  <span>Filters</span>
+                </button>
+                {showFilters && (
+                  <div className="absolute top-full left-0 mt-2 bg-white rounded-lg shadow-lg p-4 z-50 w-80">
+                    <div className="flex justify-between items-center mb-3">
+                      <h3 className="font-semibold text-sm">Filters</h3>
+                      <button onClick={() => setShowFilters(false)} className="text-xs text-gray-500">Close</button>
+                    </div>
+                    <Filters />
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </header>
@@ -108,39 +147,13 @@ export default function Jobs() {
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-brand"></div>
           </div>
         ) : (
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-4 gap-6">
             {/* Left: Job List */}
             <div className="col-span-1">
               <div className="mb-4 flex flex-col gap-4">
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Search jobs, companies..."
-                    value={searchQuery}
-                    onChange={(e) => {
-                      setSearchQuery(e.target.value)
-                      const params = new URLSearchParams(searchParams)
-                      if (e.target.value.trim()) {
-                        params.set('search', e.target.value)
-                      } else {
-                        params.delete('search')
-                      }
-                      setSearchParams(params)
-                    }}
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-sm focus:outline-none focus:border-brand"
-                  />
-                </div>
-                <div className="flex items-center justify-between">
-                  <p className="text-brand font-bold text-lg">{jobs.length} jobs found</p>
-                  <button
-                    onClick={() => setShowFilters(!showFilters)}
-                    className="px-4 py-2 bg-gradient-to-r from-brand to-teal text-white rounded-lg text-sm font-semibold hover:shadow-lg transition"
-                  >
-                    🎚️ Filters
-                  </button>
-                </div>
+                <p className="text-brand font-bold text-lg">{jobs.length} jobs found</p>
                 <select
-                  className="px-3 py-2 border border-gray-300 rounded text-sm"
+                  className="px-3 py-2 border border-gray-300 rounded text-sm w-32"
                   value={searchParams.get('sort') || 'newest'}
                   onChange={(e) => {
                     const params = new URLSearchParams(searchParams)
@@ -153,17 +166,6 @@ export default function Jobs() {
                   <option value="relevance">Relevance</option>
                 </select>
               </div>
-
-              {/* Dropdown filter panel */}
-              {showFilters && (
-                <div className="mb-6 bg-white rounded-lg shadow-lg p-4 z-50">
-                  <div className="flex justify-between items-center mb-3">
-                    <h3 className="font-semibold text-sm">Filters</h3>
-                    <button onClick={() => setShowFilters(false)} className="text-xs text-gray-500">Close</button>
-                  </div>
-                  <Filters />
-                </div>
-              )}
 
               {/* Job List */}
               <div className="space-y-3 max-h-[70vh] overflow-y-auto">
@@ -194,7 +196,7 @@ export default function Jobs() {
             </div>
 
             {/* Right: Job Detail */}
-            <div className="col-span-2">
+            <div className="col-span-3">
               {selectedJob ? (
                 <div className="bg-white rounded-lg shadow-sm">
                   <div className="p-6 border-b border-gray-200">

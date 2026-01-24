@@ -54,6 +54,8 @@ export default function NodeDetailModal({
 
   // Persist task completion per node
   const [doneMap, setDoneMap] = useState<Record<string, Record<string, boolean>>>({})
+  // Track completed nodes
+  const [completedNodes, setCompletedNodes] = useState<Set<string>>(new Set())
 
   useEffect(() => {
     const saved = safeJsonParse<Record<string, Record<string, boolean>>>(
@@ -61,11 +63,23 @@ export default function NodeDetailModal({
       {}
     )
     setDoneMap(saved)
+
+    const completedKey = `${storageKey}_completed`
+    const savedCompleted = safeJsonParse<string[]>(
+      localStorage.getItem(completedKey),
+      []
+    )
+    setCompletedNodes(new Set(savedCompleted))
   }, [storageKey])
 
   useEffect(() => {
     localStorage.setItem(storageKey, JSON.stringify(doneMap))
   }, [doneMap, storageKey])
+
+  useEffect(() => {
+    const completedKey = `${storageKey}_completed`
+    localStorage.setItem(completedKey, JSON.stringify(Array.from(completedNodes)))
+  }, [completedNodes, storageKey])
 
   if (!open || !node) return null
 
@@ -87,6 +101,19 @@ export default function NodeDetailModal({
     }))
   }
 
+  const isNodeComplete = completedNodes.has(node.id)
+  const toggleNodeComplete = () => {
+    setCompletedNodes((prev) => {
+      const next = new Set(prev)
+      if (next.has(node.id)) {
+        next.delete(node.id)
+      } else {
+        next.add(node.id)
+      }
+      return next
+    })
+  }
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
@@ -101,19 +128,38 @@ export default function NodeDetailModal({
         onMouseDown={(e) => e.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-4">
-          <div>
-            <h2 className="text-xl font-bold text-slate-900">{node.label}</h2>
+          <div className="flex-1">
+            <div className="flex items-center gap-2">
+              <h2 className="text-xl font-bold text-slate-900">{node.label}</h2>
+              {isNodeComplete && (
+                <span className="px-2 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700 border border-emerald-200">
+                  ✓ Complete
+                </span>
+              )}
+            </div>
             <div className="text-sm text-slate-600 mt-1">
               {node.category ?? "General"} • {node.estimatedMinutes ?? 25} mins
             </div>
           </div>
 
-          <button
-            onClick={onClose}
-            className="px-3 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-semibold"
-          >
-            Close
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={toggleNodeComplete}
+              className={`px-4 py-2 rounded-xl font-semibold shadow-sm transition-colors ${
+                isNodeComplete
+                  ? 'border border-slate-200 bg-white hover:bg-slate-50 text-slate-700'
+                  : 'bg-emerald-600 hover:bg-emerald-500 text-white'
+              }`}
+            >
+              {isNodeComplete ? 'Unmark' : 'Mark Complete'}
+            </button>
+            <button
+              onClick={onClose}
+              className="px-3 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-semibold"
+            >
+              Close
+            </button>
+          </div>
         </div>
 
         {/* Prereqs */}

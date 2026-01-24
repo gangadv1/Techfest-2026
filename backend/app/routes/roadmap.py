@@ -7,6 +7,29 @@ from app.models.roadmap import GraphResponse, GraphNode, RoadmapEdge
 
 router = APIRouter()
 
+# Map common role names to roadmap path IDs
+ROLE_TO_PATH = {
+    "ml": "machinelearning",
+    "machine learning": "machinelearning",
+    "machine-learning": "machinelearning",
+    "data": "data",
+    "data science": "data",
+    "data scientist": "data",
+    "data / analytics": "data",
+    "data analytics": "data",
+    "data-analytics": "data",
+    "data analyst": "data",
+    "analytics": "data",
+    "full stack": "full-stack",
+    "full-stack": "full-stack",
+    "fullstack": "full-stack",
+    "software engineer": "full-stack",
+    "software engineering": "full-stack",
+    "swe": "full-stack",
+    "frontend": "full-stack",
+    "backend": "full-stack",
+}
+
 @router.get("/graph", response_model=GraphResponse)
 async def get_roadmap_graph(
     pathId: str = Query(..., description="The path ID (e.g., 'backend', 'frontend')"),
@@ -58,6 +81,58 @@ async def get_roadmap_graph(
             if prereq_id in selected_ids:
                 edges.append(RoadmapEdge(source=prereq_id, target=node.id))
     
+    return GraphResponse(
+        pathId=roadmap.pathId,
+        pathTitle=roadmap.pathTitle,
+        nodes=graph_nodes,
+        edges=edges
+    )
+
+@router.get("/graph/by-role", response_model=GraphResponse)
+async def get_roadmap_graph_by_role(
+    role: str = Query(..., description="User role, e.g. 'ML', 'Data Scientist'"),
+    maxNodes: int = Query(10, description="Maximum number of nodes to return"),
+    userSkills: str = Query("", description="Comma-separated list of skills user already has")
+):
+    """
+    Convenience endpoint: map a role string to a roadmap pathId
+    and return the corresponding graph.
+    """
+    role_key = role.strip().lower()
+    path_id = ROLE_TO_PATH.get(role_key)
+    if not path_id:
+        raise HTTPException(status_code=404, detail=f"Role '{role}' not supported")
+
+    roadmap = load_roadmap(path_id)
+    if not roadmap:
+        raise HTTPException(status_code=404, detail=f"Roadmap '{path_id}' not found")
+
+    user_skill_list = [s.strip() for s in userSkills.split(",") if s.strip()] if userSkills else []
+    selected_nodes = select_nodes(roadmap.nodes, maxNodes, user_skill_list)
+    node_levels = compute_levels(selected_nodes)
+
+    selected_ids = {n.id for n in selected_nodes}
+    graph_nodes: List[GraphNode] = []
+    for node in selected_nodes:
+        graph_nodes.append(GraphNode(
+            id=node.id,
+            label=node.label,
+            level=node_levels[node.id],
+            status=node.status,
+            category=node.category,
+            difficulty=node.difficulty,
+            estimatedMinutes=node.estimatedMinutes,
+            prerequisites=node.prerequisites,
+            tasks=node.tasks,
+            resources=node.resources
+        ))
+
+    edges: List[RoadmapEdge] = []
+    for node in selected_nodes:
+        for prereq_id in node.prerequisites:
+            if prereq_id in selected_ids:
+                edges.append(RoadmapEdge(source=prereq_id, target=node.id))
+
     return GraphResponse(
         pathId=roadmap.pathId,
         pathTitle=roadmap.pathTitle,

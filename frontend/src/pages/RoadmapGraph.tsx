@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useLocation } from "react-router-dom"
 import ReactFlow, {
   Background,
   BackgroundVariant,
@@ -38,7 +38,11 @@ type ApiRoadmapGraphResponse = {
 }
 
 export default function RoadmapGraph() {
-  const { pathId = "full-stack" } = useParams()
+  const location = useLocation()
+  const search = location.search || ""
+  const qs = new URLSearchParams(search)
+  const roleParam = qs.get("role") || ""
+  const pathIdParam = qs.get("pathId") || "full-stack"
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -53,7 +57,10 @@ export default function RoadmapGraph() {
         setLoading(true)
         setError(null)
 
-        const res = await fetch(`/api/roadmap/graph?pathId=${encodeURIComponent(pathId)}&maxNodes=18`)
+        const url = roleParam
+          ? `/api/roadmap/graph/by-role?role=${encodeURIComponent(roleParam)}&maxNodes=18`
+          : `/api/roadmap/graph?pathId=${encodeURIComponent(pathIdParam)}&maxNodes=18`
+        const res = await fetch(url)
         if (!res.ok) throw new Error(`Failed to load roadmap graph (${res.status})`)
 
         const data = (await res.json()) as ApiRoadmapGraphResponse
@@ -69,7 +76,7 @@ export default function RoadmapGraph() {
     return () => {
       aborted = true
     }
-  }, [pathId])
+  }, [roleParam, pathIdParam])
 
   const nodeTypes: NodeTypes = useMemo(
     () => ({
@@ -134,7 +141,14 @@ export default function RoadmapGraph() {
     return { rfNodes, rfEdges }
   }, [apiData])
 
-  const title = apiData?.pathTitle ?? "Roadmap"
+  const title = (() => {
+    if (!apiData) return "Roadmap"
+    const pid = (apiData.pathId || "").toLowerCase()
+    if (pid === "machine-learning" || roleParam.toLowerCase() === "ml" || roleParam.toLowerCase() === "machine learning") {
+      return "ML"
+    }
+    return apiData.pathTitle || "Roadmap"
+  })()
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -222,7 +236,7 @@ export default function RoadmapGraph() {
         node={selectedNode}
         allNodes={apiData?.nodes ?? []}
         onClose={() => setSelectedNode(null)}
-        storageKey={`node_progress_${pathId}`}
+        storageKey={`node_progress_${apiData?.pathId ?? pathIdParam}`}
       />
     </div>
   )

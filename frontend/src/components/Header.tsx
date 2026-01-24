@@ -7,7 +7,7 @@ export default function Header() {
   const isActive = (path: string) => location.pathname === path
 
   const navItems = [
-    { label: 'Dashboard', path: '/', iconClass: 'fa-solid fa-chart-line' },
+    { label: 'Dashboard', path: '/dashboard', iconClass: 'fa-solid fa-chart-line' },
     { label: 'Find Jobs', path: '/jobs', iconClass: 'fa-solid fa-search' },
     { label: 'Applied Jobs', path: '/tracker', iconClass: 'fa-solid fa-clipboard-check' },
     { label: 'Social', path: '/social', iconClass: 'fa-solid fa-comments' }

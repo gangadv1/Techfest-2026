@@ -51,81 +51,97 @@ export default function Filters() {
   }
 
   return (
-    <div className="bg-gradient-to-br from-white to-blue-50 rounded-xl shadow-lg p-6 border-l-4 border-brand sticky top-4">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-bold bg-gradient-to-r from-brand to-teal bg-clip-text text-transparent">🎯 Filters</h2>
-        <button onClick={clearFilters} className="text-xs font-bold text-brand bg-blue-100 px-2 py-1 rounded hover:bg-blue-200 transition">
-          Clear All
+    <div className="bg-white/90 backdrop-blur border border-white/60 shadow-lg rounded-2xl p-5">
+      <div className="flex items-center justify-between mb-4">
+        <div>
+          <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide">Filters</p>
+          <h2 className="text-xl font-bold text-slate-900">Refine your search</h2>
+        </div>
+        <button
+          onClick={clearFilters}
+          className="text-sm font-semibold text-indigo-600 hover:text-indigo-700 hover:underline"
+        >
+          Clear all
         </button>
       </div>
 
-      <div className="space-y-6">
-        <div>
-          <h3 className="font-bold text-gray-900 mb-3 text-sm flex items-center gap-2"><span className="text-lg">📍</span>Location</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="space-y-2">
+          <h3 className="text-sm font-semibold text-slate-900">Location</h3>
           {['Remote', 'Singapore', 'Downtown / Raffles Place', 'Orchard', 'Tanjong Pagar', 'Jurong East', 'Tampines', 'Woodlands'].map(loc => (
-            <label key={loc} className="flex items-center mb-2">
-              <input type="checkbox" checked={filters.location.includes(loc)} onChange={(e) => updateFilters('location', loc, e.target.checked)} className="mr-2" />
-              <span className="text-gray-700">{loc}</span>
+            <label key={loc} className="flex items-center text-sm text-slate-700">
+              <input type="checkbox" checked={filters.location.includes(loc)} onChange={(e) => updateFilters('location', loc, e.target.checked)} className="mr-2 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
+              {loc}
             </label>
           ))}
         </div>
 
-        <div>
-          <h3 className="font-bold text-gray-900 mb-3 text-sm flex items-center gap-2"><span className="text-lg">💼</span>Role / Category</h3>
+        <div className="space-y-2">
+          <h3 className="text-sm font-semibold text-slate-900">Role / Category</h3>
           {['Software Engineer', 'Data Scientist', 'Product Manager', 'Designer', 'DevOps Engineer', 'QA'].map(role => (
-            <label key={role} className="flex items-center mb-2">
-              <input type="checkbox" checked={filters.role.includes(role)} onChange={(e) => updateFilters('role', role, e.target.checked)} className="mr-2" />
-              <span className="text-gray-700">{role}</span>
+            <label key={role} className="flex items-center text-sm text-slate-700">
+              <input type="checkbox" checked={filters.role.includes(role)} onChange={(e) => updateFilters('role', role, e.target.checked)} className="mr-2 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
+              {role}
             </label>
           ))}
         </div>
 
-        <div>
-          <h3 className="font-bold text-gray-900 mb-3 text-sm flex items-center gap-2"><span className="text-lg">⏰</span>Employment Type</h3>
+        <div className="space-y-2">
+          <h3 className="text-sm font-semibold text-slate-900">Employment Type</h3>
           {['Full-time', 'Part-time', 'Contract', 'Internship'].map(type => (
-            <label key={type} className="flex items-center mb-2">
-              <input type="checkbox" checked={filters.employmentType.includes(type)} onChange={(e) => updateFilters('employmentType', type, e.target.checked)} className="mr-2" />
-              <span className="text-gray-700">{type}</span>
+            <label key={type} className="flex items-center text-sm text-slate-700">
+              <input type="checkbox" checked={filters.employmentType.includes(type)} onChange={(e) => updateFilters('employmentType', type, e.target.checked)} className="mr-2 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
+              {type}
             </label>
           ))}
         </div>
 
-        <div>
-          <h3 className="font-bold text-gray-900 mb-3 text-sm flex items-center gap-2"><span className="text-lg">📈</span>Experience Level</h3>
+        <div className="space-y-2">
+          <h3 className="text-sm font-semibold text-slate-900">Experience Level</h3>
           {['Entry-level (0-2 years)', 'Intermediate/Mid-level (2-5 years)', 'Senior/Executive (5+ years)'].map(level => (
-            <label key={level} className="flex items-center mb-2">
-              <input type="checkbox" checked={filters.experienceLevel.includes(level)} onChange={(e) => updateFilters('experienceLevel', level, e.target.checked)} className="mr-2" />
-              <span className="text-gray-700">{level}</span>
+            <label key={level} className="flex items-center text-sm text-slate-700">
+              <input type="checkbox" checked={filters.experienceLevel.includes(level)} onChange={(e) => updateFilters('experienceLevel', level, e.target.checked)} className="mr-2 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
+              {level}
             </label>
           ))}
         </div>
 
-        <div>
-          <h3 className="font-bold text-gray-900 mb-3 text-sm flex items-center gap-2"><span className="text-lg">💰</span>Salary Range (SGD)</h3>
+        <div className="space-y-3">
+          <h3 className="text-sm font-semibold text-slate-900">Salary Range (SGD)</h3>
           <div className="flex gap-2 items-center">
-            <input type="number" placeholder="Min" value={filters.salaryMin} onChange={(e) => updateField('salaryMin', e.target.value)} className="px-3 py-2 border border-gray-300 rounded w-1/2" />
-            <input type="number" placeholder="Max" value={filters.salaryMax} onChange={(e) => updateField('salaryMax', e.target.value)} className="px-3 py-2 border border-gray-300 rounded w-1/2" />
+            <input type="number" placeholder="Min" value={filters.salaryMin} onChange={(e) => updateField('salaryMin', e.target.value)} className="px-3 py-2 rounded-lg border border-slate-300 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 w-1/2 text-sm" />
+            <input type="number" placeholder="Max" value={filters.salaryMax} onChange={(e) => updateField('salaryMax', e.target.value)} className="px-3 py-2 rounded-lg border border-slate-300 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 w-1/2 text-sm" />
           </div>
         </div>
 
-        <div>
-          <h3 className="font-bold text-gray-900 mb-3 text-sm flex items-center gap-2"><span className="text-lg">🛂</span>Visa / Work Eligibility</h3>
+        <div className="space-y-2">
+          <h3 className="text-sm font-semibold text-slate-900">Visa / Work Eligibility</h3>
           {['No sponsorship needed', 'Sponsorship available', 'Open to sponsorship'].map(v => (
-            <label key={v} className="flex items-center mb-2">
-              <input type="checkbox" checked={filters.visa.includes(v)} onChange={(e) => updateFilters('visa', v, e.target.checked)} className="mr-2" />
-              <span className="text-gray-700">{v}</span>
+            <label key={v} className="flex items-center text-sm text-slate-700">
+              <input type="checkbox" checked={filters.visa.includes(v)} onChange={(e) => updateFilters('visa', v, e.target.checked)} className="mr-2 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
+              {v}
             </label>
           ))}
         </div>
 
-        <div>
-          <h3 className="font-bold text-gray-900 mb-3 text-sm flex items-center gap-2"><span className="text-lg">⚙️</span>Technical Stack</h3>
-          {['Python', 'JavaScript', 'Java', 'React', 'TypeScript', 'Vue.js', 'AWS', 'Docker', 'ML', 'TensorFlow', 'PowerBI', 'SQL'].map(skill => (
-            <label key={skill} className="flex items-center mb-2">
-              <input type="checkbox" checked={filters.skills.includes(skill)} onChange={(e) => updateFilters('skills', skill, e.target.checked)} className="mr-2" />
-              <span className="text-gray-700">{skill}</span>
-            </label>
-          ))}
+        <div className="space-y-2 lg:col-span-3">
+          <h3 className="text-sm font-semibold text-slate-900">Technical Stack</h3>
+          <div className="flex flex-wrap gap-2">
+            {['Python', 'JavaScript', 'Java', 'React', 'TypeScript', 'Vue.js', 'AWS', 'Docker', 'ML', 'TensorFlow', 'PowerBI', 'SQL'].map(skill => (
+              <button
+                key={skill}
+                onClick={() => updateFilters('skills', skill, !filters.skills.includes(skill))}
+                className={
+                  "px-3 py-1.5 rounded-full border text-sm font-medium transition " +
+                  (filters.skills.includes(skill)
+                    ? "bg-indigo-50 text-indigo-700 border-indigo-200"
+                    : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100")
+                }
+              >
+                {skill}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </div>

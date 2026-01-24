@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { generateRoadmapPlan } from '../lib/roadmapGen'
 
@@ -22,6 +22,23 @@ const INDUSTRY_PROFILES = {
 }
 
 type IndustryKey = keyof typeof INDUSTRY_PROFILES
+
+// Map display roles to backend-compatible role strings
+const ROLE_NORMALIZATION: Record<string, string> = {
+  'Software Engineering': 'Software Engineering',
+  'Full Stack': 'Full Stack',
+  'Full-Stack': 'Full Stack',
+  'Frontend': 'Frontend',
+  'Backend': 'Backend',
+  'Data Science': 'Data Science',
+  'Data Scientist': 'Data Scientist',
+  'Data Analyst': 'Data',
+  'Data / Analytics': 'Data',
+  'Data': 'Data',
+  'Machine Learning': 'ML',
+  'ML': 'ML',
+  'Finance': 'Finance',
+}
 
 interface ResumeScanResult {
   metrics: {
@@ -96,28 +113,6 @@ function MetricBarRow({ label, score, max, status }: MetricBarRowProps) {
           {score}/{max}
         </p>
       </div>
-    </div>
-  )
-}
-
-interface SkillMatchRowProps {
-  skill: string
-  matched: boolean
-}
-
-function SkillMatchRow({ skill, matched }: SkillMatchRowProps) {
-  return (
-    <div className="flex items-center justify-between py-2 border-b border-slate-100 last:border-0">
-      <span className="text-sm text-slate-700 capitalize">{skill}</span>
-      {matched ? (
-        <span className="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-xs font-semibold">
-          Matched
-        </span>
-      ) : (
-        <span className="px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-semibold">
-          Missing
-        </span>
-      )}
     </div>
   )
 }
@@ -225,6 +220,20 @@ export default function Dashboard() {
   const [scanResult, setScanResult] = useState<ResumeScanResult | null>(null)
   const [industry, setIndustry] = useState<IndustryKey>('software')
   const [overallScore, setOverallScore] = useState(0)
+  const [targetRoles, setTargetRoles] = useState<string[]>(['Software Engineering'])
+
+  const deriveIndustryFromRole = (role: string): IndustryKey => {
+    const r = role.toLowerCase()
+    if (r.includes('data') || r.includes('analyst') || r.includes('scientist')) return 'data'
+    if (r.includes('finance') || r.includes('consult')) return 'finance'
+    return 'software'
+  }
+
+  const pathIdFromIndustry = (key: IndustryKey) => {
+    if (key === 'data') return 'data'
+    if (key === 'finance') return 'finance'
+    return 'fullstack'
+  }
   
   useEffect(() => {
     loadDashboardData()
@@ -255,55 +264,102 @@ export default function Dashboard() {
         if (hasSoftware) setIndustry('software')
         else if (hasData) setIndustry('data')
         else if (hasFinance) setIndustry('finance')
+
+        const cleanedRoles = rolesArr.filter(Boolean)
+        if (cleanedRoles.length) setTargetRoles(cleanedRoles)
       } catch {}
     }
     
-    // Load resume scan result
+    // Load resume scan result if present
     const scanRaw = localStorage.getItem('resume_scan_result')
     if (scanRaw) {
       const scan = JSON.parse(scanRaw)
       setScanResult(scan)
-      
-      // Calculate overall score
       const total95 = scan.metrics.content.score + scan.metrics.ats.score + scan.metrics.jobOpt.score + scan.metrics.writing.score
       const overall100 = Math.round((total95 / 95) * 100)
       setOverallScore(overall100)
-    } else {
-      // Mock data for development
-      const mockScan: ResumeScanResult = {
-        metrics: {
-          content: { score: 28, max: 40, label: 'needs work' },
-          ats: { score: 15, max: 20, label: 'good' },
-          jobOpt: { score: 20, max: 25, label: 'good' },
-          writing: { score: 7, max: 10, label: 'excellent' },
-          ready: false
-        },
-        resumeSkills: ['javascript', 'react', 'node.js', 'git', 'sql'],
-        missingTopKeywords: ['docker', 'aws', 'typescript'],
-        strengths: ['Clear structure', 'Good action verbs', 'Quantified achievements'],
-        weaknesses: ['Missing key technologies', 'Limited project descriptions', 'No leadership examples']
-      }
-      setScanResult(mockScan)
-      
-      const total95 = 28 + 15 + 20 + 7
-      const overall100 = Math.round((total95 / 95) * 100)
-      setOverallScore(overall100)
+      return
     }
+
+    // If no server scan, compute metrics locally from saved resume text/skills
+    const resumeText = localStorage.getItem('resume_text') || ''
+    const skillsRaw = localStorage.getItem('resume_skills') || '[]'
+    let resumeSkills: string[] = []
+    try { resumeSkills = JSON.parse(skillsRaw) } catch { resumeSkills = [] }
+
+    const profile = INDUSTRY_PROFILES[industry]
+
+    const wordCount = resumeText.trim().split(/\s+/).filter(Boolean).length
+    const hasSections = /(experience|education|projects|skills)/i.test(resumeText)
+    const bulletCount = (resumeText.match(/\n[-*•]/g) || []).length
+    const actionVerbs = /(led|built|designed|implemented|optimized|managed|created|developed)/i
+    const actionVerbHits = (resumeText.match(new RegExp(actionVerbs, 'gi')) || []).length
+
+    const matchedProfileSkills = profile.skills.filter(s => resumeSkills.some(r => r.toLowerCase().includes(s.toLowerCase())))
+    const missingTopKeywords = profile.skills.filter(s => !matchedProfileSkills.includes(s))
+
+    const metrics = {
+      content: {
+        score: Math.min(40, Math.round((Math.min(wordCount, 800) / 800) * 20 + (hasSections ? 10 : 0) + Math.min(bulletCount, 10))),
+        max: 40,
+        label: hasSections ? 'good' : 'needs work'
+      },
+      ats: {
+        score: Math.min(20, Math.round((hasSections ? 10 : 5) + Math.min(bulletCount, 10))),
+        max: 20,
+        label: bulletCount >= 5 ? 'excellent' : 'good'
+      },
+      jobOpt: {
+        score: Math.min(25, Math.round((matchedProfileSkills.length / Math.max(profile.skills.length, 1)) * 25)),
+        max: 25,
+        label: matchedProfileSkills.length >= Math.ceil(profile.skills.length * 0.6) ? 'good' : 'needs work'
+      },
+      writing: {
+        score: Math.min(10, Math.round(Math.min(actionVerbHits, 10))),
+        max: 10,
+        label: actionVerbHits >= 5 ? 'excellent' : 'good'
+      },
+      ready: false
+    }
+
+    const strengths: string[] = []
+    if (hasSections) strengths.push('Clear section structure')
+    if (bulletCount >= 5) strengths.push('Good use of bullet points')
+    if (matchedProfileSkills.length >= 3) strengths.push('Relevant skills highlighted')
+    const weaknesses: string[] = []
+    if (!hasSections) weaknesses.push('Missing standard sections')
+    if (missingTopKeywords.length) weaknesses.push('Missing key technologies')
+    if (wordCount < 200) weaknesses.push('Too short; add more detail')
+
+    const computed: ResumeScanResult = {
+      metrics,
+      resumeSkills,
+      missingTopKeywords,
+      strengths,
+      weaknesses
+    }
+    setScanResult(computed)
+    const total95 = metrics.content.score + metrics.ats.score + metrics.jobOpt.score + metrics.writing.score
+    const overall100 = Math.round((total95 / 95) * 100)
+    setOverallScore(overall100)
   }
   
-  const handleGenerateRoadmap = () => {
+  const handleGenerateRoadmap = (roleLabel?: string) => {
     if (!scanResult) return
-    
-    const profile = INDUSTRY_PROFILES[industry]
-    const pathId = industry === 'software' ? 'fullstack' : industry === 'data' ? 'data' : 'finance'
-    
+
+    const rawRole = roleLabel || targetRoles[0] || 'Software Engineering'
+    // Normalize role to match backend expectations
+    const role = ROLE_NORMALIZATION[rawRole] || rawRole
+    const derivedIndustry = deriveIndustryFromRole(role)
+    const profile = INDUSTRY_PROFILES[derivedIndustry]
+    const pathId = pathIdFromIndustry(derivedIndustry)
+
     const missingSkills = profile.skills.filter(
       skill => !scanResult.resumeSkills.some(
         rs => rs.toLowerCase().includes(skill.toLowerCase())
       )
     )
-    
-    // Find weakest area
+
     const metrics = scanResult.metrics
     const areas = [
       { name: 'Content Quality', ratio: metrics.content.score / metrics.content.max },
@@ -312,17 +368,30 @@ export default function Dashboard() {
       { name: 'Writing Quality', ratio: metrics.writing.score / metrics.writing.max }
     ]
     const weakestArea = areas.sort((a, b) => a.ratio - b.ratio)[0].name
-    
+
     const roadmap = generateRoadmapPlan({
       industry: profile.label,
       missingSkills,
       weakestArea
     })
-    
+
     localStorage.setItem('roadmap_plan', JSON.stringify(roadmap))
-    navigate(`/roadmap-graph?pathId=${pathId}`)
+    // Navigate by role so backend selects the correct pathId (e.g., ML)
+    navigate(`/roadmap-graph?role=${encodeURIComponent(role)}`)
   }
-  
+
+  const roleCards = useMemo(() => {
+    if (!scanResult) return []
+    return (targetRoles.length ? targetRoles : ['Software Engineering']).map((role) => {
+      const roleIndustry = deriveIndustryFromRole(role)
+      const roleProfile = INDUSTRY_PROFILES[roleIndustry]
+      const missingSkills = roleProfile.skills.filter(
+        skill => !scanResult.resumeSkills.some(rs => rs.toLowerCase().includes(skill.toLowerCase()))
+      )
+      return { role, roleProfile, missingSkills }
+    })
+  }, [targetRoles, scanResult])
+
   if (!scanResult) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
@@ -333,23 +402,86 @@ export default function Dashboard() {
       </div>
     )
   }
-  
+
   const profile = INDUSTRY_PROFILES[industry]
-  const matchedSkills = profile.skills.filter(
-    skill => scanResult.resumeSkills.some(
-      rs => rs.toLowerCase().includes(skill.toLowerCase())
-    )
-  )
-  
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-slate-900 mb-2">Resume Dashboard</h1>
-          <p className="text-slate-600">Track your progress and optimize for {profile.label}</p>
+          <div className="flex items-center justify-between">
+            <p className="text-slate-600">Track your progress and optimize for {profile.label}</p>
+            <button
+              onClick={() => navigate('/resume-upload')}
+              className="px-4 py-2 text-sm font-semibold rounded-lg bg-indigo-600 text-white hover:bg-indigo-500 shadow-sm"
+            >
+              Reupload Resume
+            </button>
+          </div>
         </div>
-        
+
+        {/* Target Roles: strengths & weaknesses */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="text-2xl font-bold text-slate-900">Target roles</h2>
+              <p className="text-slate-600">Your stated roles with strengths, gaps, and quick roadmap access.</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {roleCards.map(({ role, roleProfile, missingSkills }) => (
+              <div key={role} className="bg-white/80 backdrop-blur border border-white/60 shadow-xl rounded-2xl p-5 flex flex-col gap-3">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="text-sm font-semibold text-indigo-600 uppercase tracking-wide">{roleProfile.label}</p>
+                    <h3 className="text-xl font-bold text-slate-900">{role}</h3>
+                  </div>
+                  <button
+                    onClick={() => handleGenerateRoadmap(role)}
+                    className="px-4 py-2 text-sm font-semibold rounded-lg bg-indigo-600 text-white hover:bg-indigo-500 shadow-sm"
+                  >
+                    Generate roadmap
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-3">
+                    <p className="text-xs font-semibold text-emerald-700 mb-2">Strengths</p>
+                    <ul className="space-y-1 text-sm text-emerald-900 list-disc list-inside">
+                      {scanResult.strengths.slice(0, 3).map((s, idx) => (
+                        <li key={idx}>{s}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="bg-rose-50 border border-rose-100 rounded-xl p-3">
+                    <p className="text-xs font-semibold text-rose-700 mb-2">Weaknesses</p>
+                    <ul className="space-y-1 text-sm text-rose-900 list-disc list-inside">
+                      {[...scanResult.weaknesses.slice(0, 2), ...(missingSkills.slice(0, 2).map(ms => `Missing: ${ms}`))].map((w, idx) => (
+                        <li key={idx}>{w}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                {missingSkills.length > 0 && (
+                  <div>
+                    <p className="text-xs font-semibold text-slate-600 mb-2">Priority gaps</p>
+                    <div className="flex flex-wrap gap-2">
+                      {missingSkills.slice(0, 6).map((skill) => (
+                        <span key={skill} className="px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold border border-slate-200">
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Desktop Grid Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Column: Industry Benchmark (spans 2 cols on large screens) */}
@@ -451,69 +583,6 @@ export default function Dashboard() {
           </div>
         </div>
         
-        {/* Industry Skills Benchmark Card */}
-        <div className="mt-6 bg-white/70 backdrop-blur border border-white/60 shadow-xl rounded-2xl p-8">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h2 className="text-2xl font-bold text-slate-900">Industry Skills Benchmark</h2>
-              <p className="text-sm text-slate-600 mt-1">
-                Matched {matchedSkills.length} / {profile.skills.length} skills for {profile.label}
-              </p>
-            </div>
-            <button
-              onClick={handleGenerateRoadmap}
-              className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 transition-colors shadow-lg"
-            >
-              Generate Roadmap
-            </button>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {profile.skills.map((skill) => {
-              const matched = scanResult.resumeSkills.some(
-                rs => rs.toLowerCase().includes(skill.toLowerCase())
-              )
-              return <SkillMatchRow key={skill} skill={skill} matched={matched} />
-            })}
-          </div>
-          
-          {/* Strengths & Weaknesses */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8 pt-6 border-t border-slate-200">
-            <div>
-              <h3 className="text-lg font-semibold text-emerald-700 mb-3 flex items-center gap-2">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                Strengths
-              </h3>
-              <ul className="space-y-2">
-                {scanResult.strengths.map((strength, idx) => (
-                  <li key={idx} className="text-sm text-slate-700 flex items-start gap-2">
-                    <span className="text-emerald-600 font-bold">•</span>
-                    {strength}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            
-            <div>
-              <h3 className="text-lg font-semibold text-red-600 mb-3 flex items-center gap-2">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                </svg>
-                Areas to Improve
-              </h3>
-              <ul className="space-y-2">
-                {scanResult.weaknesses.map((weakness, idx) => (
-                  <li key={idx} className="text-sm text-slate-700 flex items-start gap-2">
-                    <span className="text-red-600 font-bold">•</span>
-                    {weakness}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   )

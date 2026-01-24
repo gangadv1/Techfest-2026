@@ -1,5 +1,6 @@
-from typing import Dict, List
+from typing import Dict, List, Optional
 import re
+from app.services.job_service import JobService
 
 class ResumeService:
     def __init__(self):
@@ -24,10 +25,19 @@ class ResumeService:
         return list(set(found_skills))
     
     def analyze_fit(self, job_id: str, resume_text: str) -> Dict:
-        """Analyze how well a resume fits a job"""
-        # For demo purposes, using mock job data
-        # In production, fetch actual job from database
-        job_skills = ["Python", "React", "AWS", "Docker", "REST API"]
+        """Analyze how well a resume fits a job using job database when available"""
+        job_service = JobService()
+        job = job_service.get_job_by_id(job_id)
+        # Prefer extracted skills from job; fall back to keywords mined from description
+        if job and job.extractedSkills:
+            job_skills = [s.strip() for s in job.extractedSkills if s.strip()]
+        elif job and job.description:
+            # naive extraction from description based on known dictionary
+            desc_skills = self.extract_skills(job.description)
+            job_skills = desc_skills if desc_skills else ["Python", "React", "AWS", "Docker", "REST API"]
+        else:
+            # If job missing, use a minimal default
+            job_skills = ["Python", "React", "AWS", "Docker", "REST API"]
         
         resume_skills = self.extract_skills(resume_text)
         

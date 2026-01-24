@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import Header from './components/Header'
 import Landing from './pages/Landing'
 import Onboarding from './pages/Onboarding'
@@ -14,9 +14,13 @@ import Social from './pages/Social'
 import InterviewSimulator from './pages/InterviewSimulator'
 
 function App() {
+  const location = useLocation()
+  const headerHiddenRoutes = ['/', '/onboarding', '/resume-upload']
+  const showHeader = !headerHiddenRoutes.includes(location.pathname)
+
   return (
     <>
-      <Header />
+      {showHeader && <Header />}
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/onboarding" element={<Onboarding />} />

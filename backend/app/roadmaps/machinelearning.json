@@ -1,0 +1,955 @@
+{
+  "id": "machine-learning",
+  "title": "Machine Learning Roadmap (Applied) — with YouTube + Coursera for every node",
+  "version": "1.0",
+  "nodes": [
+    {
+      "id": "ml-intro",
+      "title": "ML: What & Why",
+      "category": "Foundations",
+      "difficulty": 1,
+      "estimatedMinutes": 20,
+      "prerequisites": [],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "What is Machine Learning? (Google Developers)",
+          "url": "https://www.youtube.com/watch?v=f_uwKZIAeM0"
+        },
+        {
+          "type": "coursera",
+          "title": "Machine Learning (Andrew Ng)",
+          "url": "https://www.coursera.org/learn/machine-learning"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/ai-data-scientist"
+        }
+      ]
+    },
+    {
+      "id": "python-basics",
+      "title": "Python for Data (Basics)",
+      "category": "Foundations",
+      "difficulty": 1,
+      "estimatedMinutes": 30,
+      "prerequisites": [],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Python for Beginners - Full Course (freeCodeCamp)",
+          "url": "https://www.youtube.com/watch?v=rfscVS0vtbw"
+        },
+        {
+          "type": "coursera",
+          "title": "Python for Everybody (University of Michigan)",
+          "url": "https://www.coursera.org/specializations/python"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/python"
+        }
+      ]
+    },
+    {
+      "id": "pandas",
+      "title": "Pandas: Data Manipulation",
+      "category": "Data Handling",
+      "difficulty": 1,
+      "estimatedMinutes": 30,
+      "prerequisites": ["python-basics"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Pandas Tutorials (Corey Schafer playlist)",
+          "url": "https://www.youtube.com/playlist?list=PL-osiE80TeTsWmV9i9c58mdDCSskIFdDS"
+        },
+        {
+          "type": "coursera",
+          "title": "Applied Data Science with Python (University of Michigan)",
+          "url": "https://www.coursera.org/specializations/data-science-python"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/python"
+        }
+      ]
+    },
+    {
+      "id": "data-cleaning",
+      "title": "Data Cleanup: Missing, Duplicates, Outliers",
+      "category": "Data Handling",
+      "difficulty": 2,
+      "estimatedMinutes": 35,
+      "prerequisites": ["pandas"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Data Cleaning in Pandas (freeCodeCamp / Data Analysis content)",
+          "url": "https://www.youtube.com/watch?v=GPVsHOlRBBI"
+        },
+        {
+          "type": "coursera",
+          "title": "Data Science Methodology (IBM)",
+          "url": "https://www.coursera.org/learn/data-science-methodology"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/data-analyst"
+        }
+      ]
+    },
+    {
+      "id": "data-transform",
+      "title": "Data Transformation (encoding, scaling)",
+      "category": "Data Handling",
+      "difficulty": 2,
+      "estimatedMinutes": 30,
+      "prerequisites": ["data-cleaning"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Feature Scaling & Normalization (StatQuest)",
+          "url": "https://www.youtube.com/watch?v=mnKm3YP56PY"
+        },
+        {
+          "type": "coursera",
+          "title": "Feature Engineering (Google Cloud)",
+          "url": "https://www.coursera.org/learn/feature-engineering"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/ai-data-scientist"
+        }
+      ]
+    },
+    {
+      "id": "eda",
+      "title": "EDA: Explore & Understand Data",
+      "category": "Analytics",
+      "difficulty": 1,
+      "estimatedMinutes": 30,
+      "prerequisites": ["pandas"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Exploratory Data Analysis (freeCodeCamp)",
+          "url": "https://www.youtube.com/watch?v=0btv3Gub1lY"
+        },
+        {
+          "type": "coursera",
+          "title": "Exploratory Data Analysis (Johns Hopkins University)",
+          "url": "https://www.coursera.org/learn/exploratory-data-analysis"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/data-analyst"
+        }
+      ]
+    },
+    {
+      "id": "viz-matplotlib",
+      "title": "Visualization: Matplotlib / Seaborn Basics",
+      "category": "Visualization",
+      "difficulty": 1,
+      "estimatedMinutes": 25,
+      "prerequisites": ["eda"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Matplotlib Tutorial (Corey Schafer)",
+          "url": "https://www.youtube.com/watch?v=UO98lJQ3QGI"
+        },
+        {
+          "type": "coursera",
+          "title": "Data Visualization with Python (IBM)",
+          "url": "https://www.coursera.org/learn/python-for-data-visualization"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/data-analyst"
+        }
+      ]
+    },
+    {
+      "id": "viz-charts",
+      "title": "Charts: Bar/Line/Scatter/Hist/Heatmap",
+      "category": "Visualization",
+      "difficulty": 1,
+      "estimatedMinutes": 25,
+      "prerequisites": ["viz-matplotlib"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Seaborn Tutorial (Keith Galli)",
+          "url": "https://www.youtube.com/watch?v=6GUZXDef2U0"
+        },
+        {
+          "type": "coursera",
+          "title": "Data Visualization and Communication with Tableau (Duke) — concepts transferable",
+          "url": "https://www.coursera.org/learn/data-visualization-tableau"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/data-analyst"
+        }
+      ]
+    },
+    {
+      "id": "stats-central",
+      "title": "Stats: Mean/Median/Mode & Dispersion",
+      "category": "Statistics",
+      "difficulty": 1,
+      "estimatedMinutes": 30,
+      "prerequisites": ["ml-intro"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Statistics Fundamentals (CrashCourse)",
+          "url": "https://www.youtube.com/watch?v=sxQaBpKfDRk"
+        },
+        {
+          "type": "coursera",
+          "title": "Statistics with Python Specialization (University of Michigan)",
+          "url": "https://www.coursera.org/specializations/statistics-with-python"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/ai-data-scientist"
+        }
+      ]
+    },
+    {
+      "id": "stats-distribution",
+      "title": "Distributions: Skewness/Kurtosis",
+      "category": "Statistics",
+      "difficulty": 2,
+      "estimatedMinutes": 25,
+      "prerequisites": ["stats-central"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Skewness & Kurtosis (StatQuest)",
+          "url": "https://www.youtube.com/watch?v=SkTt9k4Y-a8"
+        },
+        {
+          "type": "coursera",
+          "title": "Inferential Statistics (Duke University)",
+          "url": "https://www.coursera.org/learn/inferential-statistics-intro"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/ai-data-scientist"
+        }
+      ]
+    },
+    {
+      "id": "stats-hypothesis",
+      "title": "Hypothesis Testing (Basics)",
+      "category": "Statistics",
+      "difficulty": 2,
+      "estimatedMinutes": 30,
+      "prerequisites": ["stats-central"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Hypothesis Testing (StatQuest)",
+          "url": "https://www.youtube.com/watch?v=0oc49DyA3hU"
+        },
+        {
+          "type": "coursera",
+          "title": "Inferential Statistics (University of Amsterdam)",
+          "url": "https://www.coursera.org/learn/inferential-statistics"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/ai-data-scientist"
+        }
+      ]
+    },
+    {
+      "id": "stats-correlation",
+      "title": "Correlation vs Causation",
+      "category": "Statistics",
+      "difficulty": 2,
+      "estimatedMinutes": 25,
+      "prerequisites": ["stats-central"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Correlation vs Causation (CrashCourse / stats content)",
+          "url": "https://www.youtube.com/watch?v=Hu0xDtK3g3Q"
+        },
+        {
+          "type": "coursera",
+          "title": "Causal Inference (Columbia University)",
+          "url": "https://www.coursera.org/learn/causal-inference"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/ai-data-scientist"
+        }
+      ]
+    },
+    {
+      "id": "ml-types",
+      "title": "ML Types: Supervised vs Unsupervised",
+      "category": "Machine Learning",
+      "difficulty": 1,
+      "estimatedMinutes": 25,
+      "prerequisites": ["ml-intro", "stats-central"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Supervised vs Unsupervised Learning (StatQuest)",
+          "url": "https://www.youtube.com/watch?v=Gv9_4yMHFhI"
+        },
+        {
+          "type": "coursera",
+          "title": "Machine Learning (Andrew Ng)",
+          "url": "https://www.coursera.org/learn/machine-learning"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/ai-data-scientist"
+        }
+      ]
+    },
+    {
+      "id": "train-test",
+      "title": "Train/Test Split + Leakage",
+      "category": "Machine Learning",
+      "difficulty": 2,
+      "estimatedMinutes": 25,
+      "prerequisites": ["ml-types"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Train/Test Split & Data Leakage (StatQuest)",
+          "url": "https://www.youtube.com/watch?v=4b2yZ9Y3JmI"
+        },
+        {
+          "type": "coursera",
+          "title": "Introduction to Machine Learning in Production (DeepLearning.AI)",
+          "url": "https://www.coursera.org/learn/introduction-to-machine-learning-in-production"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/mlops"
+        }
+      ]
+    },
+    {
+      "id": "metrics-classic",
+      "title": "Model Metrics: Accuracy/F1/ROC-AUC/MAE/RMSE",
+      "category": "Evaluation",
+      "difficulty": 2,
+      "estimatedMinutes": 35,
+      "prerequisites": ["train-test"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Precision, Recall, F1, ROC-AUC Explained (StatQuest)",
+          "url": "https://www.youtube.com/watch?v=4jRBRDbJemM"
+        },
+        {
+          "type": "coursera",
+          "title": "Machine Learning Foundations: A Case Study Approach (University of Washington)",
+          "url": "https://www.coursera.org/learn/ml-foundations"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/ai-data-scientist"
+        }
+      ]
+    },
+    {
+      "id": "linreg",
+      "title": "Linear Regression",
+      "category": "Algorithms",
+      "difficulty": 1,
+      "estimatedMinutes": 30,
+      "prerequisites": ["ml-types", "stats-correlation"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Linear Regression Clearly Explained (StatQuest)",
+          "url": "https://www.youtube.com/watch?v=nk2CQITm_eo"
+        },
+        {
+          "type": "coursera",
+          "title": "Supervised Machine Learning: Regression and Classification (DeepLearning.AI)",
+          "url": "https://www.coursera.org/learn/machine-learning"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/ai-data-scientist"
+        }
+      ]
+    },
+    {
+      "id": "logreg",
+      "title": "Logistic Regression",
+      "category": "Algorithms",
+      "difficulty": 2,
+      "estimatedMinutes": 35,
+      "prerequisites": ["ml-types", "stats-correlation"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Logistic Regression (StatQuest)",
+          "url": "https://www.youtube.com/watch?v=yIYKR4sgzI8"
+        },
+        {
+          "type": "coursera",
+          "title": "Supervised Machine Learning: Regression and Classification (DeepLearning.AI)",
+          "url": "https://www.coursera.org/learn/machine-learning"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/ai-data-scientist"
+        }
+      ]
+    },
+    {
+      "id": "knn",
+      "title": "KNN (Intuition + Use cases)",
+      "category": "Algorithms",
+      "difficulty": 1,
+      "estimatedMinutes": 25,
+      "prerequisites": ["ml-types"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "K-Nearest Neighbors (StatQuest)",
+          "url": "https://www.youtube.com/watch?v=HVXime0nQeI"
+        },
+        {
+          "type": "coursera",
+          "title": "Machine Learning Foundations: A Case Study Approach (University of Washington)",
+          "url": "https://www.coursera.org/learn/ml-foundations"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/ai-data-scientist"
+        }
+      ]
+    },
+    {
+      "id": "naive-bayes",
+      "title": "Naive Bayes (Quick baseline)",
+      "category": "Algorithms",
+      "difficulty": 1,
+      "estimatedMinutes": 25,
+      "prerequisites": ["ml-types"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Naive Bayes (StatQuest)",
+          "url": "https://www.youtube.com/watch?v=O2L2Uv9pdDA"
+        },
+        {
+          "type": "coursera",
+          "title": "Machine Learning: Classification (University of Washington)",
+          "url": "https://www.coursera.org/learn/ml-classification"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/ai-data-scientist"
+        }
+      ]
+    },
+    {
+      "id": "trees",
+      "title": "Decision Trees",
+      "category": "Algorithms",
+      "difficulty": 2,
+      "estimatedMinutes": 35,
+      "prerequisites": ["ml-types"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Decision Trees (StatQuest)",
+          "url": "https://www.youtube.com/watch?v=7VeUPuFGJHk"
+        },
+        {
+          "type": "coursera",
+          "title": "Machine Learning: Classification (University of Washington)",
+          "url": "https://www.coursera.org/learn/ml-classification"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/ai-data-scientist"
+        }
+      ]
+    },
+    {
+      "id": "ensembles",
+      "title": "Ensembles: Random Forest / Gradient Boosting",
+      "category": "Algorithms",
+      "difficulty": 3,
+      "estimatedMinutes": 40,
+      "prerequisites": ["trees"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Random Forests + Gradient Boosting (StatQuest playlists)",
+          "url": "https://www.youtube.com/@statquest/playlists"
+        },
+        {
+          "type": "coursera",
+          "title": "Machine Learning: Regression (University of Washington) — includes tree-based methods",
+          "url": "https://www.coursera.org/learn/ml-regression"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/ai-data-scientist"
+        }
+      ]
+    },
+    {
+      "id": "kmeans",
+      "title": "K-Means Clustering",
+      "category": "Algorithms",
+      "difficulty": 2,
+      "estimatedMinutes": 30,
+      "prerequisites": ["ml-types"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "K-means Clustering (StatQuest)",
+          "url": "https://www.youtube.com/watch?v=4b5d3muPQmA"
+        },
+        {
+          "type": "coursera",
+          "title": "Unsupervised Learning, Recommenders, Reinforcement Learning (DeepLearning.AI)",
+          "url": "https://www.coursera.org/learn/machine-learning"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/ai-data-scientist"
+        }
+      ]
+    },
+    {
+      "id": "feature-encoding",
+      "title": "Feature Encoding (One-hot, ordinal)",
+      "category": "Features",
+      "difficulty": 2,
+      "estimatedMinutes": 25,
+      "prerequisites": ["data-transform"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "One-Hot Encoding & Handling Categorical Data (Data School)",
+          "url": "https://www.youtube.com/watch?v=irHhDMbw3xo"
+        },
+        {
+          "type": "coursera",
+          "title": "Feature Engineering (Google Cloud)",
+          "url": "https://www.coursera.org/learn/feature-engineering"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/mlops"
+        }
+      ]
+    },
+    {
+      "id": "feature-scaling",
+      "title": "Scaling/Normalization",
+      "category": "Features",
+      "difficulty": 1,
+      "estimatedMinutes": 20,
+      "prerequisites": ["data-transform"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Feature Scaling (StatQuest)",
+          "url": "https://www.youtube.com/watch?v=mnKm3YP56PY"
+        },
+        {
+          "type": "coursera",
+          "title": "Machine Learning Foundations: A Case Study Approach (University of Washington)",
+          "url": "https://www.coursera.org/learn/ml-foundations"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/ai-data-scientist"
+        }
+      ]
+    },
+    {
+      "id": "feature-engineering",
+      "title": "Feature Engineering (basic patterns)",
+      "category": "Features",
+      "difficulty": 3,
+      "estimatedMinutes": 40,
+      "prerequisites": ["eda", "feature-encoding"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Feature Engineering (Kaggle / practical concepts on YouTube)",
+          "url": "https://www.youtube.com/watch?v=Gduodq3YJvM"
+        },
+        {
+          "type": "coursera",
+          "title": "Feature Engineering (Google Cloud)",
+          "url": "https://www.coursera.org/learn/feature-engineering"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/mlops"
+        }
+      ]
+    },
+    {
+      "id": "cv",
+      "title": "Cross-Validation",
+      "category": "Evaluation",
+      "difficulty": 2,
+      "estimatedMinutes": 30,
+      "prerequisites": ["metrics-classic"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Cross Validation Explained (StatQuest)",
+          "url": "https://www.youtube.com/watch?v=fSytzGwwBVw"
+        },
+        {
+          "type": "coursera",
+          "title": "Machine Learning: Regression (University of Washington)",
+          "url": "https://www.coursera.org/learn/ml-regression"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/mlops"
+        }
+      ]
+    },
+    {
+      "id": "tuning",
+      "title": "Hyperparameter Tuning (grid/random)",
+      "category": "Evaluation",
+      "difficulty": 3,
+      "estimatedMinutes": 35,
+      "prerequisites": ["cv"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Hyperparameter Tuning (StatQuest / ML explainers)",
+          "url": "https://www.youtube.com/@statquest/playlists"
+        },
+        {
+          "type": "coursera",
+          "title": "Hyperparameter Tuning and Regularization (DeepLearning.AI ML specialization)",
+          "url": "https://www.coursera.org/specializations/machine-learning-introduction"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/mlops"
+        }
+      ]
+    },
+    {
+      "id": "error-analysis",
+      "title": "Error Analysis (where model fails)",
+      "category": "Evaluation",
+      "difficulty": 2,
+      "estimatedMinutes": 25,
+      "prerequisites": ["metrics-classic"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Bias-Variance & Error Analysis Intuition (StatQuest)",
+          "url": "https://www.youtube.com/watch?v=EuBBz3bI-aA"
+        },
+        {
+          "type": "coursera",
+          "title": "Machine Learning Engineering for Production (MLOps) Specialization (DeepLearning.AI)",
+          "url": "https://www.coursera.org/specializations/machine-learning-engineering-for-production-mlops"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/mlops"
+        }
+      ]
+    },
+    {
+      "id": "sql-basics",
+      "title": "SQL Basics (SELECT, WHERE, JOIN)",
+      "category": "Data Handling",
+      "difficulty": 1,
+      "estimatedMinutes": 30,
+      "prerequisites": [],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "SQL Tutorial - Full Database Course for Beginners (freeCodeCamp)",
+          "url": "https://www.youtube.com/watch?v=HXV3zeQKqGY"
+        },
+        {
+          "type": "coursera",
+          "title": "SQL for Data Science (UC Davis)",
+          "url": "https://www.coursera.org/learn/sql-for-data-science"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/sql"
+        }
+      ]
+    },
+    {
+      "id": "data-sources",
+      "title": "Data Sources: CSV/APIs/Web scraping (concepts)",
+      "category": "Data Handling",
+      "difficulty": 2,
+      "estimatedMinutes": 25,
+      "prerequisites": ["pandas"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "APIs for Beginners (freeCodeCamp)",
+          "url": "https://www.youtube.com/watch?v=GZvSYJDk-us"
+        },
+        {
+          "type": "coursera",
+          "title": "Web Applications for Everybody (University of Michigan) — HTTP/APIs concepts",
+          "url": "https://www.coursera.org/specializations/web-applications"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/backend"
+        }
+      ]
+    },
+    {
+      "id": "kaggle-loop",
+      "title": "Kaggle Loop: Baseline → Validate → Improve",
+      "category": "Practice",
+      "difficulty": 2,
+      "estimatedMinutes": 30,
+      "prerequisites": ["train-test", "metrics-classic"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Kaggle Tutorial for Beginners (freeCodeCamp / Kaggle intro content)",
+          "url": "https://www.youtube.com/watch?v=7qJf9t9a3V0"
+        },
+        {
+          "type": "coursera",
+          "title": "Applied Machine Learning in Python (University of Michigan)",
+          "url": "https://www.coursera.org/learn/python-machine-learning"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/ai-data-scientist"
+        }
+      ]
+    },
+    {
+      "id": "portfolio-project",
+      "title": "Portfolio Project (e.g., Sales Trends / Segmentation)",
+      "category": "Practice",
+      "difficulty": 3,
+      "estimatedMinutes": 45,
+      "prerequisites": ["ensembles", "error-analysis"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Build an End-to-End Data Science Project (freeCodeCamp)",
+          "url": "https://www.youtube.com/watch?v=ua-CiDNNj30"
+        },
+        {
+          "type": "coursera",
+          "title": "Data Science Capstone (IBM)",
+          "url": "https://www.coursera.org/learn/applied-data-science-capstone"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/data-analyst"
+        }
+      ]
+    },
+    {
+      "id": "dl-basics",
+      "title": "Deep Learning Basics (Optional)",
+      "category": "Optional",
+      "difficulty": 3,
+      "estimatedMinutes": 35,
+      "prerequisites": ["ml-types"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Neural Networks (3Blue1Brown)",
+          "url": "https://www.youtube.com/watch?v=aircAruvnKk"
+        },
+        {
+          "type": "coursera",
+          "title": "Deep Learning Specialization (DeepLearning.AI)",
+          "url": "https://www.coursera.org/specializations/deep-learning"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/ai-data-scientist"
+        }
+      ]
+    },
+    {
+      "id": "nn",
+      "title": "Neural Networks",
+      "category": "Optional",
+      "difficulty": 3,
+      "estimatedMinutes": 40,
+      "prerequisites": ["dl-basics"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Neural Networks Explained (3Blue1Brown / overview)",
+          "url": "https://www.youtube.com/watch?v=aircAruvnKk"
+        },
+        {
+          "type": "coursera",
+          "title": "Neural Networks and Deep Learning (DeepLearning.AI)",
+          "url": "https://www.coursera.org/learn/neural-networks-deep-learning"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/deep-learning"
+        }
+      ]
+    },
+    {
+      "id": "cnn-rnn",
+      "title": "CNN / RNN Overview",
+      "category": "Optional",
+      "difficulty": 3,
+      "estimatedMinutes": 40,
+      "prerequisites": ["nn"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "CNNs Explained (3Blue1Brown / deep learning content)",
+          "url": "https://www.youtube.com/watch?v=KuXjwB4LzSA"
+        },
+        {
+          "type": "coursera",
+          "title": "Convolutional Neural Networks (DeepLearning.AI)",
+          "url": "https://www.coursera.org/learn/convolutional-neural-networks"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/deep-learning"
+        }
+      ]
+    },
+    {
+      "id": "frameworks",
+      "title": "Frameworks: TensorFlow / PyTorch",
+      "category": "Optional",
+      "difficulty": 3,
+      "estimatedMinutes": 40,
+      "prerequisites": ["nn"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "PyTorch for Deep Learning (freeCodeCamp)",
+          "url": "https://www.youtube.com/watch?v=GIsg-ZUy0MY"
+        },
+        {
+          "type": "coursera",
+          "title": "DeepLearning.AI TensorFlow Developer Professional Certificate",
+          "url": "https://www.coursera.org/professional-certificates/tensorflow-in-practice"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/deep-learning"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    { "from": "python-basics", "to": "pandas" },
+    { "from": "pandas", "to": "data-cleaning" },
+    { "from": "data-cleaning", "to": "data-transform" },
+    { "from": "pandas", "to": "eda" },
+    { "from": "eda", "to": "viz-matplotlib" },
+    { "from": "viz-matplotlib", "to": "viz-charts" },
+
+    { "from": "ml-intro", "to": "stats-central" },
+    { "from": "stats-central", "to": "stats-distribution" },
+    { "from": "stats-central", "to": "stats-hypothesis" },
+    { "from": "stats-central", "to": "stats-correlation" },
+
+    { "from": "ml-intro", "to": "ml-types" },
+    { "from": "stats-central", "to": "ml-types" },
+    { "from": "ml-types", "to": "train-test" },
+    { "from": "train-test", "to": "metrics-classic" },
+
+    { "from": "ml-types", "to": "linreg" },
+    { "from": "stats-correlation", "to": "linreg" },
+    { "from": "ml-types", "to": "logreg" },
+    { "from": "stats-correlation", "to": "logreg" },
+    { "from": "ml-types", "to": "knn" },
+    { "from": "ml-types", "to": "naive-bayes" },
+    { "from": "ml-types", "to": "trees" },
+    { "from": "trees", "to": "ensembles" },
+    { "from": "ml-types", "to": "kmeans" },
+
+    { "from": "data-transform", "to": "feature-encoding" },
+    { "from": "data-transform", "to": "feature-scaling" },
+    { "from": "eda", "to": "feature-engineering" },
+    { "from": "feature-encoding", "to": "feature-engineering" },
+
+    { "from": "metrics-classic", "to": "cv" },
+    { "from": "cv", "to": "tuning" },
+    { "from": "metrics-classic", "to": "error-analysis" },
+
+    { "from": "train-test", "to": "kaggle-loop" },
+    { "from": "metrics-classic", "to": "kaggle-loop" },
+    { "from": "ensembles", "to": "portfolio-project" },
+    { "from": "error-analysis", "to": "portfolio-project" },
+
+    { "from": "ml-types", "to": "dl-basics" },
+    { "from": "dl-basics", "to": "nn" },
+    { "from": "nn", "to": "cnn-rnn" },
+    { "from": "nn", "to": "frameworks" }
+  ]
+}
+    

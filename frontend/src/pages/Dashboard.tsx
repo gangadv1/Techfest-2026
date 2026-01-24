@@ -9,6 +9,36 @@ const INDUSTRY_PROFILES = {
     targetScore: 85,
     skills: ['git', 'react', 'node.js', 'sql', 'docker', 'aws', 'typescript']
   },
+  fullstack: {
+    label: 'Full-Stack Development',
+    targetScore: 85,
+    skills: ['react', 'node.js', 'express', 'sql', 'mongodb', 'typescript', 'git', 'aws']
+  },
+  ml: {
+    label: 'Machine Learning',
+    targetScore: 83,
+    skills: ['python', 'tensorflow', 'pytorch', 'scikit-learn', 'pandas', 'numpy', 'sql', 'jupyter']
+  },
+  productmanager: {
+    label: 'Product Manager',
+    targetScore: 80,
+    skills: ['product strategy', 'user research', 'analytics', 'roadmap planning', 'agile', 'sql', 'figma']
+  },
+  uiux: {
+    label: 'UI/UX Design',
+    targetScore: 82,
+    skills: ['figma', 'wireframing', 'prototyping', 'user research', 'interaction design', 'css', 'usability testing']
+  },
+  cybersecurity: {
+    label: 'Cybersecurity',
+    targetScore: 84,
+    skills: ['network security', 'encryption', 'penetration testing', 'security protocols', 'firewalls', 'linux', 'python']
+  },
+  devops: {
+    label: 'DevOps',
+    targetScore: 84,
+    skills: ['docker', 'kubernetes', 'aws', 'ci/cd', 'terraform', 'linux', 'git', 'monitoring']
+  },
   data: {
     label: 'Data / Analytics',
     targetScore: 82,
@@ -30,13 +60,22 @@ const ROLE_NORMALIZATION: Record<string, string> = {
   'Full-Stack': 'Full Stack',
   'Frontend': 'Frontend',
   'Backend': 'Backend',
+  'Machine Learning': 'Machine Learning',
+  'ML': 'ML',
+  'Product Manager': 'Product Manager',
+  'Product Management': 'Product Manager',
+  'UI/UX': 'UI/UX',
+  'UX Design': 'UI/UX',
+  'UI Design': 'UI/UX',
+  'Cybersecurity': 'Cybersecurity',
+  'Security': 'Cybersecurity',
+  'DevOps': 'DevOps',
+  'Dev-Ops': 'DevOps',
   'Data Science': 'Data Science',
   'Data Scientist': 'Data Scientist',
   'Data Analyst': 'Data',
   'Data / Analytics': 'Data',
   'Data': 'Data',
-  'Machine Learning': 'ML',
-  'ML': 'ML',
   'Finance': 'Finance',
 }
 
@@ -221,9 +260,16 @@ export default function Dashboard() {
   const [industry, setIndustry] = useState<IndustryKey>('software')
   const [overallScore, setOverallScore] = useState(0)
   const [targetRoles, setTargetRoles] = useState<string[]>(['Software Engineering'])
+  const [detectedIndustry, setDetectedIndustry] = useState<string>('software')
 
   const deriveIndustryFromRole = (role: string): IndustryKey => {
     const r = role.toLowerCase()
+    if (r.includes('full-stack') || r.includes('fullstack')) return 'fullstack'
+    if (r.includes('machine learning') || r.includes('ml')) return 'ml'
+    if (r.includes('product manager') || r.includes('product management')) return 'productmanager'
+    if (r.includes('ui') || r.includes('ux') || r.includes('designer')) return 'uiux'
+    if (r.includes('cybersecurity') || r.includes('security')) return 'cybersecurity'
+    if (r.includes('devops') || r.includes('dev-ops')) return 'devops'
     if (r.includes('data') || r.includes('analyst') || r.includes('scientist')) return 'data'
     if (r.includes('finance') || r.includes('consult')) return 'finance'
     return 'software'
@@ -232,6 +278,11 @@ export default function Dashboard() {
   const pathIdFromIndustry = (key: IndustryKey) => {
     if (key === 'data') return 'data'
     if (key === 'finance') return 'finance'
+    if (key === 'ml') return 'machinelearning'
+    if (key === 'cybersecurity') return 'cybersecurity'
+    if (key === 'devops') return 'devops'
+    if (key === 'productmanager') return 'productmanager'
+    if (key === 'uiux') return 'uiux'
     return 'fullstack'
   }
   
@@ -242,6 +293,7 @@ export default function Dashboard() {
   const loadDashboardData = () => {
     // Load questionnaire preferences
     const prefsRaw = localStorage.getItem('jobfit_preferences')
+    let detectedInd = 'software'
     if (prefsRaw) {
       try {
         const prefs = JSON.parse(prefsRaw)
@@ -260,15 +312,41 @@ export default function Dashboard() {
         const hasFinance = rolesLower.some((r: string) =>
           r.includes('finance') || r.includes('consulting')
         )
+        const hasML = rolesLower.some((r: string) =>
+          r.includes('machine learning') || r.includes('ml')
+        )
+        const hasFullStack = rolesLower.some((r: string) =>
+          r.includes('full-stack') || r.includes('fullstack')
+        )
+        const hasPM = rolesLower.some((r: string) =>
+          r.includes('product manager')
+        )
+        const hasUIUX = rolesLower.some((r: string) =>
+          r.includes('ui') || r.includes('ux')
+        )
+        const hasCyber = rolesLower.some((r: string) =>
+          r.includes('cybersecurity') || r.includes('security')
+        )
+        const hasDevOps = rolesLower.some((r: string) =>
+          r.includes('devops') || r.includes('dev-ops')
+        )
 
-        if (hasSoftware) setIndustry('software')
-        else if (hasData) setIndustry('data')
-        else if (hasFinance) setIndustry('finance')
+        if (hasSoftware) detectedInd = 'software'
+        else if (hasFullStack) detectedInd = 'fullstack'
+        else if (hasML) detectedInd = 'ml'
+        else if (hasPM) detectedInd = 'productmanager'
+        else if (hasUIUX) detectedInd = 'uiux'
+        else if (hasCyber) detectedInd = 'cybersecurity'
+        else if (hasDevOps) detectedInd = 'devops'
+        else if (hasData) detectedInd = 'data'
+        else if (hasFinance) detectedInd = 'finance'
 
         const cleanedRoles = rolesArr.filter(Boolean)
         if (cleanedRoles.length) setTargetRoles(cleanedRoles)
       } catch {}
     }
+    setDetectedIndustry(detectedInd)
+    setIndustry(detectedInd as IndustryKey)
     
     // Load resume scan result if present
     const scanRaw = localStorage.getItem('resume_scan_result')
@@ -579,6 +657,90 @@ export default function Dashboard() {
                   ✗ Needs Work
                 </span>
               )}
+            </div>
+          </div>
+        </div>
+
+        {/* Debug: LocalStorage Contents */}
+        <div className="mt-6 bg-slate-900/80 backdrop-blur border border-slate-700 rounded-2xl p-6 text-slate-100">
+          <h3 className="text-lg font-bold text-slate-200 mb-4">🔍 Debug: LocalStorage</h3>
+          <div className="grid grid-cols-1 gap-4">
+            {/* Preferences */}
+            <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
+              <div className="flex items-center gap-2 mb-2">
+                <span className={`w-2 h-2 rounded-full ${localStorage.getItem('jobfit_preferences') ? 'bg-green-400' : 'bg-yellow-400'}`}></span>
+                <p className="text-xs font-semibold text-slate-300">jobfit_preferences {!localStorage.getItem('jobfit_preferences') && '(NOT SET)'}</p>
+              </div>
+              <pre className="text-xs overflow-auto max-h-32 bg-black/30 p-2 rounded">
+                {JSON.stringify(JSON.parse(localStorage.getItem('jobfit_preferences') || '{}'), null, 2)}
+              </pre>
+            </div>
+
+            {/* Resume Scan Result */}
+            <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
+              <div className="flex items-center gap-2 mb-2">
+                <span className={`w-2 h-2 rounded-full ${localStorage.getItem('resume_scan_result') ? 'bg-green-400' : 'bg-red-400'}`}></span>
+                <p className="text-xs font-semibold text-slate-300">resume_scan_result {!localStorage.getItem('resume_scan_result') && '(MISSING - Upload resume first)'}</p>
+              </div>
+              <pre className="text-xs overflow-auto max-h-32 bg-black/30 p-2 rounded">
+                {JSON.stringify(JSON.parse(localStorage.getItem('resume_scan_result') || '{}'), null, 2)}
+              </pre>
+            </div>
+
+            {/* Resume Skills */}
+            <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
+              <div className="flex items-center gap-2 mb-2">
+                <span className={`w-2 h-2 rounded-full ${localStorage.getItem('resume_skills') && JSON.parse(localStorage.getItem('resume_skills') || '[]').length > 0 ? 'bg-green-400' : 'bg-yellow-400'}`}></span>
+                <p className="text-xs font-semibold text-slate-300">resume_skills</p>
+              </div>
+              <pre className="text-xs overflow-auto max-h-20 bg-black/30 p-2 rounded">
+                {JSON.stringify(JSON.parse(localStorage.getItem('resume_skills') || '[]'), null, 2)}
+              </pre>
+            </div>
+
+            {/* Resume Text */}
+            <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
+              <div className="flex items-center gap-2 mb-2">
+                <span className={`w-2 h-2 rounded-full ${localStorage.getItem('resume_text') ? 'bg-green-400' : 'bg-yellow-400'}`}></span>
+                <p className="text-xs font-semibold text-slate-300">resume_text (length: {localStorage.getItem('resume_text')?.length || 0} chars)</p>
+              </div>
+              <pre className="text-xs overflow-auto max-h-20 bg-black/30 p-2 rounded text-slate-400">
+                {(localStorage.getItem('resume_text') || 'NOT SET').substring(0, 200)}...
+              </pre>
+            </div>
+
+            {/* Roadmap Plan */}
+            <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
+              <div className="flex items-center gap-2 mb-2">
+                <span className={`w-2 h-2 rounded-full ${localStorage.getItem('roadmap_plan') ? 'bg-green-400' : 'bg-yellow-400'}`}></span>
+                <p className="text-xs font-semibold text-slate-300">roadmap_plan</p>
+              </div>
+              <pre className="text-xs overflow-auto max-h-32 bg-black/30 p-2 rounded">
+                {JSON.stringify(JSON.parse(localStorage.getItem('roadmap_plan') || '{}'), null, 2)}
+              </pre>
+            </div>
+
+            {/* Component State */}
+            <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
+              <p className="text-xs font-semibold text-slate-300 mb-2">Component State</p>
+              <pre className="text-xs overflow-auto max-h-20 bg-black/30 p-2 rounded">
+                {JSON.stringify({ industry, detectedIndustry, overallScore, targetRoles }, null, 2)}
+              </pre>
+            </div>
+
+            {/* Data Source */}
+            <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
+              <p className="text-xs font-semibold text-slate-300 mb-2">Data Source & Industry</p>
+              <div className="text-xs text-slate-300 space-y-1 bg-black/30 p-2 rounded">
+                <div>Detected industry: <span className="font-bold text-blue-300">{detectedIndustry}</span></div>
+                {localStorage.getItem('resume_scan_result') ? (
+                  <div className="text-green-300">✓ Using server scan (resume_scan_result exists)</div>
+                ) : localStorage.getItem('resume_text') ? (
+                  <div className="text-blue-300">✓ Using local computation (no resume_scan_result from backend)</div>
+                ) : (
+                  <div className="text-yellow-300">⚠ No resume data - using defaults</div>
+                )}
+              </div>
             </div>
           </div>
         </div>

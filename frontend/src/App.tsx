@@ -1,0 +1,24 @@
+import { Routes, Route } from 'react-router-dom'
+import Landing from './pages/Landing'
+import Onboarding from './pages/Onboarding'
+import Jobs from './pages/Jobs'
+import JobDetail from './pages/JobDetail'
+import Tracker from './pages/Tracker'
+import Roadmap from './pages/Roadmap'
+import Forums from './pages/Forums'
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Landing />} />
+      <Route path="/onboarding" element={<Onboarding />} />
+      <Route path="/jobs" element={<Jobs />} />
+      <Route path="/jobs/:id" element={<JobDetail />} />
+      <Route path="/tracker" element={<Tracker />} />
+      <Route path="/roadmap" element={<Roadmap />} />
+      <Route path="/forums" element={<Forums />} />
+    </Routes>
+  )
+}
+
+export default App

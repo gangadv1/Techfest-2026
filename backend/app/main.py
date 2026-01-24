@@ -1,0 +1,27 @@
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from app.api import jobs, resume, applications
+
+app = FastAPI(title="JobFit API", version="1.0.0")
+
+# CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Include routers
+app.include_router(jobs.router, prefix="/api/jobs", tags=["jobs"])
+app.include_router(resume.router, prefix="/api/resume", tags=["resume"])
+app.include_router(applications.router, prefix="/api/applications", tags=["applications"])
+
+@app.get("/")
+async def root():
+    return {"message": "JobFit API - Career Platform Backend"}
+
+@app.get("/health")
+async def health_check():
+    return {"status": "healthy"}

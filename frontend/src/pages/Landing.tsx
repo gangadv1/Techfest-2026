@@ -24,7 +24,6 @@ export default function Landing() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 relative overflow-hidden">
       {/* Hero section */}
-      <img src={googleLogo} alt="Google" className="h-10" />
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
         <div className="text-center max-w-4xl">
           <h1 className="text-7xl font-bold text-gray-900 mb-6">

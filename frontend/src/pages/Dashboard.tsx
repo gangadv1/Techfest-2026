@@ -489,15 +489,7 @@ export default function Dashboard() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-slate-900 mb-2">Resume Dashboard</h1>
-          <div className="flex items-center justify-between">
-            <p className="text-slate-600">Track your progress and optimize for {profile.label}</p>
-            <button
-              onClick={() => navigate('/resume-upload')}
-              className="px-4 py-2 text-sm font-semibold rounded-lg bg-indigo-600 text-white hover:bg-indigo-500 shadow-sm"
-            >
-              Reupload Resume
-            </button>
-          </div>
+          <p className="text-slate-600">Track your progress and optimize for {profile.label}</p>
         </div>
 
         {/* Target Roles: strengths & weaknesses */}
@@ -658,6 +650,16 @@ export default function Dashboard() {
                 </span>
               )}
             </div>
+          </div>
+
+          {/* Reupload Button */}
+          <div className="mt-6 flex justify-center">
+            <button
+              onClick={() => navigate('/resume-upload')}
+              className="px-6 py-3 text-base font-semibold rounded-xl bg-indigo-600 text-white hover:bg-indigo-500 shadow-lg transition-colors"
+            >
+              Reupload Resume
+            </button>
           </div>
         </div>
 

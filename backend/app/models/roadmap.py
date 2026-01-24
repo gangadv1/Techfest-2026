@@ -59,25 +59,68 @@ class GraphResponse(BaseModel):
 class PlanGenerateRequest(BaseModel):
     userId: str = "demo"
     pathId: str
-    minutesPerDay: int = 30
+    hoursPerDay: float = 1.0
+    daysPerWeek: int = 5
     days: int = 7
+    maxNodes: int = 10
+    targetGoal: Optional[str] = None
 
-class PlanItem(BaseModel):
-    nodeId: str
+class PlanResource(BaseModel):
+    type: str  # youtube, article, course, roadmap
     title: str
+    url: str
+
+class PlanTaskItem(BaseModel):
+    nodeId: str
+    nodeTitle: str
     taskId: str
-    text: str
+    taskText: str
     minutes: int
+    resources: List[PlanResource] = []
 
 class DayPlan(BaseModel):
     day: int
+    title: str
     totalMinutes: int
-    items: List[PlanItem]
+    items: List[PlanTaskItem]
 
-class WeeklyPlan(BaseModel):
+class PlanEstimate(BaseModel):
+    minutesPerDay: int
+    daysPerWeek: int
+    totalDaysGenerated: int
+    totalMinutesPlanned: int
+
+class PlanGenerateResponse(BaseModel):
     userId: str
     pathId: str
-    days: List[DayPlan]
+    estimate: PlanEstimate
+    plan: List[DayPlan]
+
+# Backward compatibility models for old streak/plan_builder code
+class OldPlanItem(BaseModel):
+    nodeId: str
+    nodeLabel: str = ""
+    title: str = ""
+    taskId: str
+    taskText: str = ""
+    text: str = ""
+    estimatedMinutes: int = 30
+    minutes: int = 30
+
+class OldDayPlan(BaseModel):
+    dayNumber: int = 1
+    day: int = 1
+    totalMinutes: int
+    items: List[OldPlanItem] = []
+
+class OldWeeklyPlan(BaseModel):
+    userId: str = "demo"
+    pathId: str = ""
+    days: List[OldDayPlan] = []
+
+# Aliases
+PlanItem = OldPlanItem
+WeeklyPlan = OldWeeklyPlan
 
 # Streak models
 class CheckinRequest(BaseModel):

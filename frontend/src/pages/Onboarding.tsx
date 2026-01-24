@@ -1,78 +1,176 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const questions = [
+type QuestionType = 'single' | 'multi' | 'text'
+type AnswerMap = Record<string, string | string[]>
+
+const STORAGE_KEY = 'jobfit_preferences'
+
+type Question = {
+  id: string
+  label: string
+  type: QuestionType
+  options?: string[]
+  maxSelected?: number
+  placeholder?: string
+}
+
+const QUESTIONS: Question[] = [
   {
-    id: 'roles',
-    question: 'What roles are you interested in?',
-    type: 'multi-select',
-    options: ['Software Engineer', 'Data Scientist', 'Product Manager', 'Designer', 'DevOps Engineer']
+    id: 'role',
+    label: 'What is your target role?',
+    type: 'single',
+    options: ['Software Engineer','Data Analyst','Data Scientist','Product Manager','UI/UX','Cybersecurity','DevOps']
   },
   {
+    id: 'arrangement',
+    label: 'Preferred work arrangement?',
+    type: 'single',
+    options: ['Remote (SG)','Hybrid (SG)','On-site (SG)']
     id: 'experienceLevel',
     question: 'What is your experience level?',
     type: 'single-select',
     options: ['Entry-level (0-2 years)', 'Intermediate/Mid-level (2-5 years)', 'Senior/Executive (5+ years)']
   },
   {
+    id: 'region',
+    label: 'Preferred region in Singapore?',
+    type: 'single',
+    options: ['Central','East','West','North','North-East','CBD','One-North','Jurong East','Punggol']
     id: 'locations',
     question: 'Preferred locations?',
     type: 'multi-select',
     options: ['Remote', 'Singapore', 'Downtown / Raffles Place', 'Orchard', 'Tanjong Pagar', 'Jurong East', 'Tampines', 'Woodlands']
   },
   {
-    id: 'employmentTypes',
-    question: 'Employment type preference?',
-    type: 'multi-select',
-    options: ['Full-time', 'Part-time', 'Contract', 'Internship']
+    id: 'employment',
+    label: 'Employment type?',
+    type: 'single',
+    options: ['Internship','Full-time','Contract']
   },
   {
-    id: 'visaEligible',
-    question: 'Do you require visa sponsorship?',
-    type: 'single-select',
-    options: ['Yes', 'No', 'Not sure']
+    id: 'experience',
+    label: 'Experience level?',
+    type: 'single',
+    options: ['Internship','Fresh Grad (0–1)','Junior (1–3)','Mid (3–5)']
+  },
+  {
+    id: 'salary',
+    label: 'Salary expectation (SGD monthly)?',
+    type: 'single',
+    options: ['<3k','3–5k','5–8k','8–12k','12k+']
+  },
+  {
+    id: 'eligibility',
+    label: 'Work eligibility?',
+    type: 'single',
+    options: ['Singapore Citizen/PR','Student Pass (internships)','LTVP/DP','Need sponsorship (EP)','Not sure']
+  },
+  {
+    id: 'skills',
+    label: 'Select your tech skills (max 8)',
+    type: 'multi',
+    options: ['Python','SQL','Java','JavaScript','React','Node.js','AWS','Docker','Power BI','Excel','Git'],
+    maxSelected: 8
   }
 ]
 
 export default function Onboarding() {
   const navigate = useNavigate()
-  const [currentStep, setCurrentStep] = useState(0)
-  const [answers, setAnswers] = useState<Record<string, string[]>>({})
+  const [step, setStep] = useState(0)
+  const [answers, setAnswers] = useState<AnswerMap>({})
+  const [direction, setDirection] = useState<'next'|'prev'>('next')
 
-  const currentQuestion = questions[currentStep]
-
-  const handleSelect = (value: string) => {
-    if (currentQuestion.type === 'single-select') {
-      setAnswers({ ...answers, [currentQuestion.id]: [value] })
-    } else {
-      const current = answers[currentQuestion.id] || []
-      if (current.includes(value)) {
-        setAnswers({ ...answers, [currentQuestion.id]: current.filter(v => v !== value) })
-      } else {
-        setAnswers({ ...answers, [currentQuestion.id]: [...current, value] })
-      }
+  // Load existing answers on mount
+  useEffect(() => {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    if (raw) {
+      try {
+        const parsed = JSON.parse(raw)
+        if (parsed && typeof parsed === 'object') {
+          setAnswers(parsed)
+        }
+      } catch {}
     }
+  }, [])
+
+  // Persist anytime answers change
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(answers))
+  }, [answers])
+
+  const current = QUESTIONS[step]
+  const total = QUESTIONS.length
+
+  const selectedCount = useMemo(() => {
+    const v = answers[current?.id]
+    return Array.isArray(v) ? v.length : (v ? 1 : 0)
+  }, [answers, current?.id])
+
+  const progressPct = Math.round(((step) / total) * 100)
+
+  const saveAnswer = (id: string, value: string | string[]) => {
+    setAnswers(prev => ({ ...prev, [id]: value }))
   }
 
-  const handleNext = () => {
-    if (currentStep < questions.length - 1) {
-      setCurrentStep(currentStep + 1)
+  const canGoNext = () => {
+    const v = answers[current.id]
+    if (current.type === 'multi') return Array.isArray(v) && v.length > 0
+    if (current.type === 'text') return typeof v === 'string' && v.trim().length > 0
+    return typeof v === 'string' && v.length > 0
+  }
+
+  const toggleMulti = (id: string, value: string, max = 8) => {
+    const cur = (answers[id] as string[]) || []
+    const exists = cur.includes(value)
+    let next: string[]
+    if (exists) next = cur.filter(v => v !== value)
+    else next = cur.length < max ? [...cur, value] : cur
+    saveAnswer(id, next)
+  }
+
+  const next = () => {
+    if (step < total - 1) {
+      setDirection('next')
+      setStep(s => s + 1)
     } else {
-      // Save preferences to localStorage
-      localStorage.setItem('userPreferences', JSON.stringify(answers))
       navigate('/jobs')
     }
   }
 
-  const handleBack = () => {
-    if (currentStep > 0) {
-      setCurrentStep(currentStep - 1)
+  const back = () => {
+    if (step > 0) {
+      setDirection('prev')
+      setStep(s => s - 1)
     }
   }
 
-  const isAnswered = answers[currentQuestion.id]?.length > 0
+  const onSingleSelect = (opt: string) => {
+    saveAnswer(current.id, opt)
+    // Auto-advance after brief delay
+    setTimeout(() => next(), 150)
+  }
+
+  const onTextEnter: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (e.key === 'Enter' && canGoNext()) next()
+  }
 
   return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center px-4">
+      <div
+        key={current.id}
+        className={`bg-white rounded-2xl shadow-2xl border border-gray-200 p-8 max-w-2xl w-full ${
+          direction === 'next' ? 'animate-slide-right' : 'animate-slide-left'
+        }`}
+      >
+        {/* Progress */}
+        <div className="mb-6">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-sm text-gray-500">Step {step + 1} / {total}</span>
+            <span className="text-sm text-gray-400">{selectedCount} selected{current.type==='multi' && current.maxSelected ? ` / ${current.maxSelected}` : ''}</span>
+          </div>
+          <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+            <div className="h-full bg-indigo-600" style={{ width: `${progressPct}%` }} />
     <div className="min-h-screen flex items-center justify-center px-4" style={{ background: 'linear-gradient(135deg, #FFFBDE 0%, #124170 100%)' }}>
       <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-2xl w-full">
         <div className="mb-8">
@@ -91,24 +189,50 @@ export default function Onboarding() {
               ))}
             </div>
           </div>
-          <h2 className="text-3xl font-bold text-gray-900">{currentQuestion.question}</h2>
         </div>
 
+        {/* Question */}
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">{current.label}</h2>
+
+        {/* Options / Input */}
         <div className="space-y-3 mb-8">
-          {currentQuestion.options.map((option) => {
-            const isSelected = answers[currentQuestion.id]?.includes(option)
+          {current.type === 'single' && current.options?.map((opt) => {
+            const isSelected = answers[current.id] === opt
             return (
               <button
-                key={option}
-                onClick={() => handleSelect(option)}
+                key={opt}
+                onClick={() => onSingleSelect(opt)}
                 className={`w-full p-4 text-left rounded-lg border-2 transition-all ${
-                  isSelected
-                    ? 'border-brand bg-brand-50 text-brand-dark'
-                    : 'border-gray-200 hover:border-brand bg-white'
+                  isSelected ? 'border-indigo-600 bg-indigo-50 text-indigo-900' : 'border-gray-200 hover:border-indigo-300 bg-white'
                 }`}
               >
                 <div className="flex items-center justify-between">
-                  <span className="font-medium">{option}</span>
+                  <span className="font-medium">{opt}</span>
+                  {isSelected && (
+                    <svg className="w-6 h-6 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  )}
+                </div>
+              </button>
+            )
+          })}
+
+          {current.type === 'multi' && current.options?.map((opt) => {
+            const cur = (answers[current.id] as string[]) || []
+            const isSelected = cur.includes(opt)
+            const atMax = cur.length >= (current.maxSelected || 8)
+            return (
+              <button
+                key={opt}
+                onClick={() => toggleMulti(current.id, opt, current.maxSelected || 8)}
+                disabled={!isSelected && atMax}
+                className={`w-full p-4 text-left rounded-lg border-2 transition-all ${
+                  isSelected ? 'border-indigo-600 bg-indigo-50 text-indigo-900' : 'border-gray-200 hover:border-indigo-300 bg-white'
+                } ${!isSelected && atMax ? 'opacity-50 cursor-not-allowed' : ''}`}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="font-medium">{opt}</span>
                   {isSelected && (
                     <svg className="w-6 h-6 text-brand" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
@@ -118,23 +242,49 @@ export default function Onboarding() {
               </button>
             )
           })}
+
+          {current.type === 'text' && (
+            <input
+              type="text"
+              placeholder={current.placeholder || 'Type your answer and press Enter'}
+              className="w-full p-4 rounded-lg border-2 border-gray-200 focus:border-indigo-500 outline-none"
+              value={(answers[current.id] as string) || ''}
+              onChange={(e) => saveAnswer(current.id, e.target.value)}
+              onKeyDown={onTextEnter}
+            />
+          )}
         </div>
 
-        <div className="flex justify-between">
+        {/* Navigation */}
+        <div className="flex justify-between items-center">
           <button
+            onClick={back}
+            disabled={step === 0}
+            className="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={handleBack}
             disabled={currentStep === 0}
             className="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-cream disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Back
           </button>
-          <button
-            onClick={handleNext}
-            disabled={!isAnswered}
-            className="px-6 py-3 bg-brand text-white rounded-lg hover:bg-brand-dark disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {currentStep === questions.length - 1 ? 'Finish' : 'Next'}
-          </button>
+
+          {current.type === 'multi' ? (
+            <button
+              onClick={next}
+              disabled={!canGoNext()}
+              className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Continue
+            </button>
+          ) : (
+            <button
+              onClick={next}
+              disabled={!canGoNext()}
+              className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {step === total - 1 ? 'Finish' : 'Next'}
+            </button>
+          )}
         </div>
       </div>
     </div>

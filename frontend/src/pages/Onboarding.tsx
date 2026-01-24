@@ -27,32 +27,24 @@ const QUESTIONS: Question[] = [
     label: 'Preferred work arrangement?',
     type: 'single',
     options: ['Remote (SG)','Hybrid (SG)','On-site (SG)']
+  },
+  {
     id: 'experienceLevel',
-    question: 'What is your experience level?',
-    type: 'single-select',
+    label: 'What is your experience level?',
+    type: 'single',
     options: ['Entry-level (0-2 years)', 'Intermediate/Mid-level (2-5 years)', 'Senior/Executive (5+ years)']
   },
   {
-    id: 'region',
-    label: 'Preferred region in Singapore?',
-    type: 'single',
-    options: ['Central','East','West','North','North-East','CBD','One-North','Jurong East','Punggol']
     id: 'locations',
-    question: 'Preferred locations?',
-    type: 'multi-select',
-    options: ['Remote', 'Singapore', 'Downtown / Raffles Place', 'Orchard', 'Tanjong Pagar', 'Jurong East', 'Tampines', 'Woodlands']
+    label: 'Preferred locations?',
+    type: 'multi',
+    options: ['Central', 'Marina Bay', 'Orchard', 'Tanjong Pagar', 'Jurong East', 'Tampines', 'Punggol', 'Woodlands']
   },
   {
     id: 'employment',
     label: 'Employment type?',
     type: 'single',
     options: ['Internship','Full-time','Contract']
-  },
-  {
-    id: 'experience',
-    label: 'Experience level?',
-    type: 'single',
-    options: ['Internship','Fresh Grad (0–1)','Junior (1–3)','Mid (3–5)']
   },
   {
     id: 'salary',
@@ -170,24 +162,7 @@ export default function Onboarding() {
             <span className="text-sm text-gray-400">{selectedCount} selected{current.type==='multi' && current.maxSelected ? ` / ${current.maxSelected}` : ''}</span>
           </div>
           <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-            <div className="h-full bg-indigo-600" style={{ width: `${progressPct}%` }} />
-    <div className="min-h-screen flex items-center justify-center px-4" style={{ background: 'linear-gradient(135deg, #FFFBDE 0%, #124170 100%)' }}>
-      <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-2xl w-full">
-        <div className="mb-8">
-          <div className="flex justify-between items-center mb-4">
-            <span className="text-sm text-gray-500">
-              Question {currentStep + 1} of {questions.length}
-            </span>
-            <div className="flex gap-1">
-              {questions.map((_, idx) => (
-                <div
-                  key={idx}
-                  className={`h-2 w-8 rounded ${
-                    idx <= currentStep ? 'bg-brand' : 'bg-gray-200'
-                  }`}
-                />
-              ))}
-            </div>
+            <div className="h-full bg-brand" style={{ width: `${progressPct}%` }} />
           </div>
         </div>
 
@@ -203,13 +178,13 @@ export default function Onboarding() {
                 key={opt}
                 onClick={() => onSingleSelect(opt)}
                 className={`w-full p-4 text-left rounded-lg border-2 transition-all ${
-                  isSelected ? 'border-indigo-600 bg-indigo-50 text-indigo-900' : 'border-gray-200 hover:border-indigo-300 bg-white'
+                  isSelected ? 'border-brand bg-blue-50 text-brand' : 'border-gray-200 hover:border-brand bg-white'
                 }`}
               >
                 <div className="flex items-center justify-between">
                   <span className="font-medium">{opt}</span>
                   {isSelected && (
-                    <svg className="w-6 h-6 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-6 h-6 text-brand" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
                   )}
@@ -228,7 +203,7 @@ export default function Onboarding() {
                 onClick={() => toggleMulti(current.id, opt, current.maxSelected || 8)}
                 disabled={!isSelected && atMax}
                 className={`w-full p-4 text-left rounded-lg border-2 transition-all ${
-                  isSelected ? 'border-indigo-600 bg-indigo-50 text-indigo-900' : 'border-gray-200 hover:border-indigo-300 bg-white'
+                  isSelected ? 'border-brand bg-blue-50 text-brand' : 'border-gray-200 hover:border-brand bg-white'
                 } ${!isSelected && atMax ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
                 <div className="flex items-center justify-between">
@@ -247,7 +222,7 @@ export default function Onboarding() {
             <input
               type="text"
               placeholder={current.placeholder || 'Type your answer and press Enter'}
-              className="w-full p-4 rounded-lg border-2 border-gray-200 focus:border-indigo-500 outline-none"
+              className="w-full p-4 rounded-lg border-2 border-gray-200 focus:border-brand outline-none"
               value={(answers[current.id] as string) || ''}
               onChange={(e) => saveAnswer(current.id, e.target.value)}
               onKeyDown={onTextEnter}
@@ -261,9 +236,6 @@ export default function Onboarding() {
             onClick={back}
             disabled={step === 0}
             className="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-            onClick={handleBack}
-            disabled={currentStep === 0}
-            className="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-cream disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Back
           </button>
@@ -272,7 +244,7 @@ export default function Onboarding() {
             <button
               onClick={next}
               disabled={!canGoNext()}
-              className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-6 py-3 bg-brand text-white rounded-lg hover:bg-brand-dark disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Continue
             </button>
@@ -280,7 +252,7 @@ export default function Onboarding() {
             <button
               onClick={next}
               disabled={!canGoNext()}
-              className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-6 py-3 bg-brand text-white rounded-lg hover:bg-brand-dark disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {step === total - 1 ? 'Finish' : 'Next'}
             </button>

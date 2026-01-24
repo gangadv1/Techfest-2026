@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import RequirementPills from '../components/RequirementPills'
 import axios from 'axios'
 
 export default function JobDetail() {
@@ -111,9 +110,9 @@ export default function JobDetail() {
                   href={`https://jobs.example.com/apply/${id}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 px-6 py-3 bg-accent text-white rounded-lg hover:bg-accent-dark font-semibold transition text-center"
+                  className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-600 to-violet-600 text-white rounded-lg hover:from-purple-700 hover:to-violet-700 font-semibold transition text-center shadow-md hover:shadow-lg"
                 >
-                  Apply Now
+                  🚀 Apply Now
                 </a>
               </div>
             </div>
@@ -183,17 +182,26 @@ export default function JobDetail() {
               <p className="text-3xl font-bold text-brand">{job.salary}</p>
             </div>
 
+            {/* Applicant Percentage Card */}
+            {job.applicantCount && (
+              <div className="bg-blue-50 rounded-lg p-6 mb-6 border border-brand">
+                <p className="text-sm text-gray-600 mb-2">Hiring Activity</p>
+                <p className="text-3xl font-bold text-brand">{Math.round((job.applicantCount / 500) * 100)}%</p>
+                <p className="text-xs text-gray-600 mt-2">{job.applicantCount} applicants</p>
+              </div>
+            )}
+
             {/* Save Job Card */}
             <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
               <button
                 onClick={handleSaveJob}
                 className={`w-full px-4 py-3 rounded-lg font-semibold transition ${
                   saved
-                    ? 'bg-gray-100 text-gray-700'
-                    : 'border-2 border-brand text-brand hover:bg-cream'
+                    ? 'bg-green-50 text-green-700 border-2 border-green-600'
+                    : 'border-2 border-green-600 text-green-600 hover:bg-green-50'
                 }`}
               >
-                {saved ? '❤️ Saved' : '🤍 Save Job'}
+                {saved ? '🔖 Saved' : '🔖 Save Job'}
               </button>
             </div>
 

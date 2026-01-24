@@ -29,6 +29,7 @@ export default function Jobs() {
   const [showFilters, setShowFilters] = useState(false)
   const [selectedJob, setSelectedJob] = useState<Job | null>(null)
   const [saved, setSaved] = useState(false)
+  const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '')
 
   useEffect(() => {
     fetchJobs()
@@ -44,13 +45,56 @@ export default function Jobs() {
       console.error('Failed to fetch jobs:', error)
       // Mock data for development
       const mockJobs = [
-        { id: '1', title: 'Senior Software Engineer', company: 'Grab', location: 'Singapore (Central)', datePosted: '2026-01-20', workplaceModel: 'Hybrid', employmentType: 'Full-time', salary: 'SGD $180k - $250k', extractedSkills: ['Python', 'React', 'AWS'], applicantCount: 120, role: 'Software Engineer', description: 'Join Grab\'s engineering team and build the future of mobility and payments in Southeast Asia. We\'re looking for senior engineers to mentor teams and ship scalable solutions.', extractedQualifications: ['Bachelor\'s degree in CS or related field', '5+ years software engineering experience'], extractedConstraints: ['Must be eligible to work in Singapore', 'Visa sponsorship available'] },
-        { id: '2', title: 'Data Scientist', company: 'ByteDance', location: 'Singapore (Marina Bay)', datePosted: '2026-01-18', workplaceModel: 'On-site', employmentType: 'Full-time', salary: 'SGD $160k - $220k', extractedSkills: ['Python', 'ML', 'TensorFlow'], applicantCount: 45, role: 'Data Scientist', description: 'Work on machine learning models that power recommendation engines for millions of users across Asia-Pacific. Collaborate with top-tier data scientists and engineers.', extractedQualifications: ['Master\'s in Computer Science or related field', '3+ years ML/AI experience'], extractedConstraints: ['Must be eligible to work in Singapore'] },
-        { id: '3', title: 'Frontend Engineer', company: 'Shopee', location: 'Singapore (Beach Road)', datePosted: '2026-01-15', workplaceModel: 'Hybrid', employmentType: 'Full-time', salary: 'SGD $140k - $200k', extractedSkills: ['React', 'TypeScript', 'Vue.js'], applicantCount: 300, role: 'Software Engineer', description: 'Build beautiful and performant web applications that reach millions of users in Southeast Asia. Work with cutting-edge frontend technologies and lead feature development.', extractedQualifications: ['2+ years React or Vue.js experience', 'Strong TypeScript skills'], extractedConstraints: ['Must be eligible to work in Singapore'] },
-        { id: '4', title: 'Product Manager', company: 'Carousell', location: 'Singapore (Tanjong Pagar)', datePosted: '2026-01-10', workplaceModel: 'Hybrid', employmentType: 'Full-time', salary: 'SGD $130k - $180k', extractedSkills: ['Product Strategy', 'Analytics', 'User Research'], applicantCount: 25, role: 'Product Manager', description: 'Lead product strategy for our Southeast Asia marketplace platform. Drive roadmap decisions and collaborate with engineering, design, and stakeholders to ship delightful user experiences.', extractedQualifications: ['3+ years PM experience in tech/marketplace', 'Track record of shipping products'], extractedConstraints: ['Must be eligible to work in Singapore'] }
+        { id: '1', title: 'Senior Software Engineer', company: 'Grab', location: 'Singapore (Central)', datePosted: '2026-01-20', workplaceModel: 'Hybrid', employmentType: 'Full-time', salary: 'SGD $180k - $250k', extractedSkills: ['Python', 'React', 'AWS', 'Docker'], applicantCount: 120, role: 'Software Engineer', description: 'Join Grab\'s engineering team and build the future of mobility and payments in Southeast Asia. We\'re looking for senior engineers to mentor teams and ship scalable solutions.', extractedQualifications: ['Bachelor\'s degree in CS or related field', '5+ years software engineering experience'], extractedConstraints: ['Must be eligible to work in Singapore', 'Visa sponsorship available'] },
+        { id: '2', title: 'Data Scientist', company: 'ByteDance', location: 'Singapore (Marina Bay)', datePosted: '2026-01-18', workplaceModel: 'On-site', employmentType: 'Full-time', salary: 'SGD $160k - $220k', extractedSkills: ['Python', 'ML', 'TensorFlow', 'SQL'], applicantCount: 45, role: 'Data Scientist', description: 'Work on machine learning models that power recommendation engines for millions of users across Asia-Pacific. Collaborate with top-tier data scientists and engineers.', extractedQualifications: ['Master\'s in Computer Science or related field', '3+ years ML/AI experience'], extractedConstraints: ['Must be eligible to work in Singapore'] },
+        { id: '3', title: 'Frontend Engineer', company: 'Shopee', location: 'Singapore (Beach Road)', datePosted: '2026-01-15', workplaceModel: 'Hybrid', employmentType: 'Full-time', salary: 'SGD $140k - $200k', extractedSkills: ['React', 'TypeScript', 'Vue.js', 'JavaScript'], applicantCount: 300, role: 'Software Engineer', description: 'Build beautiful and performant web applications that reach millions of users in Southeast Asia. Work with cutting-edge frontend technologies and lead feature development.', extractedQualifications: ['2+ years React or Vue.js experience', 'Strong TypeScript skills'], extractedConstraints: ['Must be eligible to work in Singapore'] },
+        { id: '4', title: 'Product Manager', company: 'Carousell', location: 'Singapore (Tanjong Pagar)', datePosted: '2026-01-10', workplaceModel: 'Hybrid', employmentType: 'Full-time', salary: 'SGD $130k - $180k', extractedSkills: ['Product Strategy', 'Analytics', 'PowerBI', 'SQL'], applicantCount: 25, role: 'Product Manager', description: 'Lead product strategy for our Southeast Asia marketplace platform. Drive roadmap decisions and collaborate with engineering, design, and stakeholders to ship delightful user experiences.', extractedQualifications: ['3+ years PM experience in tech/marketplace', 'Track record of shipping products'], extractedConstraints: ['Must be eligible to work in Singapore'] },
+        { id: '5', title: 'Java Backend Engineer', company: 'DBS Bank', location: 'Singapore (Central)', datePosted: '2026-01-19', workplaceModel: 'Hybrid', employmentType: 'Full-time', salary: 'SGD $150k - $220k', extractedSkills: ['Java', 'AWS', 'Docker', 'SQL'], applicantCount: 80, role: 'Software Engineer', description: 'Build scalable backend services for one of Asia\'s leading financial institutions. Work with microservices and cloud-native technologies.', extractedQualifications: ['Bachelor\'s in CS or related field', '3+ years Java experience'], extractedConstraints: ['Must be eligible to work in Singapore'] },
+        { id: '6', title: 'DevOps Engineer', company: 'Zendesk', location: 'Singapore (Marina Bay)', datePosted: '2026-01-17', workplaceModel: 'Hybrid', employmentType: 'Full-time', salary: 'SGD $140k - $200k', extractedSkills: ['Docker', 'AWS', 'Python', 'SQL'], applicantCount: 35, role: 'DevOps Engineer', description: 'Manage and optimize our cloud infrastructure serving millions of customers globally. Automate and streamline deployment processes.', extractedQualifications: ['3+ years DevOps experience', 'Strong AWS knowledge'], extractedConstraints: ['Must be eligible to work in Singapore'] }
       ]
-      setJobs(mockJobs)
-      setSelectedJob(mockJobs[0])
+      
+      // Apply filters
+      let filteredJobs = [...mockJobs]
+      
+      // Filter by skills (technical stack)
+      const selectedSkills = searchParams.getAll('skills')
+      if (selectedSkills.length > 0) {
+        filteredJobs = filteredJobs.filter(job =>
+          selectedSkills.some(skill => job.extractedSkills.some(s => s.toLowerCase().includes(skill.toLowerCase())))
+        )
+      }
+      
+      // Filter by location
+      const locations = searchParams.getAll('location')
+      if (locations.length > 0) {
+        filteredJobs = filteredJobs.filter(job => locations.some(loc => job.location.includes(loc)))
+      }
+      
+      // Filter by role
+      const roles = searchParams.getAll('role')
+      if (roles.length > 0) {
+        filteredJobs = filteredJobs.filter(job => roles.includes(job.role))
+      }
+      
+      // Filter by employment type
+      const employmentTypes = searchParams.getAll('employmentType')
+      if (employmentTypes.length > 0) {
+        filteredJobs = filteredJobs.filter(job => employmentTypes.includes(job.employmentType))
+      }
+      
+      // Filter by search query
+      const search = searchParams.get('search') || ''
+      if (search.trim()) {
+        const query = search.toLowerCase()
+        filteredJobs = filteredJobs.filter(job =>
+          job.title.toLowerCase().includes(query) ||
+          job.company.toLowerCase().includes(query) ||
+          job.description?.toLowerCase().includes(query)
+        )
+      }
+      
+      setJobs(filteredJobs)
+      setSelectedJob(filteredJobs[0] || null)
     } finally {
       setLoading(false)
     }
@@ -66,16 +110,13 @@ export default function Jobs() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-cream via-blue-50 to-slate-50">
       {/* Full-width header banner */}
-      <header className="w-full bg-white border-b border-brand">
-        <div className="container mx-auto px-4 py-6 flex items-center justify-between">
+      <header className="w-full bg-gradient-to-r from-brand to-teal border-b-4 border-accent shadow-lg">
+        <div className="container mx-auto px-4 py-8">
           <div>
-            <h1 className="text-5xl font-extrabold text-brand mb-1">Find Your Perfect Job</h1>
-            <p className="text-brand-dark text-lg">Browse opportunities tailored to your preferences</p>
-          </div>
-          <div>
-            <a href="/social" className="inline-flex items-center gap-2 px-4 py-2 bg-brand text-white rounded-lg hover:bg-brand-dark">Social</a>
+            <h1 className="text-5xl font-extrabold text-white mb-2">Find Your Perfect Job</h1>
+            <p className="text-blue-100 text-lg font-medium">Browse opportunities tailored to your preferences</p>
           </div>
         </div>
       </header>
@@ -89,38 +130,32 @@ export default function Jobs() {
           <div className="grid grid-cols-3 gap-6">
             {/* Left: Job List */}
             <div className="col-span-1">
-              {/* Role applicant summary */}
-              {(() => {
-                const totalApplicants = jobs.reduce((s, j) => s + (j.applicantCount || 0), 0)
-                const roleMap: Record<string, number> = {}
-                jobs.forEach(j => {
-                  const r = j.role || j.title
-                  roleMap[r] = (roleMap[r] || 0) + (j.applicantCount || 0)
-                })
-                const roleEntries = Object.entries(roleMap).sort((a, b) => b[1] - a[1])
-                return (
-                  <div className="mb-6 space-y-3">
-                    {roleEntries.slice(0, 3).map(([role, count]) => {
-                      const pct = totalApplicants ? Math.round((count / totalApplicants) * 100) : 0
-                      return (
-                        <div key={role} className="bg-white p-3 rounded shadow-sm border-l-4 border-brand">
-                          <div className="font-medium text-sm">{role}</div>
-                          <div className="text-xs text-gray-600">{pct}% of applicants</div>
-                        </div>
-                      )
-                    })}
-                  </div>
-                )
-              })()}
-
               <div className="mb-4 flex flex-col gap-4">
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Search jobs, companies..."
+                    value={searchQuery}
+                    onChange={(e) => {
+                      setSearchQuery(e.target.value)
+                      const params = new URLSearchParams(searchParams)
+                      if (e.target.value.trim()) {
+                        params.set('search', e.target.value)
+                      } else {
+                        params.delete('search')
+                      }
+                      setSearchParams(params)
+                    }}
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-sm focus:outline-none focus:border-brand"
+                  />
+                </div>
                 <div className="flex items-center justify-between">
-                  <p className="text-brand font-medium">{jobs.length} jobs</p>
+                  <p className="text-brand font-bold text-lg">{jobs.length} jobs found</p>
                   <button
                     onClick={() => setShowFilters(!showFilters)}
-                    className="px-3 py-2 border border-brand text-brand rounded text-sm bg-white hover:bg-cream"
+                    className="px-4 py-2 bg-gradient-to-r from-brand to-teal text-white rounded-lg text-sm font-semibold hover:shadow-lg transition"
                   >
-                    Filters
+                    🎚️ Filters
                   </button>
                 </div>
                 <select
@@ -188,9 +223,18 @@ export default function Jobs() {
                         <h1 className="text-3xl font-bold text-gray-900 mb-2">{selectedJob.title}</h1>
                         <p className="text-xl text-gray-700 font-medium">{selectedJob.company}</p>
                       </div>
-                      <div className="bg-cream px-4 py-3 rounded border border-brand">
-                        <p className="text-sm text-gray-600">Salary</p>
-                        <p className="text-2xl font-bold text-brand">{selectedJob.salary}</p>
+                      <div className="space-y-3">
+                        <div className="bg-cream px-4 py-3 rounded border border-brand">
+                          <p className="text-sm text-gray-600">Salary</p>
+                          <p className="text-2xl font-bold text-brand">{selectedJob.salary}</p>
+                        </div>
+                        {selectedJob.applicantCount && (
+                          <div className="bg-blue-50 px-4 py-3 rounded border border-brand">
+                            <p className="text-sm text-gray-600">Hiring Activity</p>
+                            <p className="text-2xl font-bold text-brand">{Math.round((selectedJob.applicantCount / 500) * 100)}%</p>
+                            <p className="text-xs text-gray-600 mt-1">{selectedJob.applicantCount} applicants</p>
+                          </div>
+                        )}
                       </div>
                     </div>
 
@@ -217,19 +261,19 @@ export default function Jobs() {
                         onClick={handleSaveJob}
                         className={`px-4 py-3 rounded font-semibold transition ${
                           saved
-                            ? 'bg-gray-100 text-gray-700'
-                            : 'border-2 border-brand text-brand hover:bg-cream'
+                            ? 'bg-green-50 text-green-700 border-2 border-green-600'
+                            : 'border-2 border-green-600 text-green-600 hover:bg-green-50'
                         }`}
                       >
-                        {saved ? '❤️ Saved' : '🤍 Save'}
+                        {saved ? '💾 Saved' : '💾 Save'}
                       </button>
                       <a
                         href={`https://jobs.example.com/apply/${selectedJob.id}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-4 py-3 bg-accent text-white rounded font-semibold hover:bg-accent-dark transition text-center"
+                        className="px-4 py-3 bg-gradient-to-r from-purple-600 to-violet-600 text-white rounded font-semibold hover:from-purple-700 hover:to-violet-700 transition text-center shadow-md hover:shadow-lg"
                       >
-                        Apply
+                        🚀 Apply
                       </a>
                     </div>
                   </div>

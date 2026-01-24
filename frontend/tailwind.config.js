@@ -7,11 +7,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        brand: '#0066CC',
-        'brand-dark': '#0052A3',
-        teal: '#0099FF',
-        accent: '#00A0E9',
-        cream: '#F0F7FF',
+        brand: '#002366',
+        'brand-dark': '#001A47',
+        teal: '#005599',
+        accent: '#004477',
+        cream: '#D4E8FF',
       },
     },
   },

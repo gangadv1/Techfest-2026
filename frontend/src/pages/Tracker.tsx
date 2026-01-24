@@ -7,6 +7,12 @@ const rejectionStages = ['Initial', 'Technical', 'Behavioral', 'HR Round', 'Fina
 export default function Tracker() {
   const navigate = useNavigate()
   const [applications, setApplications] = useState<any[]>([])
+
+  // Function to clear all applications
+  const clearApplications = () => {
+    setApplications([])
+    localStorage.setItem('savedJobs', JSON.stringify([]))
+  }
   const [activeTab, setActiveTab] = useState('dashboard')
   const [rejectionData, setRejectionData] = useState<Record<string, number>>({})
   const [skillProgress, setSkillProgress] = useState<Record<string, number>>({})
@@ -116,11 +122,21 @@ export default function Tracker() {
               </div>
             </div>
 
+              <div className="mb-6 space-y-2 flex items-center justify-between">
+                
+                
+              </div>
             {/* Application Tracking Table */}
             <div className="rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-sm backdrop-blur">
               <div className="mb-6 space-y-2">
                 <h2 className="text-2xl font-bold text-slate-900">📋 Applications</h2>
                 <p className="text-sm text-slate-600">Track and manage your job applications across different stages.</p>
+                <button
+                  onClick={clearApplications}
+                  className="rounded-lg bg-rose-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-rose-700 transition"
+                >
+                  Clear All Applications
+                </button>
               </div>
               
               <div className="overflow-x-auto rounded-xl border border-slate-100">

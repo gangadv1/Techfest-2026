@@ -33,7 +33,7 @@ export default function Landing() {
             Where ambition meets intelligence.
           </p>
           <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-            Career search, reimagined. AI-driven job matching, interview prep with speech analysis, and smart tracking that shows you where to improve and where to apply next
+            Career search, reimagined. AI-driven job matching, interview prep with speech analysis, and smart tracking that shows you where to improve and where to apply next.
           </p>
           
           <div className="flex gap-4 justify-center">

@@ -28,3 +28,34 @@ body {
     transform: none;
   }
 }
+
+/* Onboarding card slide animations */
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(24px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-24px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-right {
+  animation: slideInFromRight 260ms ease-out;
+}
+
+.animate-slide-left {
+  animation: slideInFromLeft 260ms ease-out;
+}

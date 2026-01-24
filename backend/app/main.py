@@ -1,6 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api import jobs, resume, applications, interview
+from app.core.database import Base, engine
+
+# Create database tables
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="JobFit API", version="1.0.0")
 

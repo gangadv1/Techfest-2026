@@ -96,21 +96,21 @@ export default function Tracker() {
           <div className="space-y-6">
             {/* Stats Cards */}
             <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-              <div className="rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-sm backdrop-blur">
-                <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">Total Applications</p>
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 shadow-sm">
+                <p className="text-xs font-semibold uppercase tracking-wide text-slate-700">Total Applications</p>
                 <p className="mt-3 text-3xl font-bold text-slate-900">{totalApplications}</p>
               </div>
-              <div className="rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-sm backdrop-blur">
-                <p className="text-xs font-semibold uppercase tracking-wide text-yellow-600">In Process</p>
-                <p className="mt-3 text-3xl font-bold text-slate-900">{applicationsInProcess}</p>
+              <div className="rounded-2xl border border-amber-200 bg-amber-50 p-6 shadow-sm">
+                <p className="text-xs font-semibold uppercase tracking-wide text-amber-700">In Process</p>
+                <p className="mt-3 text-3xl font-bold text-amber-900">{applicationsInProcess}</p>
               </div>
-              <div className="rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-sm backdrop-blur">
-                <p className="text-xs font-semibold uppercase tracking-wide text-red-600">Rejected</p>
-                <p className="mt-3 text-3xl font-bold text-slate-900">{applicationsRejected}</p>
+              <div className="rounded-2xl border border-rose-200 bg-rose-50 p-6 shadow-sm">
+                <p className="text-xs font-semibold uppercase tracking-wide text-rose-700">Rejected</p>
+                <p className="mt-3 text-3xl font-bold text-rose-900">{applicationsRejected}</p>
               </div>
-              <div className="rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-sm backdrop-blur">
-                <p className="text-xs font-semibold uppercase tracking-wide text-emerald-600">Success Rate</p>
-                <p className="mt-3 text-3xl font-bold text-slate-900">
+              <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-6 shadow-sm">
+                <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">Success Rate</p>
+                <p className="mt-3 text-3xl font-bold text-emerald-900">
                   {totalApplications > 0 ? Math.round(((totalApplications - applicationsRejected) / totalApplications) * 100) : 0}%
                 </p>
               </div>

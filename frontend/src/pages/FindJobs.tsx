@@ -144,50 +144,53 @@ export default function FindJobs() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      {/* Hero Section */}
-      <div className="bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-16 md:py-20">
-        <div className="max-w-6xl mx-auto px-4">
-          <h1 className="text-5xl md:text-6xl font-extrabold mb-3">Find Your Perfect Job</h1>
-          <p className="text-lg md:text-xl text-indigo-100">Browse opportunities tailored to your preferences</p>
+    <div className="min-h-screen bg-slate-50">
+      {/* Header */}
+      <div className="border-b border-amber-200 bg-amber-50/80 backdrop-blur sticky top-0 z-10">
+        <div className="mx-auto max-w-7xl px-4 py-6">
+          <div className="space-y-1">
+            <p className="text-xs font-semibold uppercase tracking-wide text-amber-600">Job Board</p>
+            <h1 className="text-3xl font-bold text-slate-900">Find Your Perfect Job</h1>
+            <p className="text-sm text-amber-700">Browse opportunities tailored to your preferences</p>
+          </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="mx-auto max-w-7xl space-y-6 px-4 py-8">
         {/* Search and Sort Bar */}
-        <div className="bg-white/90 backdrop-blur border border-white/60 shadow-lg rounded-2xl p-6 mb-6">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+        <div className="rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-sm backdrop-blur">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-12 md:items-center">
             <input
               value={filters.keyword}
               onChange={(e) => setFilters({ ...filters, keyword: e.target.value })}
-              placeholder="Search jobs, companies..."
-              className="md:col-span-7 px-5 py-3 rounded-xl border border-slate-300 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 text-base transition"
+              placeholder="Search jobs, companies, skills..."
+              className="md:col-span-7 rounded-xl border border-slate-200 px-4 py-2.5 text-sm transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100"
             />
             <select
               value={filters.sort}
               onChange={(e) => setFilters({ ...filters, sort: e.target.value as Filters["sort"] })}
-              className="md:col-span-3 px-4 py-3 rounded-xl border border-slate-300 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 text-base transition"
+              className="md:col-span-3 rounded-xl border border-slate-200 px-4 py-2.5 text-sm transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100"
             >
               <option value="newest">Newest</option>
               <option value="salary">Highest Salary</option>
               <option value="relevance">Relevance</option>
             </select>
             <button
-              className="md:col-span-2 px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold transition shadow-sm"
+              className="md:col-span-2 rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700"
               onClick={() => setIsFiltersOpen(false)}
             >
               Search
             </button>
           </div>
-          <div className="mt-4 flex items-center gap-3 flex-wrap">
+          <div className="mt-4 flex flex-wrap items-center gap-3">
             <button
-              className="px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 hover:border-indigo-300 hover:text-indigo-700 transition"
+              className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-indigo-200 hover:text-indigo-700"
               onClick={() => setIsFiltersOpen((open) => !open)}
             >
               Filters
             </button>
-            <span className="text-slate-700 font-semibold">{filtered.length} jobs found</span>
+            <span className="text-sm font-semibold text-slate-700">{filtered.length} jobs found</span>
           </div>
         </div>
 
@@ -203,15 +206,15 @@ export default function FindJobs() {
         )}
 
         {/* Main Layout: Job List + Job Detail */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           {/* Left: Job List */}
-          <div className="lg:col-span-2 space-y-4">
+          <div className="space-y-4 lg:col-span-2">
             {filtered.length === 0 ? (
-              <div className="bg-white/90 backdrop-blur border border-white/60 rounded-2xl p-12 text-center">
-                <div className="text-slate-900 font-bold text-xl mb-2">No matching jobs found</div>
-                <p className="text-slate-600 mb-6">Try adjusting your filters or search terms</p>
+              <div className="rounded-2xl border border-slate-200 bg-white/90 p-12 text-center shadow-sm backdrop-blur">
+                <div className="mb-2 text-xl font-bold text-slate-900">No matching jobs found</div>
+                <p className="mb-6 text-slate-600">Try adjusting your filters or search terms</p>
                 <button
-                  className="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold transition"
+                  className="rounded-xl bg-indigo-600 px-6 py-2.5 font-semibold text-white transition hover:bg-indigo-700"
                   onClick={resetFilters}
                 >
                   Clear Filters
@@ -236,8 +239,8 @@ export default function FindJobs() {
                 <JobDetailPanel job={selectedJob} />
               </div>
             ) : (
-              <div className="bg-white/90 backdrop-blur border border-white/60 rounded-2xl p-8 text-center sticky top-24">
-                <div className="text-slate-700 text-lg font-semibold">Select a job to view details</div>
+              <div className="sticky top-24 rounded-2xl border border-slate-200 bg-white/90 p-8 text-center shadow-sm backdrop-blur">
+                <div className="text-lg font-semibold text-slate-700">Select a job to view details</div>
               </div>
             )}
           </div>

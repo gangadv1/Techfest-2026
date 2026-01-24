@@ -156,6 +156,74 @@ function MetricBarRow({ label, score, max, status }: MetricBarRowProps) {
   )
 }
 
+interface RadarMetric {
+  label: string
+  score: number
+  max: number
+  color: string
+}
+
+function RadarChart({ metrics }: { metrics: RadarMetric[] }) {
+  const size = 260
+  const center = size / 2
+  const radius = size * 0.33
+  const axisCount = metrics.length
+
+  const point = (idx: number, ratio: number) => {
+    const angle = -Math.PI / 2 + (2 * Math.PI * idx) / axisCount
+    const r = radius * ratio
+    return [center + r * Math.cos(angle), center + r * Math.sin(angle)]
+  }
+
+  const rings = [0.33, 0.66, 1]
+
+  return (
+    <svg viewBox={`0 0 ${size} ${size}`} className="w-full max-w-md">
+      {/* Rings */}
+      {rings.map((r, i) => (
+        <polygon
+          key={r}
+          points={metrics.map((_, idx) => point(idx, r).join(',')).join(' ')}
+          fill="none"
+          stroke="#e2e8f0"
+          strokeWidth={i === rings.length - 1 ? 1.5 : 1}
+        />
+      ))}
+
+      {/* Axes */}
+      {metrics.map((m, idx) => {
+        const [x, y] = point(idx, 1)
+        return <line key={m.label} x1={center} y1={center} x2={x} y2={y} stroke="#cbd5e1" strokeWidth={1} />
+      })}
+
+      {/* Value polygon */}
+      <polygon
+        points={metrics
+          .map((m, idx) => point(idx, Math.max(0, Math.min(1, m.score / m.max))).join(','))
+          .join(' ')}
+        fill="#4f46e5" fillOpacity={0.18} stroke="#4f46e5" strokeWidth={2}
+      />
+
+      {/* Labels */}
+      {metrics.map((m, idx) => {
+        const [x, y] = point(idx, 1.05)
+        return (
+          <text
+            key={m.label}
+            x={x}
+            y={y}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            className="text-xs font-semibold fill-slate-700"
+          >
+            {m.label}
+          </text>
+        )
+      })}
+    </svg>
+  )
+}
+
 interface BenchmarkChartProps {
   yourScore: number
   targetScore: number
@@ -611,45 +679,59 @@ export default function Dashboard() {
         {/* Score Breakdown Card */}
         <div className="mt-6 bg-white/70 backdrop-blur border border-white/60 shadow-xl rounded-2xl p-8">
           <h2 className="text-2xl font-bold text-slate-900 mb-6">Score Breakdown</h2>
-          <div className="space-y-2">
-            <MetricBarRow
-              label="Content Quality"
-              score={scanResult.metrics.content.score}
-              max={scanResult.metrics.content.max}
-              status={scanResult.metrics.content.label}
-            />
-            <MetricBarRow
-              label="ATS & Structure"
-              score={scanResult.metrics.ats.score}
-              max={scanResult.metrics.ats.max}
-              status={scanResult.metrics.ats.label}
-            />
-            <MetricBarRow
-              label="Job Optimization"
-              score={scanResult.metrics.jobOpt.score}
-              max={scanResult.metrics.jobOpt.max}
-              status={scanResult.metrics.jobOpt.label}
-            />
-            <MetricBarRow
-              label="Writing Quality"
-              score={scanResult.metrics.writing.score}
-              max={scanResult.metrics.writing.max}
-              status={scanResult.metrics.writing.label}
-            />
-            
-            {/* Application Ready */}
-            <div className="flex items-center justify-between py-3 pt-6 border-t-2 border-slate-200">
-              <p className="text-sm font-medium text-slate-700">Application Ready</p>
-              {scanResult.metrics.ready ? (
-                <span className="px-4 py-2 bg-emerald-100 text-emerald-700 rounded-full text-sm font-semibold">
-                  ✓ Ready
-                </span>
-              ) : (
-                <span className="px-4 py-2 bg-red-100 text-red-700 rounded-full text-sm font-semibold">
-                  ✗ Needs Work
-                </span>
-              )}
+
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:items-center">
+            <div className="lg:col-span-2">
+              <RadarChart
+                metrics={[
+                  { label: 'Content', score: scanResult.metrics.content.score, max: scanResult.metrics.content.max, color: '#4f46e5' },
+                  { label: 'ATS', score: scanResult.metrics.ats.score, max: scanResult.metrics.ats.max, color: '#2563eb' },
+                  { label: 'Job Opt', score: scanResult.metrics.jobOpt.score, max: scanResult.metrics.jobOpt.max, color: '#f59e0b' },
+                  { label: 'Writing', score: scanResult.metrics.writing.score, max: scanResult.metrics.writing.max, color: '#10b981' },
+                ]}
+              />
             </div>
+
+            <div className="space-y-3">
+              <MetricBarRow
+                label="Content Quality"
+                score={scanResult.metrics.content.score}
+                max={scanResult.metrics.content.max}
+                status={scanResult.metrics.content.label}
+              />
+              <MetricBarRow
+                label="ATS & Structure"
+                score={scanResult.metrics.ats.score}
+                max={scanResult.metrics.ats.max}
+                status={scanResult.metrics.ats.label}
+              />
+              <MetricBarRow
+                label="Job Optimization"
+                score={scanResult.metrics.jobOpt.score}
+                max={scanResult.metrics.jobOpt.max}
+                status={scanResult.metrics.jobOpt.label}
+              />
+              <MetricBarRow
+                label="Writing Quality"
+                score={scanResult.metrics.writing.score}
+                max={scanResult.metrics.writing.max}
+                status={scanResult.metrics.writing.label}
+              />
+            </div>
+          </div>
+
+          {/* Application Ready */}
+          <div className="mt-6 flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+            <p className="text-sm font-medium text-slate-700">Application Ready</p>
+            {scanResult.metrics.ready ? (
+              <span className="px-4 py-2 bg-emerald-100 text-emerald-700 rounded-full text-sm font-semibold">
+                ✓ Ready
+              </span>
+            ) : (
+              <span className="px-4 py-2 bg-red-100 text-red-700 rounded-full text-sm font-semibold">
+                ✗ Needs Work
+              </span>
+            )}
           </div>
 
           {/* Reupload Button */}
@@ -663,91 +745,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Debug: LocalStorage Contents */}
-        <div className="mt-6 bg-slate-900/80 backdrop-blur border border-slate-700 rounded-2xl p-6 text-slate-100">
-          <h3 className="text-lg font-bold text-slate-200 mb-4">🔍 Debug: LocalStorage</h3>
-          <div className="grid grid-cols-1 gap-4">
-            {/* Preferences */}
-            <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
-              <div className="flex items-center gap-2 mb-2">
-                <span className={`w-2 h-2 rounded-full ${localStorage.getItem('jobfit_preferences') ? 'bg-green-400' : 'bg-yellow-400'}`}></span>
-                <p className="text-xs font-semibold text-slate-300">jobfit_preferences {!localStorage.getItem('jobfit_preferences') && '(NOT SET)'}</p>
-              </div>
-              <pre className="text-xs overflow-auto max-h-32 bg-black/30 p-2 rounded">
-                {JSON.stringify(JSON.parse(localStorage.getItem('jobfit_preferences') || '{}'), null, 2)}
-              </pre>
-            </div>
-
-            {/* Resume Scan Result */}
-            <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
-              <div className="flex items-center gap-2 mb-2">
-                <span className={`w-2 h-2 rounded-full ${localStorage.getItem('resume_scan_result') ? 'bg-green-400' : 'bg-red-400'}`}></span>
-                <p className="text-xs font-semibold text-slate-300">resume_scan_result {!localStorage.getItem('resume_scan_result') && '(MISSING - Upload resume first)'}</p>
-              </div>
-              <pre className="text-xs overflow-auto max-h-32 bg-black/30 p-2 rounded">
-                {JSON.stringify(JSON.parse(localStorage.getItem('resume_scan_result') || '{}'), null, 2)}
-              </pre>
-            </div>
-
-            {/* Resume Skills */}
-            <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
-              <div className="flex items-center gap-2 mb-2">
-                <span className={`w-2 h-2 rounded-full ${localStorage.getItem('resume_skills') && JSON.parse(localStorage.getItem('resume_skills') || '[]').length > 0 ? 'bg-green-400' : 'bg-yellow-400'}`}></span>
-                <p className="text-xs font-semibold text-slate-300">resume_skills</p>
-              </div>
-              <pre className="text-xs overflow-auto max-h-20 bg-black/30 p-2 rounded">
-                {JSON.stringify(JSON.parse(localStorage.getItem('resume_skills') || '[]'), null, 2)}
-              </pre>
-            </div>
-
-            {/* Resume Text */}
-            <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
-              <div className="flex items-center gap-2 mb-2">
-                <span className={`w-2 h-2 rounded-full ${localStorage.getItem('resume_text') ? 'bg-green-400' : 'bg-yellow-400'}`}></span>
-                <p className="text-xs font-semibold text-slate-300">resume_text (length: {localStorage.getItem('resume_text')?.length || 0} chars)</p>
-              </div>
-              <pre className="text-xs overflow-auto max-h-20 bg-black/30 p-2 rounded text-slate-400">
-                {(localStorage.getItem('resume_text') || 'NOT SET').substring(0, 200)}...
-              </pre>
-            </div>
-
-            {/* Roadmap Plan */}
-            <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
-              <div className="flex items-center gap-2 mb-2">
-                <span className={`w-2 h-2 rounded-full ${localStorage.getItem('roadmap_plan') ? 'bg-green-400' : 'bg-yellow-400'}`}></span>
-                <p className="text-xs font-semibold text-slate-300">roadmap_plan</p>
-              </div>
-              <pre className="text-xs overflow-auto max-h-32 bg-black/30 p-2 rounded">
-                {JSON.stringify(JSON.parse(localStorage.getItem('roadmap_plan') || '{}'), null, 2)}
-              </pre>
-            </div>
-
-            {/* Component State */}
-            <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
-              <p className="text-xs font-semibold text-slate-300 mb-2">Component State</p>
-              <pre className="text-xs overflow-auto max-h-20 bg-black/30 p-2 rounded">
-                {JSON.stringify({ industry, detectedIndustry, overallScore, targetRoles }, null, 2)}
-              </pre>
-            </div>
-
-            {/* Data Source */}
-            <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
-              <p className="text-xs font-semibold text-slate-300 mb-2">Data Source & Industry</p>
-              <div className="text-xs text-slate-300 space-y-1 bg-black/30 p-2 rounded">
-                <div>Detected industry: <span className="font-bold text-blue-300">{detectedIndustry}</span></div>
-                {localStorage.getItem('resume_scan_result') ? (
-                  <div className="text-green-300">✓ Using server scan (resume_scan_result exists)</div>
-                ) : localStorage.getItem('resume_text') ? (
-                  <div className="text-blue-300">✓ Using local computation (no resume_scan_result from backend)</div>
-                ) : (
-                  <div className="text-yellow-300">⚠ No resume data - using defaults</div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-        
-      </div>
+</div>
     </div>
   )
 }

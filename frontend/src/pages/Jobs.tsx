@@ -148,12 +148,12 @@ export default function Jobs() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-cream via-blue-50 to-slate-50">
       {/* Full-width header banner */}
-      <header className="w-full bg-gradient-to-r from-brand to-teal border-b-4 border-accent shadow-lg">
+      <header className="w-full bg-gradient-to-r from-slate-100 via-blue-50 to-indigo-50 border-b border-slate-200 shadow-lg">
         <div className="container mx-auto px-4 py-8">
           <div className="flex items-center justify-between gap-4 flex-col md:flex-row">
             <div>
-              <h1 className="text-5xl font-extrabold text-white mb-2">Find Your Perfect Job</h1>
-              <p className="text-blue-100 text-lg font-medium">Browse opportunities tailored to your preferences</p>
+              <h1 className="text-5xl font-extrabold text-slate-900 mb-2">Find Your Perfect Job</h1>
+              <p className="text-slate-600 text-lg font-medium">Browse opportunities tailored to your preferences</p>
             </div>
 
             <div className="flex flex-col w-full md:w-2/3 gap-4">
@@ -172,19 +172,19 @@ export default function Jobs() {
                     }
                     setSearchParams(params)
                   }}
-                  className="flex-1 px-4 py-3 border-2 border-white rounded-lg text-sm focus:outline-none focus:border-white bg-white bg-opacity-10 text-white placeholder-white"
+                  className="flex-1 px-4 py-3 border border-slate-300 rounded-lg text-sm focus:outline-none focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100 bg-white text-slate-900 placeholder-slate-400"
                 />
-                <button className="px-5 py-3 bg-white text-brand rounded-lg text-sm font-semibold hover:shadow-lg transition">
+                <button className="px-5 py-3 bg-indigo-600 text-white rounded-lg text-sm font-semibold hover:bg-indigo-700 hover:shadow-lg transition">
                   Seek
                 </button>
               </div>
 
-              <div className="bg-white/10 rounded-2xl border border-white/20 shadow-inner">
+              <div className="bg-white rounded-2xl border border-slate-200 shadow-sm">
                 <div className="flex items-center justify-between px-4 py-3">
-                  <p className="text-sm font-semibold text-white/90 tracking-wide">Filters</p>
+                  <p className="text-sm font-semibold text-slate-700 tracking-wide">Filters</p>
                   <button
                     onClick={() => setFiltersOpen(!filtersOpen)}
-                    className="text-xs font-semibold text-white/90 bg-white/15 px-3 py-2 rounded-lg border border-white/20 hover:bg-white/25 transition"
+                    className="text-xs font-semibold text-indigo-700 bg-indigo-50 px-3 py-2 rounded-lg border border-indigo-100 hover:bg-indigo-100 transition"
                   >
                     {filtersOpen ? 'Hide' : 'Show'}
                   </button>
@@ -209,48 +209,50 @@ export default function Jobs() {
           <div className="grid grid-cols-5 gap-6">
             {/* Left: Job List */}
             <div className="col-span-2">
-              <div className="mb-4 flex flex-col gap-4">
-                <p className="text-brand font-bold text-lg">{jobs.length} jobs found</p>
-                <select
-                  className="px-3 py-2 border border-gray-300 rounded text-sm w-32"
-                  value={searchParams.get('sort') || 'newest'}
-                  onChange={(e) => {
-                    const params = new URLSearchParams(searchParams)
-                    params.set('sort', e.target.value)
-                    setSearchParams(params)
-                  }}
-                >
-                  <option value="newest">Newest</option>
-                  <option value="salary">Highest Salary</option>
-                  <option value="relevance">Relevance</option>
-                </select>
-              </div>
+              <div className="rounded-2xl border border-slate-200 bg-white/90 p-4 shadow-sm backdrop-blur">
+                <div className="mb-4 flex flex-col gap-4">
+                  <p className="text-slate-900 font-bold text-lg">{jobs.length} jobs found</p>
+                  <select
+                    className="w-32 rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100"
+                    value={searchParams.get('sort') || 'newest'}
+                    onChange={(e) => {
+                      const params = new URLSearchParams(searchParams)
+                      params.set('sort', e.target.value)
+                      setSearchParams(params)
+                    }}
+                  >
+                    <option value="newest">Newest</option>
+                    <option value="salary">Highest Salary</option>
+                    <option value="relevance">Relevance</option>
+                  </select>
+                </div>
 
-              {/* Job List */}
-              <div className="space-y-3 max-h-[70vh] overflow-y-auto pr-1">
-                {(() => {
-                  return jobs.map((job) => (
-                    <div
-                      key={job.id}
-                      onClick={() => {
-                        setSelectedJob(job)
-                        setSaved(false)
-                      }}
-                      className={`cursor-pointer p-5 rounded-xl border-2 transition ${
-                        selectedJob?.id === job.id
-                          ? 'border-brand bg-cream'
-                          : 'border-gray-200 bg-white hover:border-brand'
-                      }`}
-                    >
-                      <h3 className="font-semibold text-lg text-gray-900 leading-snug line-clamp-2">{job.title}</h3>
-                      <p className="text-sm text-gray-700 mt-1">{job.company}</p>
-                      <div className="flex gap-3 mt-2 text-sm text-gray-600">
-                        <span>📍 {job.location}</span>
-                        <span>💰 {job.salary.split('-')[0]}</span>
+                {/* Job List */}
+                <div className="space-y-3 max-h-[70vh] overflow-y-auto pr-1">
+                  {(() => {
+                    return jobs.map((job) => (
+                      <div
+                        key={job.id}
+                        onClick={() => {
+                          setSelectedJob(job)
+                          setSaved(false)
+                        }}
+                        className={`cursor-pointer p-5 rounded-xl border-2 transition ${
+                          selectedJob?.id === job.id
+                            ? 'border-brand bg-cream'
+                            : 'border-gray-200 bg-white hover:border-brand'
+                        }`}
+                      >
+                        <h3 className="font-semibold text-lg text-gray-900 leading-snug line-clamp-2">{job.title}</h3>
+                        <p className="text-sm text-gray-700 mt-1">{job.company}</p>
+                        <div className="flex gap-3 mt-2 text-sm text-gray-600">
+                          <span>📍 {job.location}</span>
+                          <span>💰 {job.salary.split('-')[0]}</span>
+                        </div>
                       </div>
-                    </div>
-                  ))
-                })()}
+                    ))
+                  })()}
+                </div>
               </div>
             </div>
 

@@ -9,6 +9,7 @@ export default function ResumeUpload() {
   const [file, setFile] = useState<File | null>(null)
   const [uploading, setUploading] = useState(false)
   const [error, setError] = useState('')
+  const [extractedSkills, setExtractedSkills] = useState<string[]>([])
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0]
@@ -64,10 +65,75 @@ export default function ResumeUpload() {
         return
       }
 
+      // Set extracted skills for display
+      setExtractedSkills(skills)
+
       console.log('💾 Saving skills to localStorage...')
       // Save to localStorage
       saveResumeSkills(skills)
       console.log('✅ Skills saved successfully')
+
+      // Call backend API to analyze resume
+      console.log('📡 Sending resume to backend for analysis...')
+      try {
+        // Get industry from preferences if available
+        const prefsRaw = localStorage.getItem('jobfit_preferences')
+        let industry = 'software'
+        if (prefsRaw) {
+          try {
+            const prefs = JSON.parse(prefsRaw)
+            const rolesVal = prefs.role
+            const rolesArr = Array.isArray(rolesVal) ? rolesVal : [rolesVal]
+            const rolesLower = rolesArr
+              .filter((r: any) => r != null)
+              .map((r: any) => String(r).toLowerCase())
+
+            console.log('🎯 Detected roles:', rolesArr, 'Lowercase:', rolesLower)
+
+            if (rolesLower.some((r: string) => r.includes('full-stack') || r.includes('fullstack'))) industry = 'fullstack'
+            else if (rolesLower.some((r: string) => r.includes('machine learning') || r.includes('ml'))) industry = 'ml'
+            else if (rolesLower.some((r: string) => r.includes('product manager'))) industry = 'productmanager'
+            else if (rolesLower.some((r: string) => r.includes('ui') || r.includes('ux'))) industry = 'uiux'
+            else if (rolesLower.some((r: string) => r.includes('cybersecurity') || r.includes('security'))) industry = 'cybersecurity'
+            else if (rolesLower.some((r: string) => r.includes('devops'))) industry = 'devops'
+            else if (rolesLower.some((r: string) => r.includes('data') || r.includes('analyst') || r.includes('scientist'))) industry = 'data'
+            else if (rolesLower.some((r: string) => r.includes('finance'))) industry = 'finance'
+            else industry = 'software'
+          } catch {}
+        }
+        
+        console.log('📊 Sending to backend with industry:', industry)
+        
+        const response = await fetch('/api/resume/analyze', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            resumeText: text,
+            extractedSkills: skills,
+            industry: industry
+          })
+        })
+
+        if (response.ok) {
+          const scanResult = await response.json()
+          console.log('✅ Backend analysis received:', scanResult)
+          console.log('📊 Score breakdown:', {
+            content: scanResult.metrics.content.score,
+            ats: scanResult.metrics.ats.score,
+            jobOpt: scanResult.metrics.jobOpt.score,
+            writing: scanResult.metrics.writing.score
+          })
+          localStorage.setItem('resume_scan_result', JSON.stringify(scanResult))
+          console.log('💾 Resume scan result saved to localStorage')
+        } else {
+          const errorText = await response.text()
+          console.warn('⚠️ Backend analysis failed (', response.status, '):', errorText)
+        }
+      } catch (apiErr) {
+        console.warn('⚠️ Could not reach backend, continuing with local computation:', apiErr)
+      }
 
       console.log('🎉 Navigating to dashboard...')
       // Navigate to dashboard
@@ -155,6 +221,29 @@ export default function ResumeUpload() {
           {error && (
             <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
               <p className="text-sm text-red-700">{error}</p>
+            </div>
+          )}
+
+          {/* Extracted Skills Display */}
+          {extractedSkills.length > 0 && (
+            <div className="mb-8 p-6 bg-green-50 border border-green-200 rounded-lg">
+              <div className="flex items-center gap-2 mb-3">
+                <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <h3 className="text-sm font-semibold text-green-900">Skills Found in Your Resume</h3>
+              </div>
+              <p className="text-sm text-green-700 mb-3">We identified <span className="font-bold">{extractedSkills.length}</span> skills from your resume:</p>
+              <div className="flex flex-wrap gap-2">
+                {extractedSkills.map((skill, idx) => (
+                  <span
+                    key={idx}
+                    className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-white text-green-700 border border-green-300"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
             </div>
           )}
 

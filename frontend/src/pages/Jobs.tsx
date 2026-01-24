@@ -62,7 +62,28 @@ export default function Jobs() {
   const [saved, setSaved] = useState(false)
   const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '')
   const [filtersOpen, setFiltersOpen] = useState(false)
+  const [fitModalOpen, setFitModalOpen] = useState(false);
+  const [fitResult, setFitResult] = useState({ percent: 0, matched: [], missing: [] });
 
+  const handleAnalyzeFit = () => {
+    if (!selectedJob) return;
+    let resumeSkills: string[] = [];
+    try {
+      resumeSkills = JSON.parse(localStorage.getItem('resume_skills') || '[]');
+    } catch {
+      resumeSkills = [];
+    }
+    // Clean both resume and job skills for robust comparison
+    const cleanedResumeSkills = resumeSkills.map(s => cleanSkill(String(s)));
+    const jobSkills = cleanSkills(selectedJob.extractedSkills).map(s => cleanSkill(String(s)));
+    const matched = jobSkills.filter(skill =>
+      cleanedResumeSkills.some(rs => rs.toLowerCase().includes(skill.toLowerCase()))
+    );
+    const missing = jobSkills.filter(skill => !matched.includes(skill));
+    const percent = jobSkills.length > 0 ? Math.round((matched.length / jobSkills.length) * 100) : 0;
+    setFitResult({ percent, matched, missing });
+    setFitModalOpen(true);
+  };
   useEffect(() => {
     fetchJobs()
   }, [searchParams])
@@ -274,7 +295,8 @@ export default function Jobs() {
                     </div>
 
                     <div className="flex gap-3">
-                      <button className="flex-1 px-4 py-3 bg-brand text-white rounded font-semibold hover:bg-brand-dark transition">
+                      <button className="flex-1 px-4 py-3 bg-brand text-white rounded font-semibold hover:bg-brand-dark transition"   onClick={handleAnalyzeFit}
+>
                         Analyze My Fit
                       </button>
                       <button
@@ -359,6 +381,38 @@ export default function Jobs() {
           </div>
         )}
       </div>
+      {/* Fit Modal */}
+      {fitModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+          <div className="bg-white rounded-xl shadow-xl p-8 max-w-md w-full relative">
+            <button
+              className="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-2xl font-bold"
+              onClick={() => setFitModalOpen(false)}
+              aria-label="Close"
+            >
+              &times;
+            </button>
+            <h2 className="text-2xl font-bold mb-4 text-indigo-700">Skill Match</h2>
+            <p className="text-lg mb-2">You match <span className="font-bold text-indigo-600">{fitResult.percent}%</span> of the required skills for this job.</p>
+            <div className="mb-3">
+              <p className="font-semibold text-green-700 mb-1">Matched Skills:</p>
+              <div className="flex flex-wrap gap-2">
+                {fitResult.matched.length > 0 ? fitResult.matched.map((skill, idx) => (
+                  <span key={idx} className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-semibold border border-green-200">{skill}</span>
+                )) : <span className="text-gray-500">None</span>}
+              </div>
+            </div>
+            <div className="mb-3">
+              <p className="font-semibold text-rose-700 mb-1">Missing Skills:</p>
+              <div className="flex flex-wrap gap-2">
+                {fitResult.missing.length > 0 ? fitResult.missing.map((skill, idx) => (
+                  <span key={idx} className="px-3 py-1 bg-rose-100 text-rose-800 rounded-full text-xs font-semibold border border-rose-200">{skill}</span>
+                )) : <span className="text-gray-500">None</span>}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
-  )
+  );
 }

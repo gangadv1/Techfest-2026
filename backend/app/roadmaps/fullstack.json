@@ -1,0 +1,699 @@
+{
+  "id": "full-stack",
+  "title": "Full-Stack Roadmap (Modern Web Dev) — with YouTube + Coursera for every node",
+  "version": "1.0",
+  "nodes": [
+    {
+      "id": "web-basics",
+      "title": "How the Web Works (DNS, HTTP, Browsers)",
+      "category": "Foundations",
+      "difficulty": 1,
+      "estimatedMinutes": 25,
+      "prerequisites": [],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "How the Internet Works in 5 Minutes (Aaron Titcomb)",
+          "url": "https://www.youtube.com/watch?v=7_LPdttKXPc"
+        },
+        {
+          "type": "coursera",
+          "title": "The Bits and Bytes of Computer Networking (Google)",
+          "url": "https://www.coursera.org/learn/computer-networking"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/full-stack"
+        }
+      ]
+    },
+    {
+      "id": "html",
+      "title": "HTML Fundamentals",
+      "category": "Frontend",
+      "difficulty": 1,
+      "estimatedMinutes": 25,
+      "prerequisites": ["web-basics"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "HTML Full Course - Build a Website Tutorial (freeCodeCamp)",
+          "url": "https://www.youtube.com/watch?v=pQN-pnXPaVg"
+        },
+        {
+          "type": "coursera",
+          "title": "Introduction to HTML5 (University of Michigan)",
+          "url": "https://www.coursera.org/learn/html"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/frontend"
+        }
+      ]
+    },
+    {
+      "id": "css",
+      "title": "CSS Fundamentals (Layouts, Flexbox, Grid)",
+      "category": "Frontend",
+      "difficulty": 1,
+      "estimatedMinutes": 30,
+      "prerequisites": ["html"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "CSS Full Course (freeCodeCamp)",
+          "url": "https://www.youtube.com/watch?v=OXGznpKZ_sA"
+        },
+        {
+          "type": "coursera",
+          "title": "Introduction to CSS3 (University of Michigan)",
+          "url": "https://www.coursera.org/learn/introcss"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/frontend"
+        }
+      ]
+    },
+    {
+      "id": "javascript",
+      "title": "JavaScript Fundamentals",
+      "category": "Frontend",
+      "difficulty": 2,
+      "estimatedMinutes": 40,
+      "prerequisites": ["html", "css"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "JavaScript Full Course for Beginners (freeCodeCamp)",
+          "url": "https://www.youtube.com/watch?v=PkZNo7MFNFg"
+        },
+        {
+          "type": "coursera",
+          "title": "Programming Foundations with JavaScript, HTML and CSS (Duke University)",
+          "url": "https://www.coursera.org/learn/duke-programming-web"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/javascript"
+        }
+      ]
+    },
+    {
+      "id": "git",
+      "title": "Git & GitHub Basics",
+      "category": "Tools",
+      "difficulty": 1,
+      "estimatedMinutes": 25,
+      "prerequisites": [],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Git and GitHub for Beginners (freeCodeCamp)",
+          "url": "https://www.youtube.com/watch?v=RGOj5yH7evk"
+        },
+        {
+          "type": "coursera",
+          "title": "Introduction to Git and GitHub (Google)",
+          "url": "https://www.coursera.org/learn/introduction-git-github"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/git-github"
+        }
+      ]
+    },
+    {
+      "id": "typescript",
+      "title": "TypeScript Essentials",
+      "category": "Frontend",
+      "difficulty": 2,
+      "estimatedMinutes": 30,
+      "prerequisites": ["javascript"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "TypeScript Tutorial for Beginners (Programming with Mosh)",
+          "url": "https://www.youtube.com/watch?v=d56mG7DezGs"
+        },
+        {
+          "type": "coursera",
+          "title": "TypeScript (Coursera search landing)",
+          "url": "https://www.coursera.org/search?query=TypeScript"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/typescript"
+        }
+      ]
+    },
+    {
+      "id": "react",
+      "title": "React Fundamentals",
+      "category": "Frontend",
+      "difficulty": 2,
+      "estimatedMinutes": 45,
+      "prerequisites": ["javascript"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "React Course - Beginner's Tutorial (freeCodeCamp)",
+          "url": "https://www.youtube.com/watch?v=bMknfKXIFA8"
+        },
+        {
+          "type": "coursera",
+          "title": "Front-End Web Development with React (HKUST)",
+          "url": "https://www.coursera.org/learn/front-end-react"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/react"
+        }
+      ]
+    },
+    {
+      "id": "tailwind",
+      "title": "Tailwind CSS (Modern UI Styling)",
+      "category": "Frontend",
+      "difficulty": 1,
+      "estimatedMinutes": 25,
+      "prerequisites": ["css"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Tailwind CSS Full Course for Beginners (freeCodeCamp)",
+          "url": "https://www.youtube.com/watch?v=ft30zcMlFao"
+        },
+        {
+          "type": "coursera",
+          "title": "UI/UX Design Specialization (Coursera) — styling concepts",
+          "url": "https://www.coursera.org/specializations/ui-ux-design"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/frontend"
+        }
+      ]
+    },
+    {
+      "id": "responsive-ui",
+      "title": "Responsive Design + UI Patterns",
+      "category": "Frontend",
+      "difficulty": 2,
+      "estimatedMinutes": 25,
+      "prerequisites": ["css"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Responsive Web Design Tutorial (Kevin Powell)",
+          "url": "https://www.youtube.com/watch?v=srvUrASNj0s"
+        },
+        {
+          "type": "coursera",
+          "title": "Responsive Website Development and Design Specialization (University of London)",
+          "url": "https://www.coursera.org/specializations/website-development"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/frontend"
+        }
+      ]
+    },
+    {
+      "id": "router",
+      "title": "React Router (Routing + Navigation)",
+      "category": "Frontend",
+      "difficulty": 1,
+      "estimatedMinutes": 20,
+      "prerequisites": ["react"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "React Router Tutorial (Web Dev Simplified)",
+          "url": "https://www.youtube.com/watch?v=Ul3y1LXxzdU"
+        },
+        {
+          "type": "coursera",
+          "title": "Full-Stack Web Development with React Specialization (HKUST)",
+          "url": "https://www.coursera.org/specializations/full-stack-react"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/react"
+        }
+      ]
+    },
+    {
+      "id": "state-management",
+      "title": "State Management (Context / Redux basics)",
+      "category": "Frontend",
+      "difficulty": 2,
+      "estimatedMinutes": 30,
+      "prerequisites": ["react"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Redux Toolkit Tutorial (Codevolution)",
+          "url": "https://www.youtube.com/watch?v=bbkBuqC1rU4"
+        },
+        {
+          "type": "coursera",
+          "title": "Front-End Web Development with React (HKUST) — state patterns",
+          "url": "https://www.coursera.org/learn/front-end-react"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/react"
+        }
+      ]
+    },
+    {
+      "id": "nodejs",
+      "title": "Node.js Fundamentals",
+      "category": "Backend",
+      "difficulty": 2,
+      "estimatedMinutes": 35,
+      "prerequisites": ["javascript"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Node.js and Express.js Full Course (freeCodeCamp)",
+          "url": "https://www.youtube.com/watch?v=Oe421EPjeBE"
+        },
+        {
+          "type": "coursera",
+          "title": "Server-side Development with NodeJS, Express and MongoDB (HKUST)",
+          "url": "https://www.coursera.org/learn/server-side-nodejs"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/nodejs"
+        }
+      ]
+    },
+    {
+      "id": "express",
+      "title": "Express.js (Build REST APIs)",
+      "category": "Backend",
+      "difficulty": 2,
+      "estimatedMinutes": 35,
+      "prerequisites": ["nodejs"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Express JS Crash Course (Traversy Media)",
+          "url": "https://www.youtube.com/watch?v=L72fhGm1tfE"
+        },
+        {
+          "type": "coursera",
+          "title": "Server-side Development with NodeJS, Express and MongoDB (HKUST)",
+          "url": "https://www.coursera.org/learn/server-side-nodejs"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/backend"
+        }
+      ]
+    },
+    {
+      "id": "rest-api",
+      "title": "REST API Design (CRUD, status codes, pagination)",
+      "category": "Backend",
+      "difficulty": 2,
+      "estimatedMinutes": 30,
+      "prerequisites": ["express"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "REST API Concepts and Examples (Web Dev Simplified)",
+          "url": "https://www.youtube.com/watch?v=-MTSQjw5DrM"
+        },
+        {
+          "type": "coursera",
+          "title": "API Design and Fundamentals of Google Cloud's Apigee API Platform",
+          "url": "https://www.coursera.org/learn/api-design-apigee-gcp"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/backend"
+        }
+      ]
+    },
+    {
+      "id": "auth",
+      "title": "Authentication (Sessions / JWT basics)",
+      "category": "Backend",
+      "difficulty": 3,
+      "estimatedMinutes": 35,
+      "prerequisites": ["rest-api"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "JWT Authentication Tutorial (Web Dev Simplified)",
+          "url": "https://www.youtube.com/watch?v=mbsmsi7l3r4"
+        },
+        {
+          "type": "coursera",
+          "title": "Web Security Fundamentals (Coursera search landing)",
+          "url": "https://www.coursera.org/search?query=web%20security%20fundamentals"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/backend"
+        }
+      ]
+    },
+    {
+      "id": "databases-intro",
+      "title": "Databases Basics (Relational vs NoSQL)",
+      "category": "Database",
+      "difficulty": 1,
+      "estimatedMinutes": 25,
+      "prerequisites": [],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "SQL vs NoSQL Explained (Fireship)",
+          "url": "https://www.youtube.com/watch?v=W2Z7fbCLSTw"
+        },
+        {
+          "type": "coursera",
+          "title": "Databases and SQL for Data Science (IBM)",
+          "url": "https://www.coursera.org/learn/sql-data-science"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/postgresql-dba"
+        }
+      ]
+    },
+    {
+      "id": "postgres",
+      "title": "PostgreSQL Basics (tables, keys, joins)",
+      "category": "Database",
+      "difficulty": 2,
+      "estimatedMinutes": 35,
+      "prerequisites": ["databases-intro"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "PostgreSQL Tutorial for Beginners (freeCodeCamp)",
+          "url": "https://www.youtube.com/watch?v=qw--VYLpxG4"
+        },
+        {
+          "type": "coursera",
+          "title": "SQL for Data Science (UC Davis)",
+          "url": "https://www.coursera.org/learn/sql-for-data-science"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/postgresql-dba"
+        }
+      ]
+    },
+    {
+      "id": "orm",
+      "title": "ORM Basics (Prisma / Sequelize concept)",
+      "category": "Database",
+      "difficulty": 2,
+      "estimatedMinutes": 25,
+      "prerequisites": ["postgres", "nodejs"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Prisma in 100 Seconds (Fireship)",
+          "url": "https://www.youtube.com/watch?v=rLRIB6AF2Dg"
+        },
+        {
+          "type": "coursera",
+          "title": "Full-Stack Web Development with React Specialization (HKUST) — backend persistence concepts",
+          "url": "https://www.coursera.org/specializations/full-stack-react"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/backend"
+        }
+      ]
+    },
+    {
+      "id": "api-integration",
+      "title": "Frontend ↔ Backend Integration (fetch/axios)",
+      "category": "Full-Stack",
+      "difficulty": 2,
+      "estimatedMinutes": 25,
+      "prerequisites": ["react", "rest-api"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Fetch API Crash Course (Traversy Media)",
+          "url": "https://www.youtube.com/watch?v=cuEtnrL9-H0"
+        },
+        {
+          "type": "coursera",
+          "title": "Full-Stack Web Development with React Specialization (HKUST)",
+          "url": "https://www.coursera.org/specializations/full-stack-react"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/full-stack"
+        }
+      ]
+    },
+    {
+      "id": "forms-validation",
+      "title": "Forms + Validation (client & server)",
+      "category": "Full-Stack",
+      "difficulty": 2,
+      "estimatedMinutes": 25,
+      "prerequisites": ["react", "rest-api"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "React Hook Form Tutorial (Codevolution)",
+          "url": "https://www.youtube.com/watch?v=bU_eq8qyjic"
+        },
+        {
+          "type": "coursera",
+          "title": "Web Applications for Everybody (University of Michigan)",
+          "url": "https://www.coursera.org/specializations/web-applications"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/full-stack"
+        }
+      ]
+    },
+    {
+      "id": "testing",
+      "title": "Testing Basics (Unit + API testing)",
+      "category": "Quality",
+      "difficulty": 2,
+      "estimatedMinutes": 30,
+      "prerequisites": ["react", "rest-api"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Jest Crash Course (Traversy Media)",
+          "url": "https://www.youtube.com/watch?v=7r4xVDI2vho"
+        },
+        {
+          "type": "coursera",
+          "title": "Software Testing and Automation Specialization (University of Minnesota)",
+          "url": "https://www.coursera.org/specializations/software-testing-automation"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/backend"
+        }
+      ]
+    },
+    {
+      "id": "security-basics",
+      "title": "Web Security Basics (CORS, XSS, CSRF)",
+      "category": "Security",
+      "difficulty": 3,
+      "estimatedMinutes": 30,
+      "prerequisites": ["rest-api"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Web Security Basics (Fireship)",
+          "url": "https://www.youtube.com/watch?v=1dB5n9q1sB8"
+        },
+        {
+          "type": "coursera",
+          "title": "Introduction to Cyber Security Specialization (Coursera search landing)",
+          "url": "https://www.coursera.org/search?query=web%20security"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/cyber-security"
+        }
+      ]
+    },
+    {
+      "id": "docker",
+      "title": "Docker Basics (Containerize your app)",
+      "category": "DevOps",
+      "difficulty": 2,
+      "estimatedMinutes": 35,
+      "prerequisites": ["nodejs"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Docker Tutorial for Beginners (Programming with Mosh)",
+          "url": "https://www.youtube.com/watch?v=pTFZFxd4hOI"
+        },
+        {
+          "type": "coursera",
+          "title": "Docker Essentials & Building a Containerized Web Application (IBM)",
+          "url": "https://www.coursera.org/learn/docker-essentials"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/docker"
+        }
+      ]
+    },
+    {
+      "id": "deployment",
+      "title": "Deployment Basics (Vercel/Render/Fly.io concept)",
+      "category": "DevOps",
+      "difficulty": 2,
+      "estimatedMinutes": 25,
+      "prerequisites": ["api-integration"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Deploy a Full Stack App (Traversy Media)",
+          "url": "https://www.youtube.com/watch?v=Gx4iBLKLVHk"
+        },
+        {
+          "type": "coursera",
+          "title": "DevOps, Cloud, and Agile Foundations (IBM)",
+          "url": "https://www.coursera.org/learn/devops-cloud-agile-foundations"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/devops"
+        }
+      ]
+    },
+    {
+      "id": "cloud-basics",
+      "title": "Cloud Basics (AWS fundamentals)",
+      "category": "DevOps",
+      "difficulty": 2,
+      "estimatedMinutes": 30,
+      "prerequisites": ["deployment"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "AWS in 10 Minutes (Fireship)",
+          "url": "https://www.youtube.com/watch?v=Z3SYDTMP3ME"
+        },
+        {
+          "type": "coursera",
+          "title": "AWS Cloud Technical Essentials",
+          "url": "https://www.coursera.org/learn/aws-cloud-technical-essentials"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/aws"
+        }
+      ]
+    },
+    {
+      "id": "capstone",
+      "title": "Capstone: Build & Deploy a Full-Stack Project",
+      "category": "Practice",
+      "difficulty": 3,
+      "estimatedMinutes": 60,
+      "prerequisites": ["auth", "postgres", "api-integration", "deployment"],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Full Stack Project Tutorial (freeCodeCamp projects)",
+          "url": "https://www.youtube.com/@freecodecamp/videos"
+        },
+        {
+          "type": "coursera",
+          "title": "Full-Stack Web Development with React Specialization (HKUST)",
+          "url": "https://www.coursera.org/specializations/full-stack-react"
+        },
+        {
+          "type": "roadmap",
+          "title": "Roadmap reference",
+          "url": "https://roadmap.sh/full-stack"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    { "from": "web-basics", "to": "html" },
+    { "from": "html", "to": "css" },
+    { "from": "html", "to": "javascript" },
+    { "from": "css", "to": "javascript" },
+
+    { "from": "javascript", "to": "typescript" },
+    { "from": "javascript", "to": "react" },
+    { "from": "css", "to": "tailwind" },
+    { "from": "css", "to": "responsive-ui" },
+    { "from": "react", "to": "router" },
+    { "from": "react", "to": "state-management" },
+
+    { "from": "javascript", "to": "nodejs" },
+    { "from": "nodejs", "to": "express" },
+    { "from": "express", "to": "rest-api" },
+    { "from": "rest-api", "to": "auth" },
+
+    { "from": "databases-intro", "to": "postgres" },
+    { "from": "postgres", "to": "orm" },
+    { "from": "nodejs", "to": "orm" },
+
+    { "from": "react", "to": "api-integration" },
+    { "from": "rest-api", "to": "api-integration" },
+
+    { "from": "react", "to": "forms-validation" },
+    { "from": "rest-api", "to": "forms-validation" },
+
+    { "from": "rest-api", "to": "testing" },
+    { "from": "react", "to": "testing" },
+
+    { "from": "rest-api", "to": "security-basics" },
+
+    { "from": "nodejs", "to": "docker" },
+    { "from": "api-integration", "to": "deployment" },
+    { "from": "deployment", "to": "cloud-basics" },
+
+    { "from": "auth", "to": "capstone" },
+    { "from": "postgres", "to": "capstone" },
+    { "from": "api-integration", "to": "capstone" },
+    { "from": "deployment", "to": "capstone" }
+  ]
+}

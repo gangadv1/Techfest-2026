@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
-import JobCard from '../components/JobCard'
+import { useSearchParams } from 'react-router-dom'
 import Filters from '../components/Filters'
+import { scoreJobFit, getResumeSkills } from '../lib/jobFitScore'
+import axios from 'axios'
 import { jobsAPI } from '../services/api'
 
 interface Job {
@@ -22,7 +23,6 @@ interface Job {
 }
 
 export default function Jobs() {
-  const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
   const [jobs, setJobs] = useState<Job[]>([])
   const [loading, setLoading] = useState(true)
@@ -52,6 +52,24 @@ export default function Jobs() {
           job.company.toLowerCase().includes(query) ||
           job.description?.toLowerCase().includes(query)
         )
+      }
+
+      // Sort by selected option
+      const sort = searchParams.get('sort') || 'newest'
+      if (sort === 'relevance') {
+        const resumeSkills = getResumeSkills()
+        if (resumeSkills.length > 0) {
+          filteredJobs = filteredJobs
+            .map(j => {
+              const skillsStr = Array.isArray(j.extractedSkills) ? j.extractedSkills.join(', ') : String(j.extractedSkills || '')
+              const fit = scoreJobFit(resumeSkills, skillsStr, j.title, j.description)
+              return { ...j, __fitScore: fit.score as number } as any
+            })
+            .sort((a: any, b: any) => (b.__fitScore || 0) - (a.__fitScore || 0))
+            .map(({ __fitScore, ...rest }: any) => rest)
+        }
+      } else if (sort === 'newest') {
+        filteredJobs = filteredJobs.sort((a, b) => (a.datePosted < b.datePosted ? 1 : -1))
       }
       
       setJobs(filteredJobs)
@@ -153,7 +171,6 @@ export default function Jobs() {
               {/* Job List */}
               <div className="space-y-3 max-h-[70vh] overflow-y-auto">
                 {(() => {
-                  const totalApplicants = jobs.reduce((s, j) => s + (j.applicantCount || 0), 0)
                   return jobs.map((job) => (
                     <div
                       key={job.id}

@@ -19,8 +19,9 @@ const QUESTIONS: Question[] = [
   {
     id: 'role',
     label: 'What is your target role?',
-    type: 'single',
-    options: ['Software Engineer','Data Analyst','Data Scientist','Product Manager','UI/UX','Cybersecurity','DevOps']
+    type: 'multi',
+    options: ['Full-stack','ML','Data-analytics','Software Engineer','Product Manager','UI/UX','Cybersecurity','DevOps'],
+    maxSelected: 3
   },
   {
     id: 'arrangement',
@@ -126,7 +127,7 @@ export default function Onboarding() {
       setDirection('next')
       setStep(s => s + 1)
     } else {
-      navigate('/jobs')
+      navigate('/resume-upload')
     }
   }
 

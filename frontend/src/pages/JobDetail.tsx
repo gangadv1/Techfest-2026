@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import RequirementPills from '../components/RequirementPills'
+import { scoreJobFit, getResumeSkills } from '../lib/jobFitScore'
 import axios from 'axios'
 
 export default function JobDetail() {
@@ -9,10 +11,24 @@ export default function JobDetail() {
   const [showResumeModal, setShowResumeModal] = useState(false)
   const [resumeText, setResumeText] = useState('')
   const [saved, setSaved] = useState(false)
+  const [localFit, setLocalFit] = useState<{ score: number; matched: string[]; missing: string[] } | null>(null)
 
   useEffect(() => {
     fetchJobDetail()
   }, [id])
+
+  useEffect(() => {
+    if (job) {
+      const resumeSkills = getResumeSkills()
+      if (resumeSkills.length > 0) {
+        const skillsStr = Array.isArray(job.extractedSkills)
+          ? job.extractedSkills.join(', ')
+          : String(job.extractedSkills || '')
+        const result = scoreJobFit(resumeSkills, skillsStr, job.title, job.description)
+        setLocalFit(result)
+      }
+    }
+  }, [job])
 
   const fetchJobDetail = async () => {
     try {
@@ -20,19 +36,26 @@ export default function JobDetail() {
       setJob(response.data)
     } catch (error) {
       console.error('Failed to fetch job:', error)
-      // Mock data
       setJob({
         id,
         title: 'Senior Software Engineer',
         company: 'Grab',
         location: 'Singapore (Central)',
         salary: 'SGD $180k - $250k',
-        description: 'We are looking for an experienced software engineer to join our growing Southeast Asia team. You will work on cutting-edge technologies and mentor junior developers. Help us build the future of mobility and payments in the region.',
+        description:
+          "We are looking for an experienced software engineer to join our growing Southeast Asia team. You will work on cutting-edge technologies and mentor junior developers. Help us build the future of mobility and payments in the region.",
         extractedSkills: ['Python', 'React', 'AWS', 'Docker'],
-        extractedQualifications: ['Bachelor\'s degree in CS or related field', '5+ years software engineering experience'],
-        extractedConstraints: ['Must be eligible to work in Singapore', 'Valid work pass or visa sponsorship available'],
+        extractedQualifications: [
+          "Bachelor's degree in CS or related field",
+          '5+ years software engineering experience',
+        ],
+        extractedConstraints: [
+          'Must be eligible to work in Singapore',
+          'Valid work pass or visa sponsorship available',
+        ],
         employmentType: 'Full-time',
-        workplaceModel: 'Hybrid'
+        workplaceModel: 'Hybrid',
+        applicantCount: 120,
       })
     }
   }
@@ -41,7 +64,7 @@ export default function JobDetail() {
     try {
       const response = await axios.post('/api/resume/scan', {
         jobId: id,
-        resumeText
+        resumeText,
       })
       setShowResumeModal(false)
       navigate('/roadmap', { state: { fitResult: response.data, job } })
@@ -83,7 +106,7 @@ export default function JobDetail() {
             <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
               <h1 className="text-4xl font-bold text-gray-900 mb-3">{job.title}</h1>
               <p className="text-xl text-gray-700 mb-4 font-medium">{job.company}</p>
-              
+
               <div className="flex gap-6 text-gray-600 mb-6 pb-6 border-b border-gray-200">
                 <div>
                   <p className="text-sm text-gray-500">Location</p>
@@ -128,6 +151,41 @@ export default function JobDetail() {
                 Apply Now
               </button>
             </div>
+
+            {/* Fit Summary */}
+            {localFit && (
+              <div className="mt-4 p-4 rounded-lg bg-gradient-to-r from-indigo-50 to-purple-50 border-2 border-indigo-200">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-lg font-semibold text-gray-900">Your Fit Score</h3>
+                  <span
+                    className={`text-3xl font-bold ${
+                      localFit.score >= 70
+                        ? 'text-green-600'
+                        : localFit.score >= 40
+                        ? 'text-yellow-600'
+                        : 'text-gray-600'
+                    }`}
+                  >
+                    {localFit.score}%
+                  </span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-3 mb-3">
+                  <div
+                    className={`h-3 rounded-full transition-all ${
+                      localFit.score >= 70
+                        ? 'bg-green-600'
+                        : localFit.score >= 40
+                        ? 'bg-yellow-500'
+                        : 'bg-gray-400'
+                    }`}
+                    style={{ width: `${localFit.score}%` }}
+                  />
+                </div>
+                <p className="text-sm text-gray-700">
+                  {localFit.matched.length} of {localFit.matched.length + localFit.missing.length} required skills matched
+                </p>
+              </div>
+            )}
 
             {/* Required Skills */}
             {job.extractedSkills && job.extractedSkills.length > 0 && (
@@ -180,6 +238,45 @@ export default function JobDetail() {
             <div className="bg-cream rounded-lg p-6 mb-6 border border-brand">
               <p className="text-sm text-gray-600 mb-2">Salary</p>
               <p className="text-3xl font-bold text-brand">{job.salary}</p>
+            </div>
+
+            {localFit && (
+              <>
+                <div className="mb-6">
+                  <h2 className="text-xl font-semibold mb-3 text-green-700">✓ Your Matching Skills</h2>
+                  <div className="flex flex-wrap gap-2">
+                    {localFit.matched.map((skill, idx) => (
+                      <span
+                        key={idx}
+                        className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium border border-green-300"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {localFit.missing.length > 0 && (
+                  <div className="mb-6">
+                    <h2 className="text-xl font-semibold mb-3 text-red-700">✗ Skills to Develop</h2>
+                    <div className="flex flex-wrap gap-2">
+                      {localFit.missing.map((skill, idx) => (
+                        <span
+                          key={idx}
+                          className="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm font-medium border border-red-300"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+
+            <div className="mb-6">
+              <h2 className="text-xl font-semibold mb-3">Required Skills</h2>
+              <RequirementPills items={job.extractedSkills} type="skill" />
             </div>
 
             {/* Applicant Percentage Card */}

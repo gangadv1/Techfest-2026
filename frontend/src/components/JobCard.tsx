@@ -10,43 +10,45 @@ interface JobCardProps {
     extractedSkills: string[]
     applicantCount?: number
   }
+  fitScore?: number
   onClick: () => void
   totalApplicants?: number
 }
-
-export default function JobCard({ job, onClick, totalApplicants }: JobCardProps) {
+export default function JobCard({ job, fitScore, onClick, totalApplicants }: JobCardProps) {
+  const getFitColor = (score?: number) => {
+    if (score === undefined) return ''
+    if (score >= 70) return 'bg-green-100 text-green-700'
+    if (score >= 40) return 'bg-yellow-100 text-yellow-700'
+    return 'bg-gray-100 text-gray-700'
+  }
   return (
     <div
       onClick={onClick}
       className="bg-white border border-gray-200 rounded shadow hover:shadow-md transition-shadow p-5 cursor-pointer hover:border-brand"
     >
-      {/* Top row: Company, Applicants, Date */}
-      <div className="flex justify-between items-center mb-3">
-        <p className="text-sm text-gray-600 font-medium">{job.company}</p>
-        <span className="text-xs text-gray-500">{new Date(job.datePosted).toLocaleDateString()}</span>
-      </div>
-
-      {/* Job Title - Main Headline */}
-      <h3 className="text-lg font-bold text-gray-900 mb-3 line-clamp-2 hover:text-brand transition">{job.title}</h3>
-
-      {/* Location, Employment, Workplace */}
-      <div className="flex flex-wrap gap-2 mb-3 text-sm text-gray-600">
-        <span className="flex items-center gap-1">
-          <span>📍</span> {job.location}
-        </span>
-        <span className="flex items-center gap-1">
-          <span>💼</span> {job.employmentType}
-        </span>
-        <span className="flex items-center gap-1">
-          <span>🏢</span> {job.workplaceModel}
+      <div className="flex justify-between items-start mb-4">
+        <div className="flex-1">
+          <div className="flex items-center gap-3">
+            <h3 className="text-xl font-bold text-gray-900">{job.title}</h3>
+            {typeof fitScore === 'number' && (
+              <span className={`px-3 py-1 rounded-full text-sm font-semibold ${getFitColor(fitScore)}`}>
+                Fit {fitScore}%
+              </span>
+            )}
+          </div>
+          <p className="text-gray-700 font-medium mt-1">{job.company}</p>
+        </div>
+        <span className="text-sm text-gray-500">
+          {new Date(job.datePosted).toLocaleDateString()}
         </span>
       </div>
 
-      {/* Salary - Prominent */}
-      <div className="mb-3 p-3 bg-cream rounded">
-        <p className="text-lg font-bold text-brand">{job.salary}</p>
+      <div className="flex gap-4 text-sm text-gray-600 mb-4">
+        <span>📍 {job.location}</span>
+        <span>💼 {job.employmentType}</span>
+        <span>🏢 {job.workplaceModel}</span>
+        <span>💰 {job.salary}</span>
       </div>
-
       {/* Skills Tags */}
       <div className="flex flex-wrap gap-2 mb-4">
         {job.extractedSkills.slice(0, 4).map((skill, idx) => (

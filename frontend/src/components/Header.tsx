@@ -7,7 +7,7 @@ export default function Header() {
   const isActive = (path: string) => location.pathname === path
 
   const navItems = [
-    { label: 'Dashboard', path: '/', icon: '📊' },
+    { label: 'Dashboard', path: '/dashboard', icon: '📊' },
     { label: 'Find Jobs', path: '/jobs', icon: '💼' },
     { label: 'Applied Jobs', path: '/tracker', icon: '📋' },
     { label: 'Social', path: '/social', icon: '👥' }

@@ -514,7 +514,6 @@ const InterviewSimulator = () => {
                 justifyContent: 'center',
                 gap: '8px'
               }}
-              onClick={stopRecording}
             >
               <MicOff size={24} />
               Stop & Analyze Answer

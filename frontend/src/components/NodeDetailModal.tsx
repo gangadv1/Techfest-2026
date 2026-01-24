@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react"
+import type { ProgressData } from "../lib/useRoadmapProgress"
 
 type Resource = { type: "youtube" | "coursera" | "roadmap"; title: string; url: string }
 type Task = { id: string; text: string }
@@ -29,12 +30,16 @@ export default function NodeDetailModal({
   allNodes,
   onClose,
   storageKey,
+  onToggleTask,
+  progress,
 }: {
   open: boolean
   node: ApiRoadmapNode | null
   allNodes: ApiRoadmapNode[]
   onClose: () => void
   storageKey: string
+  onToggleTask?: (nodeId: string, taskId: string, checked: boolean) => void
+  progress?: ProgressData
 }) {
   // ESC to close
   useEffect(() => {
@@ -90,16 +95,28 @@ export default function NodeDetailModal({
   const coursera = nodeResources.filter((r) => r.type === "coursera")
   const roadmap = nodeResources.filter((r) => r.type === "roadmap")
 
-  const nodeDone = doneMap[node.id] ?? {}
+  // Local storage fallback
+  const nodeDone_local = doneMap[node.id] ?? {}
+  
+  // Use progress from parent if provided, otherwise fall back to local storage
+  const nodeDone = progress?.tasks[node.id] ?? nodeDone_local
   const setTaskDone = (taskId: string, v: boolean) => {
-    setDoneMap((prev) => ({
-      ...prev,
-      [node.id]: {
-        ...(prev[node.id] ?? {}),
-        [taskId]: v,
-      },
-    }))
+    if (onToggleTask && node) {
+      onToggleTask(node.id, taskId, v)
+    } else {
+      // Fallback to local state
+      setDoneMap((prev) => ({
+        ...prev,
+        [node.id]: {
+          ...(prev[node.id] ?? {}),
+          [taskId]: v,
+        },
+      }))
+    }
   }
+
+  // Check if all tasks are completed
+  const allTasksCompleted = nodeTasks.length > 0 && nodeTasks.every((t) => nodeDone[t.id] === true)
 
   const isNodeComplete = completedNodes.has(node.id)
   const toggleNodeComplete = () => {
@@ -131,7 +148,7 @@ export default function NodeDetailModal({
           <div className="flex-1">
             <div className="flex items-center gap-2">
               <h2 className="text-xl font-bold text-slate-900">{node.label}</h2>
-              {isNodeComplete && (
+              {(isNodeComplete || allTasksCompleted) && (
                 <span className="px-2 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700 border border-emerald-200">
                   ✓ Complete
                 </span>

@@ -19,11 +19,34 @@ def load_roadmap(path_id: str) -> Optional[RoadmapData]:
     if path_id in _roadmap_cache:
         return _roadmap_cache[path_id]
     
+    # Normalize path_id variations
+    path_id_normalized = path_id.lower()
+    
+    # Map common variations to actual filenames
+    path_mapping = {
+        "machine-learning": "machinelearning",
+        "machine learning": "machinelearning",
+        "ml": "machinelearning",
+        "data-analytics": "data",
+        "data / analytics": "data",
+        "data analytics": "data",
+        "data": "data",
+        "full-stack": "full-stack",
+        "fullstack": "full-stack",
+        "full stack": "full-stack",
+    }
+    
+    # Use mapping if available, otherwise use the path_id as-is
+    actual_filename = path_mapping.get(path_id_normalized, path_id_normalized)
+    
     data_dir = get_data_dir()
-    file_path = data_dir / f"{path_id}.json"
+    file_path = data_dir / f"{actual_filename}.json"
     
     if not file_path.exists():
-        return None
+        # Try original path_id if mapping didn't work
+        file_path = data_dir / f"{path_id}.json"
+        if not file_path.exists():
+            return None
     
     try:
         with open(file_path, 'r', encoding='utf-8') as f:

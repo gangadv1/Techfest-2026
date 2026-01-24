@@ -27,7 +27,7 @@ export default function Landing() {
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
         <div className="text-center max-w-4xl">
           <h1 className="text-7xl font-bold text-gray-900 mb-6">
-            Job<span className="text-brand">Fit</span>
+            Vector
           </h1>
           <p className="text-3xl font-bold text-gray-800 mb-4">
             Never Be Filtered by a Black Box Again

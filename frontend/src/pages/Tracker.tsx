@@ -60,30 +60,7 @@ export default function Tracker() {
   const allSkills = ['Python', 'JavaScript', 'React', 'TypeScript', 'AWS', 'Docker', 'Java', 'SQL']
   const skillsByDifficulty = ['Java', 'AWS', 'Docker', 'React', 'TypeScript', 'Python', 'JavaScript', 'SQL']
 
-  const getAITips = () => {
-    const tips: string[] = []
-    
-    if (applicationsInProcess === 0 && totalApplications > 0) {
-      tips.push('🎯 Focus on networking - reach out to recruiters directly on LinkedIn to increase application flow.')
-    }
-    if (applicationsRejected > totalApplications * 0.5 && totalApplications > 3) {
-      tips.push('📋 Your rejection rate is high. Focus on resume optimization and cover letter personalization.')
-    }
-    if (rejectionData['Technical'] > rejectionData['Initial'] && rejectionData['Technical'] > 0) {
-      tips.push('💻 You\'re failing at technical rounds. Practice coding problems on LeetCode and system design.')
-    }
-    if (rejectionData['Behavioral'] > rejectionData['Technical'] && rejectionData['Behavioral'] > 0) {
-      tips.push('🗣️ Behavioral rejections are high. Practice STAR method and research company culture before interviews.')
-    }
-    if (rejectionData['Initial'] > 0) {
-      tips.push('✅ Your resume passes initial screening. Continue improving your technical and soft skills.')
-    }
-    if (applicationsInProcess > 0) {
-      tips.push('⚡ You have active interviews! Prepare well and follow up within 24-48 hours.')
-    }
-
-    return tips.length > 0 ? tips : ['📊 Start applying to jobs and track your progress!']
-  }
+  
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-cream via-purple-50 to-blue-50">

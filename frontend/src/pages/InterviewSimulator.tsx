@@ -13,8 +13,8 @@ const InterviewSimulator = () => {
   const [analysis, setAnalysis] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
   const [error, setError] = useState('');
-  const [apiKey, setApiKey] = useState('');
   const [useCustomRole, setUseCustomRole] = useState(false);
+  const [loading, setLoading] = useState(false);
   
   const recognitionRef = useRef(null);
   const timerRef = useRef(null);
@@ -29,7 +29,7 @@ const InterviewSimulator = () => {
     'and everything', 'and stuff', 'whatever', 'anyways'
   ];
 
-  // Generate interview question using Groq
+  // Generate interview question using backend API
   const generateQuestion = async () => {
     setStage('generating');
     setError('');
@@ -37,38 +37,24 @@ const InterviewSimulator = () => {
     const roleToUse = useCustomRole ? customRole : role;
 
     try {
-      const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      const response = await fetch('http://localhost:8000/api/interview/generate-question', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${apiKey}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'llama-3.3-70b-versatile', // Fast and free on Groq
-          messages: [{
-            role: 'user',
-            content: `You are an expert interviewer at ${company}. Generate ONE realistic interview question for a ${roleToUse} position.
-
-Requirements:
-- Make it specific to ${company}'s interview style
-- Should be behavioral or technical depending on the role
-- Keep it concise (1-2 sentences max)
-- Return ONLY the question, nothing else
-
-Question:`
-          }],
-          temperature: 0.8,
-          max_tokens: 150
+          company: company,
+          role: roleToUse
         })
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error?.message || 'Failed to generate question');
+        throw new Error(errorData.detail || 'Failed to generate question');
       }
 
       const data = await response.json();
-      const question = data.choices[0].message.content.trim();
+      const question = data.question;
       
       setCurrentQuestion(question);
       setStage('intro');
@@ -76,20 +62,15 @@ Question:`
       setTimeout(() => {
         setStage('listening');
         startRecording();
-      }, 2000);
+      }, 7000);
 
     } catch (err) {
-      setError(`Failed to generate question: ${err.message}. Please check your API key.`);
+      setError(`Failed to generate question: ${err.message}`);
       setStage('setup');
     }
   };
 
   const startInterview = () => {
-    if (!apiKey.trim()) {
-      setError('Please enter your Groq API key first');
-      return;
-    }
-
     if (useCustomRole && !customRole.trim()) {
       setError('Please enter a custom role or use predefined roles');
       return;
@@ -200,46 +181,16 @@ Question:`
     setStage('analyzing');
     
     try {
-      const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      const response = await fetch('http://localhost:8000/api/interview/analyze-answer', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${apiKey}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'llama-3.3-70b-versatile',
-          messages: [{
-            role: 'user',
-            content: `You are an expert interview coach. Analyze this interview response.
-
-Interview Question: "${currentQuestion}"
-Candidate's Answer: "${transcript}"
-
-Metrics:
-- Filler words detected: ${fillerCount}
-- Answer duration: ${duration} seconds
-- Word count: ${transcript.split(' ').length}
-
-Provide a detailed analysis in this EXACT JSON format (no markdown, no extra text):
-{
-  "score": <number 0-100>,
-  "strengths": ["strength 1", "strength 2", "strength 3"],
-  "weaknesses": ["weakness 1", "weakness 2"],
-  "idealAnswer": "A concise example of how a strong candidate would answer this question using specific frameworks like STAR",
-  "recommendations": ["specific tip 1", "specific tip 2", "specific tip 3"]
-}
-
-Consider:
-- Content quality and relevance
-- Use of frameworks (STAR, etc.)
-- Specificity and examples
-- Filler word count (>5 is concerning)
-- Answer length (30-120 seconds is ideal)
-
-Return ONLY valid JSON, nothing else.`
-          }],
-          temperature: 0.7,
-          max_tokens: 1000
+          question: currentQuestion,
+          transcript: transcript,
+          fillerCount: fillerCount,
+          duration: duration
         })
       });
 
@@ -248,25 +199,11 @@ Return ONLY valid JSON, nothing else.`
       }
 
       const data = await response.json();
-      let analysisText = data.choices[0].message.content.trim();
-      
-      // Remove markdown code blocks if present
-      analysisText = analysisText.replace(/```json\n?/g, '').replace(/```\n?/g, '');
-      
-      const analysisData = JSON.parse(analysisText);
-      
-      // Add metrics
-      const wordCount = transcript.split(' ').length;
-      const speakingRate = Math.round(wordCount / (duration / 60));
+      const analysisData = data.analysis;
       
       setAnalysis({
         ...analysisData,
-        metrics: {
-          fillerWords: fillerCount,
-          duration: duration,
-          wordCount: wordCount,
-          speakingRate: speakingRate
-        }
+        metrics: data.metrics
       });
       
       setStage('results');
@@ -334,11 +271,11 @@ Return ONLY valid JSON, nothing else.`
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', padding: '20px' }}>
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #ffffff 0%, #eef7ff 100%)', padding: '20px' }}>
       <div style={{ maxWidth: '900px', margin: '0 auto', background: 'white', borderRadius: '16px', boxShadow: '0 20px 60px rgba(0,0,0,0.3)', overflow: 'hidden' }}>
         
         {/* Header */}
-        <div style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', padding: '30px', color: 'white' }}>
+        <div style={{ background: 'linear-gradient(135deg, #002366 0%, #005599 100%)', padding: '30px', color: 'white' }}>
           <h1 style={{ margin: 0, fontSize: '32px', display: 'flex', alignItems: 'center', gap: '12px' }}>
             <Sparkles size={32} />
             AI Interview Simulator
@@ -353,30 +290,6 @@ Return ONLY valid JSON, nothing else.`
           <div style={{ padding: '40px' }}>
             <h2 style={{ marginTop: 0 }}>Configure Your Mock Interview</h2>
             
-            {/* API Key Input */}
-            <div style={{ marginBottom: '24px', background: '#fff3cd', padding: '16px', borderRadius: '8px', border: '1px solid #ffc107' }}>
-              <label style={{ display: 'block', marginBottom: '8px', fontWeight: 600, color: '#856404' }}>
-                🔑 Groq API Key (Free)
-              </label>
-              <input
-                type="password"
-                value={apiKey}
-                onChange={(e) => setApiKey(e.target.value)}
-                placeholder="Enter your Groq API key"
-                style={{ 
-                  width: '100%', 
-                  padding: '12px', 
-                  fontSize: '16px', 
-                  borderRadius: '8px', 
-                  border: '2px solid #ffc107',
-                  marginBottom: '8px'
-                }}
-              />
-              <small style={{ color: '#856404' }}>
-                Get free API key at <a href="https://console.groq.com" target="_blank" style={{ color: '#856404', fontWeight: 'bold' }}>console.groq.com</a> (no credit card needed!)
-              </small>
-            </div>
-
             <div style={{ marginBottom: '24px' }}>
               <label style={{ display: 'block', marginBottom: '8px', fontWeight: 600, color: '#333' }}>
                 Company
@@ -432,7 +345,7 @@ Return ONLY valid JSON, nothing else.`
                     padding: '12px', 
                     fontSize: '16px', 
                     borderRadius: '8px', 
-                    border: '2px solid #667eea'
+                    border: '2px solid #002366'
                   }}
                 />
               )}
@@ -461,7 +374,7 @@ Return ONLY valid JSON, nothing else.`
                 padding: '16px', 
                 fontSize: '18px', 
                 fontWeight: 600,
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
+                background: 'linear-gradient(135deg, #002366 0%, #005599 100%)', 
                 color: 'white', 
                 border: 'none', 
                 borderRadius: '8px', 
@@ -484,7 +397,7 @@ Return ONLY valid JSON, nothing else.`
             <div style={{ 
               width: '80px', 
               height: '80px', 
-              border: '4px solid #667eea', 
+              border: '4px solid #002366', 
               borderTopColor: 'transparent',
               borderRadius: '50%', 
               margin: '0 auto 24px',
@@ -502,7 +415,7 @@ Return ONLY valid JSON, nothing else.`
               width: '120px', 
               height: '120px', 
               borderRadius: '50%', 
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
+              background: 'linear-gradient(135deg, #002366 0%, #005599 100%)', 
               margin: '0 auto 24px',
               display: 'flex',
               alignItems: 'center',
@@ -559,7 +472,7 @@ Return ONLY valid JSON, nothing else.`
                   <div style={{ color: '#666', fontSize: '14px' }}>Filler Words</div>
                 </div>
                 <div style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: '48px', fontWeight: 'bold', color: '#667eea' }}>
+                  <div style={{ fontSize: '48px', fontWeight: 'bold', color: '#002366' }}>
                     {formatTime(duration)}
                   </div>
                   <div style={{ color: '#666', fontSize: '14px' }}>Time Elapsed</div>
@@ -601,6 +514,7 @@ Return ONLY valid JSON, nothing else.`
                 justifyContent: 'center',
                 gap: '8px'
               }}
+              onClick={stopRecording}
             >
               <MicOff size={24} />
               Stop & Analyze Answer
@@ -614,7 +528,7 @@ Return ONLY valid JSON, nothing else.`
             <div style={{ 
               width: '80px', 
               height: '80px', 
-              border: '4px solid #667eea', 
+              border: '4px solid #002366', 
               borderTopColor: 'transparent',
               borderRadius: '50%', 
               margin: '0 auto 24px',
@@ -632,7 +546,7 @@ Return ONLY valid JSON, nothing else.`
               <div style={{ 
                 fontSize: '72px', 
                 fontWeight: 'bold', 
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                background: 'linear-gradient(135deg, #002366 0%, #005599 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 marginBottom: '8px'
@@ -662,7 +576,7 @@ Return ONLY valid JSON, nothing else.`
                 <div style={{ color: '#666', fontSize: '14px' }}>Duration</div>
               </div>
               <div style={{ background: '#f8f9fa', padding: '20px', borderRadius: '8px', textAlign: 'center' }}>
-                <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#764ba2' }}>
+                <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#005599' }}>
                   {analysis.metrics.speakingRate}
                 </div>
                 <div style={{ color: '#666', fontSize: '14px' }}>Words/Min</div>
@@ -727,8 +641,8 @@ Return ONLY valid JSON, nothing else.`
                 width: '100%', 
                 padding: '16px', 
                 fontSize: '18px', 
-                fontWeight: 600,
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
+fontWeight: 600,
+background: 'linear-gradient(135deg, #002366 0%, #005599 100%)',                 
                 color: 'white', 
                 border: 'none', 
                 borderRadius: '8px', 

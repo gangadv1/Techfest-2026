@@ -21,6 +21,39 @@ interface Job {
   extractedConstraints?: string[]
 }
 
+// Helper function to clean skill strings
+const cleanSkill = (skill: string): string => {
+  if (!skill) return ''
+  return skill
+    .replace(/[\[\]"']/g, '') // Remove brackets and quotes
+    .trim() // Remove whitespace
+}
+
+// Helper function to clean and filter skills array
+const cleanSkills = (skills: any): string[] => {
+  if (!skills) return []
+  
+  let skillArray: string[] = []
+  
+  // Handle if skills is a string (JSON array string or comma-separated)
+  if (typeof skills === 'string') {
+    // Try parsing as JSON first
+    try {
+      skillArray = JSON.parse(skills)
+    } catch {
+      // If JSON parse fails, treat as comma-separated
+      skillArray = skills.split(',')
+    }
+  } else if (Array.isArray(skills)) {
+    skillArray = skills
+  }
+  
+  // Clean each skill and filter out empty strings
+  return skillArray
+    .map(skill => cleanSkill(String(skill)))
+    .filter(skill => skill.length > 0)
+}
+
 export default function Jobs() {
   const [searchParams, setSearchParams] = useSearchParams()
   const [jobs, setJobs] = useState<Job[]>([])
@@ -60,7 +93,8 @@ export default function Jobs() {
         if (resumeSkills.length > 0) {
           filteredJobs = filteredJobs
             .map(j => {
-              const skillsStr = Array.isArray(j.extractedSkills) ? j.extractedSkills.join(', ') : String(j.extractedSkills || '')
+              const cleanedSkills = cleanSkills(j.extractedSkills)
+              const skillsStr = cleanedSkills.join(', ')
               const fit = scoreJobFit(resumeSkills, skillsStr, j.title, j.description)
               return { ...j, __fitScore: fit.score as number } as any
             })
@@ -277,7 +311,7 @@ export default function Jobs() {
                     <div className="p-6 border-b border-gray-200">
                       <h2 className="text-xl font-bold text-gray-900 mb-3">Required Skills</h2>
                       <div className="flex flex-wrap gap-2">
-                        {selectedJob.extractedSkills.map((skill, idx) => (
+                        {cleanSkills(selectedJob.extractedSkills).map((skill, idx) => (
                           <span key={idx} className="px-3 py-1 bg-brand text-white rounded-full text-sm font-medium">
                             {skill}
                           </span>
@@ -291,7 +325,7 @@ export default function Jobs() {
                     <div className="p-6 border-b border-gray-200">
                       <h2 className="text-xl font-bold text-gray-900 mb-3">Qualifications</h2>
                       <ul className="space-y-2">
-                        {selectedJob.extractedQualifications.map((qual, idx) => (
+                        {cleanSkills(selectedJob.extractedQualifications).map((qual, idx) => (
                           <li key={idx} className="flex items-start gap-3 text-gray-700 text-sm">
                             <span className="text-brand font-bold">✓</span>
                             <span>{qual}</span>
@@ -306,7 +340,7 @@ export default function Jobs() {
                     <div className="p-6">
                       <h2 className="text-xl font-bold text-gray-900 mb-3">Requirements</h2>
                       <ul className="space-y-2">
-                        {selectedJob.extractedConstraints.map((constraint, idx) => (
+                        {cleanSkills(selectedJob.extractedConstraints).map((constraint, idx) => (
                           <li key={idx} className="flex items-start gap-3 text-gray-700 text-sm">
                             <span className="text-accent font-bold">!</span>
                             <span>{constraint}</span>

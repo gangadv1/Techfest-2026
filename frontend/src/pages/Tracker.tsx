@@ -63,22 +63,27 @@ export default function Tracker() {
   
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-cream via-purple-50 to-blue-50">
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-5xl font-extrabold bg-gradient-to-r from-brand to-teal bg-clip-text text-transparent mb-8">📊 Application Tracker</h1>
+    <div className="min-h-screen bg-slate-50">
+      <div className="mx-auto max-w-7xl space-y-8 px-4 py-8">
+        {/* Header */}
+        <div className="space-y-3">
+          <p className="text-xs font-semibold uppercase tracking-wide text-indigo-600">Analytics</p>
+          <h1 className="text-4xl font-bold text-slate-900">Application Tracker</h1>
+          <p className="text-sm text-slate-600">Monitor your job applications and track interview progress.</p>
+        </div>
 
         {/* Tab Navigation */}
-        <div className="flex gap-4 mb-8 border-b border-gray-200">
+        <div className="flex gap-2">
           {[
             { id: 'dashboard', label: '📊 Tracker' }
           ].map(tab => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-6 py-3 font-semibold transition ${
+              className={`rounded-xl border px-4 py-2 text-sm font-semibold transition ${
                 activeTab === tab.id
-                  ? 'text-brand border-b-2 border-brand'
-                  : 'text-gray-600 hover:text-brand'
+                  ? "border-indigo-200 bg-indigo-50 text-indigo-700"
+                  : "border-slate-200 bg-white text-slate-700 hover:border-indigo-200 hover:text-indigo-700"
               }`}
             >
               {tab.label}
@@ -88,74 +93,77 @@ export default function Tracker() {
 
         {/* Dashboard Tab */}
         {activeTab === 'dashboard' && (
-          <div className="space-y-8">
+          <div className="space-y-6">
             {/* Stats Cards */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg shadow-lg p-6 border-l-4 border-blue-300 text-white">
-                <p className="text-blue-100 text-sm font-semibold">Total Applications</p>
-                <p className="text-4xl font-bold mt-2">{totalApplications}</p>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+              <div className="rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-sm backdrop-blur">
+                <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">Total Applications</p>
+                <p className="mt-3 text-3xl font-bold text-slate-900">{totalApplications}</p>
               </div>
-              <div className="bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg shadow-lg p-6 border-l-4 border-yellow-300 text-white">
-                <p className="text-yellow-100 text-sm font-semibold">In Process</p>
-                <p className="text-4xl font-bold mt-2">{applicationsInProcess}</p>
+              <div className="rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-sm backdrop-blur">
+                <p className="text-xs font-semibold uppercase tracking-wide text-yellow-600">In Process</p>
+                <p className="mt-3 text-3xl font-bold text-slate-900">{applicationsInProcess}</p>
               </div>
-              <div className="bg-gradient-to-br from-red-400 to-red-600 rounded-lg shadow-lg p-6 border-l-4 border-red-300 text-white">
-                <p className="text-red-100 text-sm font-semibold">Rejected</p>
-                <p className="text-4xl font-bold mt-2">{applicationsRejected}</p>
+              <div className="rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-sm backdrop-blur">
+                <p className="text-xs font-semibold uppercase tracking-wide text-red-600">Rejected</p>
+                <p className="mt-3 text-3xl font-bold text-slate-900">{applicationsRejected}</p>
               </div>
-              <div className="bg-gradient-to-br from-green-400 to-green-600 rounded-lg shadow-lg p-6 border-l-4 border-green-300 text-white">
-                <p className="text-green-100 text-sm font-semibold">Success Rate</p>
-                <p className="text-4xl font-bold mt-2">
+              <div className="rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-sm backdrop-blur">
+                <p className="text-xs font-semibold uppercase tracking-wide text-emerald-600">Success Rate</p>
+                <p className="mt-3 text-3xl font-bold text-slate-900">
                   {totalApplications > 0 ? Math.round(((totalApplications - applicationsRejected) / totalApplications) * 100) : 0}%
                 </p>
               </div>
             </div>
 
-            {/* Rejections by Stage - Show all applied jobs */}
-            <div className="bg-gradient-to-br from-white to-blue-50 rounded-xl shadow-xl p-8 border-t-4 border-brand">
-              <h2 className="text-3xl font-bold bg-gradient-to-r from-brand to-teal bg-clip-text text-transparent mb-6">📋 Application Tracking</h2>
+            {/* Application Tracking Table */}
+            <div className="rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-sm backdrop-blur">
+              <div className="mb-6 space-y-2">
+                <h2 className="text-2xl font-bold text-slate-900">📋 Applications</h2>
+                <p className="text-sm text-slate-600">Track and manage your job applications across different stages.</p>
+              </div>
               
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto rounded-xl border border-slate-100">
                 <table className="w-full">
                   <thead>
-                    <tr className="border-b-2 border-gray-200">
-                      <th className="text-left py-3 px-4 font-semibold text-gray-700">Job Title</th>
-                      <th className="text-left py-3 px-4 font-semibold text-gray-700">Company</th>
-                      <th className="text-left py-3 px-4 font-semibold text-gray-700">Status</th>
-                      <th className="text-left py-3 px-4 font-semibold text-gray-700">Rejection Stage</th>
+                    <tr className="border-b border-slate-100 bg-slate-50">
+                      <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-700">Job Title</th>
+                      <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-700">Company</th>
+                      <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-700">Status</th>
+                      <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-700">Rejection Stage</th>
                     </tr>
                   </thead>
                   <tbody>
                     {applications.length === 0 ? (
                       <tr>
-                        <td colSpan={4} className="py-4 px-4 text-center text-gray-500">
+                        <td colSpan={4} className="px-6 py-8 text-center text-sm text-slate-500">
                           No applications yet. Start applying to jobs!
                         </td>
                       </tr>
                     ) : (
                       applications.map(app => (
-                        <tr key={app.id} className="border-b border-gray-200 hover:bg-gray-50 transition">
-                          <td className="py-3 px-4">
-                            <p className="font-medium text-gray-900 cursor-pointer hover:text-brand" onClick={() => navigate(`/jobs/${app.id}`)}>
+                        <tr key={app.id} className="border-b border-slate-100 hover:bg-slate-50 transition">
+                          <td className="px-6 py-4">
+                            <p className="cursor-pointer font-medium text-slate-900 hover:text-indigo-600" onClick={() => navigate(`/jobs/${app.id}`)}>
                               {app.title}
                             </p>
                           </td>
-                          <td className="py-3 px-4 text-gray-600">{app.company}</td>
-                          <td className="py-3 px-4">
+                          <td className="px-6 py-4 text-sm text-slate-600">{app.company}</td>
+                          <td className="px-6 py-4">
                             <select 
                               value={app.status} 
                               onChange={(e) => handleStatusChange(app.id, e.target.value)}
-                              className="px-3 py-1 border border-gray-300 rounded text-sm font-medium"
+                              className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-900 transition hover:border-slate-300"
                             >
                               {statusColumns.map(s => (<option key={s} value={s}>{s}</option>))}
                             </select>
                           </td>
-                          <td className="py-3 px-4">
+                          <td className="px-6 py-4">
                             {app.status === 'Rejected' ? (
                               <select 
                                 value={app.rejectionStage || ''} 
                                 onChange={(e) => handleRejectionStageForJob(app.id, e.target.value)}
-                                className="px-3 py-1 border border-gray-300 rounded text-sm font-medium"
+                                className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-900 transition hover:border-slate-300"
                               >
                                 <option value="">Select stage</option>
                                 {rejectionStages.map(stage => (
@@ -163,7 +171,7 @@ export default function Tracker() {
                                 ))}
                               </select>
                             ) : (
-                              <span className="text-gray-400">-</span>
+                              <span className="text-slate-400">-</span>
                             )}
                           </td>
                         </tr>
@@ -175,21 +183,31 @@ export default function Tracker() {
             </div>
 
             {/* Saved Jobs */}
-            <div className="bg-gradient-to-br from-white to-purple-50 rounded-xl shadow-xl p-8 border-t-4 border-purple-500">
-              <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-6">📌 Saved Jobs</h2>
+            <div className="rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-sm backdrop-blur">
+              <div className="mb-6 space-y-2">
+                <h2 className="text-2xl font-bold text-slate-900">📌 Saved Jobs</h2>
+                <p className="text-sm text-slate-600">Review and apply to jobs you've bookmarked.</p>
+              </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {applications.filter(app => app.status === 'Saved').length === 0 ? (
-                  <div className="col-span-full py-8 text-center text-gray-500">
-                    No saved jobs yet. Save jobs from the job listings to review them later!
+                  <div className="col-span-full rounded-xl border border-slate-100 bg-slate-50 px-6 py-8 text-center">
+                    <p className="text-sm text-slate-500">No saved jobs yet. Save jobs from the job listings to review them later!</p>
                   </div>
                 ) : (
                   applications.filter(app => app.status === 'Saved').map(app => (
-                    <div key={app.id} className="p-4 border border-gray-200 rounded-lg hover:shadow-lg transition cursor-pointer" onClick={() => navigate(`/jobs/${app.id}`)}>
-                      <h3 className="font-bold text-gray-900 mb-2">{app.title}</h3>
-                      <p className="text-sm text-gray-600 mb-3">{app.company}</p>
-                      <p className="text-xs text-gray-500 mb-4">{app.location}</p>
-                      <button onClick={(e) => { e.stopPropagation(); handleStatusChange(app.id, 'Applied'); }} className="w-full bg-gradient-to-r from-purple-600 to-violet-600 text-white py-2 rounded font-medium text-sm hover:shadow transition">
+                    <div 
+                      key={app.id} 
+                      className="cursor-pointer rounded-xl border border-slate-200 bg-white p-4 transition hover:border-indigo-200 hover:shadow-sm" 
+                      onClick={() => navigate(`/jobs/${app.id}`)}
+                    >
+                      <h3 className="font-semibold text-slate-900">{app.title}</h3>
+                      <p className="mt-1 text-sm text-slate-600">{app.company}</p>
+                      <p className="mt-2 text-xs text-slate-500">{app.location}</p>
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); handleStatusChange(app.id, 'Applied'); }} 
+                        className="mt-4 w-full rounded-lg bg-indigo-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700"
+                      >
                         Apply Now 🚀
                       </button>
                     </div>
@@ -197,7 +215,6 @@ export default function Tracker() {
                 )}
               </div>
             </div>
-
 
           </div>
         )}

@@ -223,16 +223,18 @@ export default function RoadmapGraph() {
               >
                 📊 Roadmap
               </button>
-              <button
-                onClick={() => setActiveTab("study-plan")}
-                className={`rounded-xl border px-4 py-2 text-sm font-semibold transition ${
-                  activeTab === "study-plan"
-                    ? "border-indigo-200 bg-indigo-50 text-indigo-700"
-                    : "border-slate-200 bg-white text-slate-700 hover:border-indigo-200 hover:text-indigo-700"
-                }`}
-              >
-                📅 Study Plan
-              </button>
+              {plan && (
+                <button
+                  onClick={() => setActiveTab("study-plan")}
+                  className={`rounded-xl border px-4 py-2 text-sm font-semibold transition ${
+                    activeTab === "study-plan"
+                      ? "border-indigo-200 bg-indigo-50 text-indigo-700"
+                      : "border-slate-200 bg-white text-slate-700 hover:border-indigo-200 hover:text-indigo-700"
+                  }`}
+                >
+                  📅 Study Plan
+                </button>
+              )}
               <button
                 className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700"
                 onClick={() => setShowPlanModal(true)}
@@ -258,7 +260,7 @@ export default function RoadmapGraph() {
         </div>
 
         <div className="rounded-2xl border border-slate-200 bg-white/90 p-3 shadow-sm backdrop-blur">
-          {activeTab === "roadmap" ? (
+          {activeTab === "roadmap" || !plan ? (
             <div className="h-[70vh] overflow-hidden rounded-xl border border-slate-100 bg-white">
               {loading ? (
                 <div className="flex h-full items-center justify-center text-slate-600">Loading roadmap…</div>

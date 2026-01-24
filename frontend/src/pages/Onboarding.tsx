@@ -36,22 +36,10 @@ const QUESTIONS: Question[] = [
     options: ['Entry-level (0-2 years)', 'Intermediate/Mid-level (2-5 years)', 'Senior/Executive (5+ years)']
   },
   {
-    id: 'locations',
-    label: 'Preferred locations?',
-    type: 'multi',
-    options: ['Central', 'Marina Bay', 'Orchard', 'Tanjong Pagar', 'Jurong East', 'Tampines', 'Punggol', 'Woodlands']
-  },
-  {
     id: 'employment',
     label: 'Employment type?',
     type: 'single',
     options: ['Internship','Full-time','Contract']
-  },
-  {
-    id: 'salary',
-    label: 'Salary expectation (SGD monthly)?',
-    type: 'single',
-    options: ['<3k','3–5k','5–8k','8–12k','12k+']
   },
   {
     id: 'eligibility',

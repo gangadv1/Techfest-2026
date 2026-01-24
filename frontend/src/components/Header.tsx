@@ -10,7 +10,8 @@ export default function Header() {
     { label: 'Dashboard', path: '/dashboard', icon: '📊' },
     { label: 'Find Jobs', path: '/jobs', icon: '💼' },
     { label: 'Applied Jobs', path: '/tracker', icon: '📋' },
-    { label: 'Social', path: '/social', icon: '👥' }
+    { label: 'Social', path: '/social', icon: '👥' },
+    { label: 'Interview Prep', path: '/interview-simulator', icon: '🎤' }
   ]
 
   return (

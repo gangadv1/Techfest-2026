@@ -30,11 +30,10 @@ export default function Landing() {
             Vector
           </h1>
           <p className="text-3xl font-bold text-gray-800 mb-4">
-            Never Be Filtered by a Black Box Again
+            Where ambition meets intelligence.
           </p>
           <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-            Get personalized job matches, transparent requirements, AI-powered resume analysis, 
-            and a 7-day upskilling roadmap tailored to your dream role.
+            Career search, reimagined. AI-driven job matching, interview prep with speech analysis, and smart tracking that shows you where to improve and where to apply next
           </p>
           
           <div className="flex gap-4 justify-center">

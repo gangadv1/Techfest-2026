@@ -30,24 +30,11 @@ export default function Jobs() {
     try {
       setLoading(true)
       const params = Object.fromEntries(searchParams.entries())
-      const response = await axios.get('/api/jobs', { params })
+      const response = await axios.get('http://localhost:8000/api/jobs', { params })
       setJobs(response.data)
     } catch (error) {
       console.error('Failed to fetch jobs:', error)
-      // Mock data for development
-      setJobs([
-        {
-          id: '1',
-          title: 'Senior Software Engineer',
-          company: 'Tech Corp',
-          location: 'Remote',
-          datePosted: '2026-01-20',
-          workplaceModel: 'Remote',
-          employmentType: 'Full-time',
-          salary: '$120k - $180k',
-          extractedSkills: ['Python', 'React', 'AWS']
-        }
-      ])
+      setJobs([])
     } finally {
       setLoading(false)
     }

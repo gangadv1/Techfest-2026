@@ -1,40 +1,61 @@
 from typing import List, Dict, Optional
 from app.models.job import Job
 import json
+import pandas as pd
+import os
 
 class JobService:
     def __init__(self):
-        # Mock data - replace with actual database/CSV loading
-        self.jobs = [
-            Job(
-                id="1",
-                title="Senior Software Engineer",
-                company="Tech Corp",
-                location="Remote",
-                datePosted="2026-01-20",
-                workplaceModel="Remote",
-                employmentType="Full-time",
-                salary="$120k - $180k",
-                description="We are looking for an experienced software engineer with strong Python and React skills...",
-                extractedSkills=["Python", "React", "AWS", "Docker", "REST API"],
-                extractedQualifications=["Bachelor's degree in CS", "5+ years experience"],
-                extractedConstraints=["Must be authorized to work in US"]
-            ),
-            Job(
-                id="2",
-                title="Frontend Developer",
-                company="StartupXYZ",
-                location="New York",
-                datePosted="2026-01-22",
-                workplaceModel="Hybrid",
-                employmentType="Full-time",
-                salary="$90k - $130k",
-                description="Join our team to build amazing user interfaces...",
-                extractedSkills=["React", "TypeScript", "CSS", "JavaScript"],
-                extractedQualifications=["3+ years frontend experience"],
-                extractedConstraints=[]
-            )
-        ]
+       
+         # Load jobs from CSV/Excel file
+        self.jobs = self._load_jobs_from_file()
+    
+    def _load_jobs_from_file(self) -> List[Job]:
+        """Load jobs from Excel/CSV file"""
+        csv_path = os.path.join(os.path.dirname(__file__), '../../..', 'Dataset', 'combined_jobs.csv')
+        
+        if not os.path.exists(csv_path):
+            return []
+        
+        df = pd.read_csv(csv_path)
+        # Replace NaN values with empty strings
+        df = df.fillna('')
+        jobs = []
+        
+        for _, row in df.iterrows():
+            try:
+                # Helper function to safely convert values to strings
+                def safe_str(val):
+                    if pd.isna(val) or val == '':
+                        return ''
+                    return str(val).strip()
+                
+                # Helper function to safely split skills
+                def safe_split(val):
+                    if pd.isna(val) or val == '':
+                        return []
+                    return [s.strip() for s in str(val).split(',') if s.strip()]
+                
+                job = Job(
+                    id=safe_str(row.get('id', '')),
+                    title=safe_str(row.get('title', '')),
+                    company=safe_str(row.get('company', '')),
+                    location=safe_str(row.get('location', '')),
+                    datePosted=safe_str(row.get('datePosted', '')),
+                    workplaceModel=safe_str(row.get('workplaceModel', '')),
+                    employmentType=safe_str(row.get('employmentType', '')),
+                    salary=safe_str(row.get('salary', '')),
+                    description=safe_str(row.get('description', '')),
+                    extractedSkills=safe_split(row.get('extractedSkills', '')),
+                    extractedQualifications=safe_split(row.get('extractedQualifications', '')),
+                    extractedConstraints=safe_split(row.get('extractedConstraints', ''))
+                )
+                jobs.append(job)
+            except Exception as e:
+                print(f"Error parsing job row: {e}")
+                continue
+        
+        return jobs
     
     def get_jobs(self, filters: Dict) -> List[Job]:
         """Get all jobs with optional filtering"""

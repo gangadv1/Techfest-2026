@@ -8,6 +8,9 @@ class Settings(BaseSettings):
     # CORS
     BACKEND_CORS_ORIGINS: list = ["http://localhost:3000"]
     
+    # Groq API
+    GROQ_API_KEY: str = ""
+    
     class Config:
         case_sensitive = True
         env_file = ".env"

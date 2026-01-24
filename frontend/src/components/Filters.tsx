@@ -6,27 +6,46 @@ export default function Filters() {
   const [filters, setFilters] = useState({
     location: searchParams.getAll('location'),
     employmentType: searchParams.getAll('employmentType'),
-    experienceLevel: searchParams.getAll('experienceLevel')
+    experienceLevel: searchParams.getAll('experienceLevel'),
+    role: searchParams.getAll('role'),
+    visa: searchParams.getAll('visa'),
+    salaryMin: searchParams.get('salaryMin') || '',
+    salaryMax: searchParams.get('salaryMax') || ''
   })
 
   const updateFilters = (key: string, value: string, checked: boolean) => {
-    const newFilters = { ...filters }
+    const newFilters: any = { ...filters }
     if (checked) {
-      newFilters[key as keyof typeof filters] = [...newFilters[key as keyof typeof filters], value]
+      newFilters[key] = [...(newFilters[key] || []), value]
     } else {
-      newFilters[key as keyof typeof filters] = newFilters[key as keyof typeof filters].filter(v => v !== value)
+      newFilters[key] = (newFilters[key] || []).filter((v: string) => v !== value)
     }
     setFilters(newFilters)
-    
+    syncParams(newFilters)
+  }
+
+  const updateField = (key: string, value: string) => {
+    const newFilters: any = { ...filters, [key]: value }
+    setFilters(newFilters)
+    syncParams(newFilters)
+  }
+
+  const syncParams = (newFilters: any) => {
     const params = new URLSearchParams()
-    Object.entries(newFilters).forEach(([key, values]) => {
-      values.forEach(v => params.append(key, v))
+    Object.entries(newFilters).forEach(([k, values]) => {
+      if (values === undefined || values === null) return
+      if (Array.isArray(values)) {
+        values.forEach((v: string) => params.append(k, v))
+      } else if (values !== '') {
+        params.set(k, String(values))
+      }
     })
     setSearchParams(params)
   }
 
   const clearFilters = () => {
-    setFilters({ location: [], employmentType: [], experienceLevel: [] })
+    const empty = { location: [], employmentType: [], experienceLevel: [], role: [], visa: [], salaryMin: '', salaryMax: '' }
+    setFilters(empty)
     setSearchParams(new URLSearchParams())
   }
 
@@ -45,7 +64,7 @@ export default function Filters() {
       <div className="space-y-6">
         <div>
           <h3 className="font-semibold text-gray-700 mb-3">Location</h3>
-          {['Remote', 'New York', 'San Francisco', 'Seattle', 'Austin'].map(loc => (
+          {['Remote', 'Singapore', 'Downtown / Raffles Place', 'Orchard', 'Tanjong Pagar', 'Jurong East', 'Tampines', 'Woodlands'].map(loc => (
             <label key={loc} className="flex items-center mb-2">
               <input
                 type="checkbox"
@@ -54,6 +73,21 @@ export default function Filters() {
                 className="mr-2"
               />
               <span className="text-gray-700">{loc}</span>
+            </label>
+          ))}
+        </div>
+
+        <div>
+          <h3 className="font-semibold text-gray-700 mb-3">Role / Category</h3>
+          {['Software Engineer', 'Data Scientist', 'Product Manager', 'Designer', 'DevOps Engineer', 'QA'].map(role => (
+            <label key={role} className="flex items-center mb-2">
+              <input
+                type="checkbox"
+                checked={filters.role.includes(role)}
+                onChange={(e) => updateFilters('role', role, e.target.checked)}
+                className="mr-2"
+              />
+              <span className="text-gray-700">{role}</span>
             </label>
           ))}
         </div>
@@ -75,7 +109,7 @@ export default function Filters() {
 
         <div>
           <h3 className="font-semibold text-gray-700 mb-3">Experience Level</h3>
-          {['Intern', 'Entry Level', 'Mid Level', 'Senior'].map(level => (
+          {['Entry-level (0-2 years)', 'Intermediate/Mid-level (2-5 years)', 'Senior/Executive (5+ years)'].map(level => (
             <label key={level} className="flex items-center mb-2">
               <input
                 type="checkbox"
@@ -84,6 +118,41 @@ export default function Filters() {
                 className="mr-2"
               />
               <span className="text-gray-700">{level}</span>
+            </label>
+          ))}
+        </div>
+
+        <div>
+          <h3 className="font-semibold text-gray-700 mb-3">Salary Range (SGD)</h3>
+          <div className="flex gap-2 items-center">
+            <input
+              type="number"
+              placeholder="Min"
+              value={filters.salaryMin}
+              onChange={(e) => updateField('salaryMin', e.target.value)}
+              className="px-3 py-2 border border-gray-300 rounded w-1/2"
+            />
+            <input
+              type="number"
+              placeholder="Max"
+              value={filters.salaryMax}
+              onChange={(e) => updateField('salaryMax', e.target.value)}
+              className="px-3 py-2 border border-gray-300 rounded w-1/2"
+            />
+          </div>
+        </div>
+
+        <div>
+          <h3 className="font-semibold text-gray-700 mb-3">Visa / Work Eligibility</h3>
+          {['No sponsorship needed', 'Sponsorship available', 'Open to sponsorship'].map(v => (
+            <label key={v} className="flex items-center mb-2">
+              <input
+                type="checkbox"
+                checked={filters.visa.includes(v)}
+                onChange={(e) => updateFilters('visa', v, e.target.checked)}
+                className="mr-2"
+              />
+              <span className="text-gray-700">{v}</span>
             </label>
           ))}
         </div>

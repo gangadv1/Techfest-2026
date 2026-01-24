@@ -12,13 +12,13 @@ const questions = [
     id: 'experienceLevel',
     question: 'What is your experience level?',
     type: 'single-select',
-    options: ['Intern', 'Entry Level', 'Mid Level', 'Senior', 'Lead']
+    options: ['Entry-level (0-2 years)', 'Intermediate/Mid-level (2-5 years)', 'Senior/Executive (5+ years)']
   },
   {
     id: 'locations',
     question: 'Preferred locations?',
     type: 'multi-select',
-    options: ['Remote', 'New York', 'San Francisco', 'Seattle', 'Austin', 'Boston']
+    options: ['Remote', 'Singapore', 'Downtown / Raffles Place', 'Orchard', 'Tanjong Pagar', 'Jurong East', 'Tampines', 'Woodlands']
   },
   {
     id: 'employmentTypes',
@@ -73,7 +73,7 @@ export default function Onboarding() {
   const isAnswered = answers[currentQuestion.id]?.length > 0
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center px-4">
+    <div className="min-h-screen flex items-center justify-center px-4" style={{ background: 'linear-gradient(135deg, #FFFBDE 0%, #124170 100%)' }}>
       <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-2xl w-full">
         <div className="mb-8">
           <div className="flex justify-between items-center mb-4">
@@ -85,7 +85,7 @@ export default function Onboarding() {
                 <div
                   key={idx}
                   className={`h-2 w-8 rounded ${
-                    idx <= currentStep ? 'bg-indigo-600' : 'bg-gray-200'
+                    idx <= currentStep ? 'bg-brand' : 'bg-gray-200'
                   }`}
                 />
               ))}
@@ -103,14 +103,14 @@ export default function Onboarding() {
                 onClick={() => handleSelect(option)}
                 className={`w-full p-4 text-left rounded-lg border-2 transition-all ${
                   isSelected
-                    ? 'border-indigo-600 bg-indigo-50 text-indigo-900'
-                    : 'border-gray-200 hover:border-indigo-300 bg-white'
+                    ? 'border-brand bg-brand-50 text-brand-dark'
+                    : 'border-gray-200 hover:border-brand bg-white'
                 }`}
               >
                 <div className="flex items-center justify-between">
                   <span className="font-medium">{option}</span>
                   {isSelected && (
-                    <svg className="w-6 h-6 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-6 h-6 text-brand" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
                   )}
@@ -124,14 +124,14 @@ export default function Onboarding() {
           <button
             onClick={handleBack}
             disabled={currentStep === 0}
-            className="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-cream disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Back
           </button>
           <button
             onClick={handleNext}
             disabled={!isAnswered}
-            className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-6 py-3 bg-brand text-white rounded-lg hover:bg-brand-dark disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {currentStep === questions.length - 1 ? 'Finish' : 'Next'}
           </button>

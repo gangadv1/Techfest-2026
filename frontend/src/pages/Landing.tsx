@@ -27,7 +27,7 @@ export default function Landing() {
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
         <div className="text-center max-w-4xl">
           <h1 className="text-7xl font-bold text-gray-900 mb-6">
-            Job<span className="text-indigo-600">Fit</span>
+            Job<span className="text-brand">Fit</span>
           </h1>
           <p className="text-3xl font-bold text-gray-800 mb-4">
             Never Be Filtered by a Black Box Again
@@ -40,13 +40,13 @@ export default function Landing() {
           <div className="flex gap-4 justify-center">
             <button
               onClick={() => navigate('/onboarding')}
-              className="px-8 py-4 bg-indigo-600 text-white text-lg font-semibold rounded-lg hover:bg-indigo-700 transition-colors shadow-lg"
+              className="px-8 py-4 bg-brand text-white text-lg font-semibold rounded-lg hover:bg-brand-dark transition-colors shadow-lg"
             >
               Get Matched
             </button>
             <button
               onClick={() => navigate('/jobs')}
-              className="px-8 py-4 bg-white text-indigo-600 text-lg font-semibold rounded-lg hover:bg-gray-50 transition-colors shadow-lg border-2 border-indigo-600"
+              className="px-8 py-4 bg-white text-brand text-lg font-semibold rounded-lg hover:bg-cream transition-colors shadow-lg border-2 border-brand"
             >
               Explore Jobs
             </button>

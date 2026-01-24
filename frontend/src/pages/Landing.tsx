@@ -1,38 +1,30 @@
 import { useNavigate } from 'react-router-dom'
-import StatCard from '../components/StatCard'
+import SlidingLogos from "../components/SlidingLogos.tsx"
+import googleLogo from "../assets/google.png"
+import microsoftLogo from '../assets/microsoft.png'
+import amazonLogo from '../assets/amazon.png'
+import metaLogo from '../assets/meta.webp'
+import netflixLogo from '../assets/netflix.svg'
+import morganStanleyLogo from '../assets/morgan-stanley.png'
+import dbsLogo from '../assets/dbs.png'
 
 export default function Landing() {
   const navigate = useNavigate()
 
-  const stats = [
-    { value: '70%', label: 'of applicants filtered by ATS' },
-    { value: '85%', label: 'never receive feedback' },
-    { value: '3hrs', label: 'saved per week' },
-    { value: '10k+', label: 'jobs analyzed' },
-    { value: '92%', label: 'match accuracy' },
-    { value: '7-day', label: 'upskill plans' },
+  const logos = [
+    { name: 'Google', imagePath: googleLogo },
+    { name: 'Microsoft', imagePath: microsoftLogo },
+    { name: 'Amazon', imagePath: amazonLogo },
+    { name: 'Meta', imagePath: metaLogo },
+    { name: 'Netflix', imagePath: netflixLogo },
+    { name: 'Morgan Stanley', imagePath: morganStanleyLogo },
+    { name: 'DBS', imagePath: dbsLogo },
   ]
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 relative overflow-hidden">
-      {/* Floating stat cards */}
-      <div className="absolute inset-0 pointer-events-none">
-        {stats.map((stat, idx) => (
-          <div
-            key={idx}
-            className="absolute"
-            style={{
-              top: `${10 + (idx * 15)}%`,
-              left: idx % 2 === 0 ? '5%' : 'auto',
-              right: idx % 2 === 1 ? '5%' : 'auto',
-            }}
-          >
-            <StatCard value={stat.value} label={stat.label} />
-          </div>
-        ))}
-      </div>
-
       {/* Hero section */}
+      <img src={googleLogo} alt="Google" className="h-10" />
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
         <div className="text-center max-w-4xl">
           <h1 className="text-7xl font-bold text-gray-900 mb-6">
@@ -63,14 +55,9 @@ export default function Landing() {
         </div>
 
         {/* Trusted by section */}
-        <div className="mt-20 text-center">
-          <p className="text-sm text-gray-500 mb-4">Trusted by job seekers at</p>
-          <div className="flex gap-8 items-center opacity-60">
-            <div className="text-2xl font-bold text-gray-700">Google</div>
-            <div className="text-2xl font-bold text-gray-700">Microsoft</div>
-            <div className="text-2xl font-bold text-gray-700">Amazon</div>
-            <div className="text-2xl font-bold text-gray-700">Meta</div>
-          </div>
+        <div className="mt-20 w-full max-w-6xl">
+          <p className="text-sm text-gray-500 mb-4 text-center">Trusted by job seekers at</p>
+          <SlidingLogos logos={logos} speed={30} />
         </div>
       </div>
     </div>

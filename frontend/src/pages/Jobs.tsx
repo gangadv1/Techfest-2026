@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import Filters from '../components/Filters'
 import { scoreJobFit, getResumeSkills } from '../lib/jobFitScore'
-import axios from 'axios'
 import { jobsAPI } from '../services/api'
 
 interface Job {

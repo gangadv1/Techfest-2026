@@ -223,7 +223,6 @@ function BenchmarkChart({ yourScore, targetScore }: BenchmarkChartProps) {
 export default function Dashboard() {
   const navigate = useNavigate()
   const [scanResult, setScanResult] = useState<ResumeScanResult | null>(null)
-  const [preferences, setPreferences] = useState<any>(null)
   const [industry, setIndustry] = useState<IndustryKey>('software')
   const [overallScore, setOverallScore] = useState(0)
   
@@ -235,18 +234,28 @@ export default function Dashboard() {
     // Load questionnaire preferences
     const prefsRaw = localStorage.getItem('jobfit_preferences')
     if (prefsRaw) {
-      const prefs = JSON.parse(prefsRaw)
-      setPreferences(prefs)
-      
-      // Map role to industry
-      const role = prefs.role?.toLowerCase() || ''
-      if (role.includes('software') || role.includes('engineer') || role.includes('developer') || role.includes('frontend') || role.includes('backend')) {
-        setIndustry('software')
-      } else if (role.includes('data') || role.includes('analyst') || role.includes('scientist')) {
-        setIndustry('data')
-      } else if (role.includes('finance') || role.includes('consulting')) {
-        setIndustry('finance')
-      }
+      try {
+        const prefs = JSON.parse(prefsRaw)
+        const rolesVal = prefs.role
+        const rolesArr = Array.isArray(rolesVal) ? rolesVal : [rolesVal]
+        const rolesLower = rolesArr
+          .filter((r: any) => r != null)
+          .map((r: any) => String(r).toLowerCase())
+
+        const hasSoftware = rolesLower.some((r: string) =>
+          r.includes('software') || r.includes('engineer') || r.includes('developer') || r.includes('frontend') || r.includes('backend')
+        )
+        const hasData = rolesLower.some((r: string) =>
+          r.includes('data') || r.includes('analyst') || r.includes('scientist')
+        )
+        const hasFinance = rolesLower.some((r: string) =>
+          r.includes('finance') || r.includes('consulting')
+        )
+
+        if (hasSoftware) setIndustry('software')
+        else if (hasData) setIndustry('data')
+        else if (hasFinance) setIndustry('finance')
+      } catch {}
     }
     
     // Load resume scan result
@@ -286,6 +295,8 @@ export default function Dashboard() {
     if (!scanResult) return
     
     const profile = INDUSTRY_PROFILES[industry]
+    const pathId = industry === 'software' ? 'fullstack' : industry === 'data' ? 'data' : 'finance'
+    
     const missingSkills = profile.skills.filter(
       skill => !scanResult.resumeSkills.some(
         rs => rs.toLowerCase().includes(skill.toLowerCase())
@@ -309,7 +320,7 @@ export default function Dashboard() {
     })
     
     localStorage.setItem('roadmap_plan', JSON.stringify(roadmap))
-    navigate('/roadmap')
+    navigate(`/roadmap-graph?pathId=${pathId}`)
   }
   
   if (!scanResult) {
@@ -453,7 +464,7 @@ export default function Dashboard() {
               onClick={handleGenerateRoadmap}
               className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 transition-colors shadow-lg"
             >
-              Generate Roadmap →
+              Generate Roadmap
             </button>
           </div>
           

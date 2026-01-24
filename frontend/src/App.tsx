@@ -8,6 +8,7 @@ import Jobs from './pages/Jobs'
 import JobDetail from './pages/JobDetail'
 import Tracker from './pages/Tracker'
 import Roadmap from './pages/Roadmap'
+import RoadmapGraph from './pages/RoadmapGraph'
 import Forums from './pages/Forums'
 import Social from './pages/Social'
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/jobs/:id" element={<JobDetail />} />
         <Route path="/tracker" element={<Tracker />} />
         <Route path="/roadmap" element={<Roadmap />} />
+        <Route path="/roadmap-graph" element={<RoadmapGraph />} />
         <Route path="/forums" element={<Forums />} />
         <Route path="/social" element={<Social />} />
       </Routes>

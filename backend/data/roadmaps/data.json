@@ -1,0 +1,306 @@
+{
+  "pathId": "data",
+  "pathTitle": "Data Science & Analytics",
+  "nodes": [
+    {
+      "id": "python-basics",
+      "label": "Python Basics",
+      "status": "next",
+      "category": "Fundamentals",
+      "difficulty": "beginner",
+      "estimatedMinutes": 180,
+      "prerequisites": [],
+      "tasks": [
+        {
+          "id": "t1",
+          "text": "Learn Python syntax and data types",
+          "estimatedMinutes": 60
+        },
+        {
+          "id": "t2",
+          "text": "Practice with functions and loops",
+          "estimatedMinutes": 60
+        },
+        {
+          "id": "t3",
+          "text": "Solve basic Python problems",
+          "estimatedMinutes": 60
+        }
+      ],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Python for Beginners - Full Course",
+          "url": "https://youtube.com/watch?v=rfscVS0vtbw"
+        },
+        {
+          "type": "reference",
+          "title": "Python.org Tutorial",
+          "url": "https://docs.python.org/3/tutorial/"
+        }
+      ]
+    },
+    {
+      "id": "numpy",
+      "label": "NumPy",
+      "status": "next",
+      "category": "Data Science",
+      "difficulty": "beginner",
+      "estimatedMinutes": 120,
+      "prerequisites": ["python-basics"],
+      "tasks": [
+        {
+          "id": "t4",
+          "text": "Learn NumPy arrays and operations",
+          "estimatedMinutes": 60
+        },
+        {
+          "id": "t5",
+          "text": "Practice array manipulation",
+          "estimatedMinutes": 60
+        }
+      ],
+      "resources": [
+        {
+          "type": "reference",
+          "title": "NumPy Official Docs",
+          "url": "https://numpy.org/doc/"
+        },
+        {
+          "type": "youtube",
+          "title": "NumPy Tutorial",
+          "url": "https://youtube.com/watch?v=QUT1VHiLmmI"
+        }
+      ]
+    },
+    {
+      "id": "pandas",
+      "label": "Pandas",
+      "status": "next",
+      "category": "Data Science",
+      "difficulty": "beginner",
+      "estimatedMinutes": 180,
+      "prerequisites": ["numpy"],
+      "tasks": [
+        {
+          "id": "t6",
+          "text": "Learn DataFrames and Series",
+          "estimatedMinutes": 60
+        },
+        {
+          "id": "t7",
+          "text": "Practice data manipulation",
+          "estimatedMinutes": 60
+        },
+        {
+          "id": "t8",
+          "text": "Perform data analysis tasks",
+          "estimatedMinutes": 60
+        }
+      ],
+      "resources": [
+        {
+          "type": "reference",
+          "title": "Pandas Official Docs",
+          "url": "https://pandas.pydata.org/"
+        },
+        {
+          "type": "coursera",
+          "title": "Data Analysis with Python",
+          "url": "https://www.coursera.org/learn/data-analysis-with-python"
+        }
+      ]
+    },
+    {
+      "id": "data-viz",
+      "label": "Data Visualization",
+      "status": "next",
+      "category": "Data Science",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 150,
+      "prerequisites": ["pandas"],
+      "tasks": [
+        {
+          "id": "t9",
+          "text": "Learn Matplotlib basics",
+          "estimatedMinutes": 50
+        },
+        {
+          "id": "t10",
+          "text": "Create charts with Seaborn",
+          "estimatedMinutes": 50
+        },
+        {
+          "id": "t11",
+          "text": "Build interactive dashboards",
+          "estimatedMinutes": 50
+        }
+      ],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Data Visualization with Python",
+          "url": "https://youtube.com/watch?v=a9UrKTVEeZA"
+        },
+        {
+          "type": "reference",
+          "title": "Matplotlib Gallery",
+          "url": "https://matplotlib.org/stable/gallery/"
+        }
+      ]
+    },
+    {
+      "id": "sql",
+      "label": "SQL for Data Analysis",
+      "status": "next",
+      "category": "Data Science",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 200,
+      "prerequisites": ["python-basics"],
+      "tasks": [
+        {
+          "id": "t12",
+          "text": "Learn SQL queries and joins",
+          "estimatedMinutes": 70
+        },
+        {
+          "id": "t13",
+          "text": "Practice aggregations and grouping",
+          "estimatedMinutes": 70
+        },
+        {
+          "id": "t14",
+          "text": "Work with real datasets",
+          "estimatedMinutes": 60
+        }
+      ],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "SQL Full Course",
+          "url": "https://youtube.com/watch?v=HXV3zeQKqGY"
+        },
+        {
+          "type": "coursera",
+          "title": "SQL for Data Science",
+          "url": "https://www.coursera.org/learn/sql-for-data-science"
+        }
+      ]
+    },
+    {
+      "id": "statistics",
+      "label": "Statistics",
+      "status": "next",
+      "category": "Data Science",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 240,
+      "prerequisites": ["pandas"],
+      "tasks": [
+        {
+          "id": "t15",
+          "text": "Learn descriptive statistics",
+          "estimatedMinutes": 80
+        },
+        {
+          "id": "t16",
+          "text": "Understand probability distributions",
+          "estimatedMinutes": 80
+        },
+        {
+          "id": "t17",
+          "text": "Perform hypothesis testing",
+          "estimatedMinutes": 80
+        }
+      ],
+      "resources": [
+        {
+          "type": "coursera",
+          "title": "Statistics for Data Science",
+          "url": "https://www.coursera.org/learn/statistics-for-data-science-python"
+        },
+        {
+          "type": "youtube",
+          "title": "Statistics Tutorial",
+          "url": "https://youtube.com/watch?v=xxpc-HPKN28"
+        }
+      ]
+    },
+    {
+      "id": "machine-learning",
+      "label": "Machine Learning Basics",
+      "status": "next",
+      "category": "Machine Learning",
+      "difficulty": "advanced",
+      "estimatedMinutes": 300,
+      "prerequisites": ["statistics", "numpy"],
+      "tasks": [
+        {
+          "id": "t18",
+          "text": "Learn supervised learning algorithms",
+          "estimatedMinutes": 100
+        },
+        {
+          "id": "t19",
+          "text": "Practice with scikit-learn",
+          "estimatedMinutes": 100
+        },
+        {
+          "id": "t20",
+          "text": "Build ML models",
+          "estimatedMinutes": 100
+        }
+      ],
+      "resources": [
+        {
+          "type": "coursera",
+          "title": "Machine Learning by Andrew Ng",
+          "url": "https://www.coursera.org/learn/machine-learning"
+        },
+        {
+          "type": "youtube",
+          "title": "Machine Learning Course",
+          "url": "https://youtube.com/watch?v=NWONeJKn6kc"
+        }
+      ]
+    },
+    {
+      "id": "data-project",
+      "label": "Data Science Project",
+      "status": "next",
+      "category": "Project",
+      "difficulty": "advanced",
+      "estimatedMinutes": 480,
+      "prerequisites": ["machine-learning", "data-viz", "sql"],
+      "tasks": [
+        {
+          "id": "t21",
+          "text": "Choose and explore a dataset",
+          "estimatedMinutes": 120
+        },
+        {
+          "id": "t22",
+          "text": "Perform EDA and cleaning",
+          "estimatedMinutes": 120
+        },
+        {
+          "id": "t23",
+          "text": "Build and evaluate models",
+          "estimatedMinutes": 120
+        },
+        {
+          "id": "t24",
+          "text": "Create presentation and report",
+          "estimatedMinutes": 120
+        }
+      ],
+      "resources": [
+        {
+          "type": "reference",
+          "title": "Kaggle Datasets",
+          "url": "https://www.kaggle.com/datasets"
+        }
+      ]
+    }
+  ],
+  "edges": []
+}

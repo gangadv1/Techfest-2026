@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api import jobs, resume, applications
+from app.routes import roadmap, plan, streak
 
 app = FastAPI(title="JobFit API", version="1.0.0")
 
@@ -17,6 +18,9 @@ app.add_middleware(
 app.include_router(jobs.router, prefix="/api/jobs", tags=["jobs"])
 app.include_router(resume.router, prefix="/api/resume", tags=["resume"])
 app.include_router(applications.router, prefix="/api/applications", tags=["applications"])
+app.include_router(roadmap.router, prefix="/api/roadmap", tags=["roadmap"])
+app.include_router(plan.router, prefix="/api/plan", tags=["plan"])
+app.include_router(streak.router, prefix="/api/streak", tags=["streak"])
 
 @app.get("/")
 async def root():

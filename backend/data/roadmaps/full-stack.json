@@ -1,0 +1,478 @@
+{
+  "pathId": "full-stack",
+  "pathTitle": "Full-Stack Development",
+  "nodes": [
+    {
+      "id": "internet",
+      "label": "How the Internet Works",
+      "status": "next",
+      "category": "Fundamentals",
+      "difficulty": "beginner",
+      "estimatedMinutes": 60,
+      "prerequisites": [],
+      "tasks": [
+        {
+          "id": "t1",
+          "text": "Understand HTTP/HTTPS protocols",
+          "estimatedMinutes": 20
+        },
+        {
+          "id": "t2",
+          "text": "Learn about DNS and domain names",
+          "estimatedMinutes": 20
+        },
+        {
+          "id": "t3",
+          "text": "Study IP addresses and routing",
+          "estimatedMinutes": 20
+        }
+      ],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "How the Internet Works in 5 Minutes",
+          "url": "https://youtube.com/watch?v=7_LPdttKXPc"
+        },
+        {
+          "type": "reference",
+          "title": "MDN: How the Web works",
+          "url": "https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/How_the_Web_works"
+        }
+      ]
+    },
+    {
+      "id": "html",
+      "label": "HTML Fundamentals",
+      "status": "next",
+      "category": "Frontend",
+      "difficulty": "beginner",
+      "estimatedMinutes": 90,
+      "prerequisites": ["internet"],
+      "tasks": [
+        {
+          "id": "t4",
+          "text": "Learn HTML5 semantic tags",
+          "estimatedMinutes": 30
+        },
+        {
+          "id": "t5",
+          "text": "Practice with forms and inputs",
+          "estimatedMinutes": 30
+        },
+        {
+          "id": "t6",
+          "text": "Build a simple webpage",
+          "estimatedMinutes": 30
+        }
+      ],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "HTML Crash Course For Beginners",
+          "url": "https://youtube.com/watch?v=UB1O30fR-EE"
+        },
+        {
+          "type": "coursera",
+          "title": "HTML, CSS, and Javascript for Web Developers",
+          "url": "https://www.coursera.org/learn/html-css-javascript"
+        }
+      ]
+    },
+    {
+      "id": "css",
+      "label": "CSS & Styling",
+      "status": "next",
+      "category": "Frontend",
+      "difficulty": "beginner",
+      "estimatedMinutes": 120,
+      "prerequisites": ["html"],
+      "tasks": [
+        {
+          "id": "t7",
+          "text": "Learn CSS selectors and specificity",
+          "estimatedMinutes": 30
+        },
+        {
+          "id": "t8",
+          "text": "Master Flexbox layout",
+          "estimatedMinutes": 30
+        },
+        {
+          "id": "t9",
+          "text": "Learn CSS Grid",
+          "estimatedMinutes": 30
+        },
+        {
+          "id": "t10",
+          "text": "Build a responsive webpage",
+          "estimatedMinutes": 30
+        }
+      ],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "CSS Tutorial - Zero to Hero",
+          "url": "https://youtube.com/watch?v=1Rs2ND1ryYc"
+        },
+        {
+          "type": "reference",
+          "title": "CSS-Tricks Flexbox Guide",
+          "url": "https://css-tricks.com/snippets/css/a-guide-to-flexbox/"
+        }
+      ]
+    },
+    {
+      "id": "javascript",
+      "label": "JavaScript Basics",
+      "status": "next",
+      "category": "Frontend",
+      "difficulty": "beginner",
+      "estimatedMinutes": 180,
+      "prerequisites": ["html"],
+      "tasks": [
+        {
+          "id": "t11",
+          "text": "Learn JavaScript syntax and data types",
+          "estimatedMinutes": 45
+        },
+        {
+          "id": "t12",
+          "text": "Practice with functions and scope",
+          "estimatedMinutes": 45
+        },
+        {
+          "id": "t13",
+          "text": "Master DOM manipulation",
+          "estimatedMinutes": 45
+        },
+        {
+          "id": "t14",
+          "text": "Build an interactive webpage",
+          "estimatedMinutes": 45
+        }
+      ],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "JavaScript Tutorial for Beginners",
+          "url": "https://youtube.com/watch?v=PkZNo7MFNFg"
+        },
+        {
+          "type": "reference",
+          "title": "JavaScript.info",
+          "url": "https://javascript.info/"
+        }
+      ]
+    },
+    {
+      "id": "react",
+      "label": "React",
+      "status": "next",
+      "category": "Frontend",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 240,
+      "prerequisites": ["javascript", "css"],
+      "tasks": [
+        {
+          "id": "t15",
+          "text": "Learn React fundamentals and JSX",
+          "estimatedMinutes": 60
+        },
+        {
+          "id": "t16",
+          "text": "Understand components and props",
+          "estimatedMinutes": 60
+        },
+        {
+          "id": "t17",
+          "text": "Master state and hooks",
+          "estimatedMinutes": 60
+        },
+        {
+          "id": "t18",
+          "text": "Build a React app",
+          "estimatedMinutes": 60
+        }
+      ],
+      "resources": [
+        {
+          "type": "reference",
+          "title": "React Official Docs",
+          "url": "https://react.dev/"
+        },
+        {
+          "type": "youtube",
+          "title": "React Course - Beginner's Tutorial",
+          "url": "https://youtube.com/watch?v=bMknfKXIFA8"
+        }
+      ]
+    },
+    {
+      "id": "nodejs",
+      "label": "Node.js",
+      "status": "next",
+      "category": "Backend",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 180,
+      "prerequisites": ["javascript"],
+      "tasks": [
+        {
+          "id": "t19",
+          "text": "Learn Node.js basics and modules",
+          "estimatedMinutes": 60
+        },
+        {
+          "id": "t20",
+          "text": "Work with npm and packages",
+          "estimatedMinutes": 60
+        },
+        {
+          "id": "t21",
+          "text": "Build a simple server",
+          "estimatedMinutes": 60
+        }
+      ],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Node.js Tutorial for Beginners",
+          "url": "https://youtube.com/watch?v=TlB_eWDSMt4"
+        },
+        {
+          "type": "reference",
+          "title": "Node.js Official Docs",
+          "url": "https://nodejs.org/docs/"
+        }
+      ]
+    },
+    {
+      "id": "express",
+      "label": "Express.js",
+      "status": "next",
+      "category": "Backend",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 150,
+      "prerequisites": ["nodejs"],
+      "tasks": [
+        {
+          "id": "t22",
+          "text": "Set up Express server",
+          "estimatedMinutes": 50
+        },
+        {
+          "id": "t23",
+          "text": "Learn routing and middleware",
+          "estimatedMinutes": 50
+        },
+        {
+          "id": "t24",
+          "text": "Build a REST API",
+          "estimatedMinutes": 50
+        }
+      ],
+      "resources": [
+        {
+          "type": "reference",
+          "title": "Express Official Docs",
+          "url": "https://expressjs.com/"
+        },
+        {
+          "type": "youtube",
+          "title": "Express.js Crash Course",
+          "url": "https://youtube.com/watch?v=L72fhGm1tfE"
+        }
+      ]
+    },
+    {
+      "id": "database",
+      "label": "Databases (SQL)",
+      "status": "next",
+      "category": "Backend",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 200,
+      "prerequisites": ["nodejs"],
+      "tasks": [
+        {
+          "id": "t25",
+          "text": "Learn SQL basics and queries",
+          "estimatedMinutes": 60
+        },
+        {
+          "id": "t26",
+          "text": "Study database design principles",
+          "estimatedMinutes": 70
+        },
+        {
+          "id": "t27",
+          "text": "Connect database to Node.js",
+          "estimatedMinutes": 70
+        }
+      ],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "SQL Tutorial - Full Course",
+          "url": "https://youtube.com/watch?v=HXV3zeQKqGY"
+        },
+        {
+          "type": "coursera",
+          "title": "SQL for Data Science",
+          "url": "https://www.coursera.org/learn/sql-for-data-science"
+        }
+      ]
+    },
+    {
+      "id": "apis",
+      "label": "RESTful APIs",
+      "status": "next",
+      "category": "Backend",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 120,
+      "prerequisites": ["express"],
+      "tasks": [
+        {
+          "id": "t28",
+          "text": "Understand REST principles",
+          "estimatedMinutes": 40
+        },
+        {
+          "id": "t29",
+          "text": "Design API endpoints",
+          "estimatedMinutes": 40
+        },
+        {
+          "id": "t30",
+          "text": "Implement CRUD operations",
+          "estimatedMinutes": 40
+        }
+      ],
+      "resources": [
+        {
+          "type": "reference",
+          "title": "REST API Tutorial",
+          "url": "https://restfulapi.net/"
+        },
+        {
+          "type": "youtube",
+          "title": "What is REST API?",
+          "url": "https://youtube.com/watch?v=-MTSQjw5DrM"
+        }
+      ]
+    },
+    {
+      "id": "authentication",
+      "label": "Authentication & Security",
+      "status": "next",
+      "category": "Backend",
+      "difficulty": "advanced",
+      "estimatedMinutes": 180,
+      "prerequisites": ["apis"],
+      "tasks": [
+        {
+          "id": "t31",
+          "text": "Learn JWT authentication",
+          "estimatedMinutes": 60
+        },
+        {
+          "id": "t32",
+          "text": "Implement user registration and login",
+          "estimatedMinutes": 60
+        },
+        {
+          "id": "t33",
+          "text": "Study security best practices",
+          "estimatedMinutes": 60
+        }
+      ],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "JWT Authentication Tutorial",
+          "url": "https://youtube.com/watch?v=mbsmsi7l3r4"
+        },
+        {
+          "type": "reference",
+          "title": "OWASP Security Guidelines",
+          "url": "https://owasp.org/"
+        }
+      ]
+    },
+    {
+      "id": "deployment",
+      "label": "Deployment & DevOps",
+      "status": "next",
+      "category": "DevOps",
+      "difficulty": "advanced",
+      "estimatedMinutes": 150,
+      "prerequisites": ["authentication"],
+      "tasks": [
+        {
+          "id": "t34",
+          "text": "Learn Git and version control",
+          "estimatedMinutes": 50
+        },
+        {
+          "id": "t35",
+          "text": "Deploy to cloud platform (Heroku/Vercel)",
+          "estimatedMinutes": 50
+        },
+        {
+          "id": "t36",
+          "text": "Set up CI/CD pipeline",
+          "estimatedMinutes": 50
+        }
+      ],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Git & GitHub Crash Course",
+          "url": "https://youtube.com/watch?v=RGOj5yH7evk"
+        },
+        {
+          "type": "reference",
+          "title": "Heroku Dev Center",
+          "url": "https://devcenter.heroku.com/"
+        }
+      ]
+    },
+    {
+      "id": "fullstack-project",
+      "label": "Full-Stack Project",
+      "status": "next",
+      "category": "Project",
+      "difficulty": "advanced",
+      "estimatedMinutes": 480,
+      "prerequisites": ["react", "database", "deployment"],
+      "tasks": [
+        {
+          "id": "t37",
+          "text": "Plan and design your project",
+          "estimatedMinutes": 120
+        },
+        {
+          "id": "t38",
+          "text": "Build complete backend with database",
+          "estimatedMinutes": 180
+        },
+        {
+          "id": "t39",
+          "text": "Build React frontend",
+          "estimatedMinutes": 120
+        },
+        {
+          "id": "t40",
+          "text": "Test and deploy",
+          "estimatedMinutes": 60
+        }
+      ],
+      "resources": [
+        {
+          "type": "youtube",
+          "title": "Full Stack Project Tutorial",
+          "url": "https://youtube.com/watch?v=98BzS5Oz5E4"
+        }
+      ]
+    }
+  ],
+  "edges": []
+}

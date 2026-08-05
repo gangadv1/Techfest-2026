@@ -12,6 +12,7 @@ interface JobCardProps {
   }
   fitScore?: number
   onClick: () => void
+  isSelected?: boolean
   totalApplicants?: number
 }
 export default function JobCard({ job, fitScore, onClick, totalApplicants }: JobCardProps) {

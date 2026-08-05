@@ -1,10 +1,8 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 type Post = { id: string; title: string; content: string; author: string; date: string; type: 'forum' | 'article' | 'discussion' }
 
 export default function Social() {
-  const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState<'forum' | 'article' | 'discussion'>('forum')
   const [posts, setPosts] = useState<Post[]>([
     { id: '1', title: 'Getting Started with React 19', content: 'A comprehensive guide to the latest React features and best practices.', author: 'Tech Guru', date: '2026-01-24', type: 'article' },

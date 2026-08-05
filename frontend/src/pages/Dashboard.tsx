@@ -328,7 +328,6 @@ export default function Dashboard() {
   const [industry, setIndustry] = useState<IndustryKey>('software')
   const [overallScore, setOverallScore] = useState(0)
   const [targetRoles, setTargetRoles] = useState<string[]>(['Software Engineering'])
-  const [detectedIndustry, setDetectedIndustry] = useState<string>('software')
 
   const deriveIndustryFromRole = (role: string): IndustryKey => {
     const r = role.toLowerCase()
@@ -341,17 +340,6 @@ export default function Dashboard() {
     if (r.includes('data') || r.includes('analyst') || r.includes('scientist')) return 'data'
     if (r.includes('finance') || r.includes('consult')) return 'finance'
     return 'software'
-  }
-
-  const pathIdFromIndustry = (key: IndustryKey) => {
-    if (key === 'data') return 'data'
-    if (key === 'finance') return 'finance'
-    if (key === 'ml') return 'machinelearning'
-    if (key === 'cybersecurity') return 'cybersecurity'
-    if (key === 'devops') return 'devops'
-    if (key === 'productmanager') return 'productmanager'
-    if (key === 'uiux') return 'uiux'
-    return 'fullstack'
   }
   
   useEffect(() => {
@@ -413,7 +401,6 @@ export default function Dashboard() {
         if (cleanedRoles.length) setTargetRoles(cleanedRoles)
       } catch {}
     }
-    setDetectedIndustry(detectedInd)
     setIndustry(detectedInd as IndustryKey)
     
     // Load resume scan result if present
@@ -498,7 +485,6 @@ export default function Dashboard() {
     const role = ROLE_NORMALIZATION[rawRole] || rawRole
     const derivedIndustry = deriveIndustryFromRole(role)
     const profile = INDUSTRY_PROFILES[derivedIndustry]
-    const pathId = pathIdFromIndustry(derivedIndustry)
 
     const missingSkills = profile.skills.filter(
       skill => !scanResult.resumeSkills.some(

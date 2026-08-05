@@ -33,12 +33,6 @@ export default function Tracker() {
     localStorage.setItem('savedJobs', JSON.stringify(updated))
   }
 
-  const handleRejectionStageChange = (stage: string, count: number) => {
-    const updated = { ...rejectionData, [stage]: count }
-    setRejectionData(updated)
-    localStorage.setItem('applicationData', JSON.stringify({ rejectionData: updated, skillProgress }))
-  }
-
   const handleRejectionStageForJob = (jobId: string, stage: string) => {
     const updated = applications.map(app =>
       app.id === jobId ? { ...app, rejectionStage: stage } : app
@@ -47,26 +41,11 @@ export default function Tracker() {
     localStorage.setItem('savedJobs', JSON.stringify(updated))
   }
 
-  const handleSkillProgressChange = (skill: string, progress: number) => {
-    const updated = { ...skillProgress, [skill]: progress }
-    setSkillProgress(updated)
-    localStorage.setItem('applicationData', JSON.stringify({ rejectionData, skillProgress: updated }))
-  }
 
   // Analytics calculations
   const totalApplications = applications.length
   const applicationsInProcess = applications.filter(a => ['Applied', 'Interview'].includes(a.status)).length
   const applicationsRejected = applications.filter(a => a.status === 'Rejected').length
-  const totalRejections = Object.values(rejectionData).reduce((a: number, b: number) => a + b, 0)
-  
-  const mostFailedStage = totalRejections > 0 
-    ? Object.entries(rejectionData).reduce((a, b) => (b[1] as number) > (a[1] as number) ? b : a)[0]
-    : 'N/A'
-
-  const allSkills = ['Python', 'JavaScript', 'React', 'TypeScript', 'AWS', 'Docker', 'Java', 'SQL']
-  const skillsByDifficulty = ['Java', 'AWS', 'Docker', 'React', 'TypeScript', 'Python', 'JavaScript', 'SQL']
-
-  
 
   return (
     <div className="min-h-screen bg-slate-50">

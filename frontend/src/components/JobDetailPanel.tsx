@@ -1,4 +1,4 @@
-import type { Job } from "../../lib/jobs/mockJobs"
+import type { Job } from "../lib/jobs/mockJobs"
 
 export default function JobDetailPanel({ job }: { job: Job }) {
   return (

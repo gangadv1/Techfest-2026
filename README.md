@@ -8,7 +8,7 @@
 
 **Frontend**
 
-[https://career-vector.vercel.app](https://career-vector.vercel.app)](https://vector-career-mentor.vercel.app)
+[https://vector-career-mentor.vercel.app](https://vector-career-mentor.vercel.app)
 
 **Backend API**
 

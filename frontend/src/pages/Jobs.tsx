@@ -55,6 +55,12 @@ const cleanSkills = (skills: any): string[] => {
     .filter(skill => skill.length > 0)
 }
 
+interface FitResult {
+  percent: number
+  matched: string[]
+  missing: string[]
+}
+
 export default function Jobs() {
   const [searchParams, setSearchParams] = useSearchParams()
   const [jobs, setJobs] = useState<Job[]>([])
@@ -64,7 +70,11 @@ export default function Jobs() {
   const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '')
   const [filtersOpen, setFiltersOpen] = useState(false)
   const [fitModalOpen, setFitModalOpen] = useState(false);
-  const [fitResult, setFitResult] = useState({ percent: 0, matched: [], missing: [] });
+  const [fitResult, setFitResult] = useState<FitResult>({
+  percent: 0,
+  matched: [],
+  missing: []
+});
 
   const handleAnalyzeFit = () => {
     if (!selectedJob) return;

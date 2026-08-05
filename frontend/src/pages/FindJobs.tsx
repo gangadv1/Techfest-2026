@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react"
-import FiltersPanel from "../components/jobs/FiltersPanel"
-import JobCard from "../components/jobs/JobCard"
-import JobDetailPanel from "../components/jobs/JobDetailPanel"
+import FiltersPanel from "../components/Filters"
+import JobCard from "../components/JobCard"
+import JobDetailPanel from "../components/NodeDetailModal"
 import { mockJobs, type Job } from "../lib/jobs/mockJobs"
 
 type Filters = {

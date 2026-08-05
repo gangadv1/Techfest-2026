@@ -10,11 +10,11 @@
 
 🌐 Frontend
 
-https://career-vector.vercel.app
+[https://career-vector.vercel.app](https://vector-career-mentor.vercel.app )
 
 ⚙️ Backend API
 
-https://vector-backend-ijym.onrender.com
+[https://vector-backend-ijym.onrender.com](https://vector-backend-ijym.onrender.com)
 
 ---
 

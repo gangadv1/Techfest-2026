@@ -2,17 +2,15 @@
 
 > A full-stack career development and upskilling platform that helps students prepare for internships and full-time roles through resume analysis, career roadmaps, interview practice, and personalized learning.
 
-![Dashboard](screenshots/dashboard.png)
-
 ---
 
-## Live Demo
+# Live Demo
 
-🌐 Frontend
+**Frontend**
 
-[https://career-vector.vercel.app](https://vector-career-mentor.vercel.app )
+[https://career-vector.vercel.app](https://career-vector.vercel.app)
 
-⚙️ Backend API
+**Backend API**
 
 [https://vector-backend-ijym.onrender.com](https://vector-backend-ijym.onrender.com)
 
@@ -44,49 +42,42 @@ The platform assists users in preparing for their careers through:
 - Industry benchmark comparison
 - Strength and weakness analysis
 
----
-
 ## Job Discovery
 
-- Singapore job listings
+- Browse Singapore-based job opportunities
 - Keyword search
+- Advanced filtering
 - Salary filtering
 - Skill-based filtering
 - Job detail pages
 
----
-
 ## Skill Gap Analysis
 
-Vector compares the user's current skills against their desired career path and identifies missing competencies.
+Vector compares a user's current skills against their desired career path and identifies missing competencies.
 
 It then generates:
 
-- Personalized roadmap
+- Personalized learning roadmap
 - Skill dependency graph
 - Learning sequence
 - Career readiness insights
-
----
 
 ## Personalized Learning
 
 - 7-day study plans
 - Daily learning tasks
-- Learning streaks
-- Progress tracking
-
----
+- Learning streak tracking
+- Progress monitoring
 
 ## Interview Simulator
 
 - Role-specific interview questions
-- Technical & behavioural question bank
+- Technical and behavioural question bank
 - Speech recognition
 - Filler word detection
 - Speaking duration tracking
-- Interview feedback
 - Speaking rate analysis
+- Personalized interview feedback
 
 ---
 
@@ -103,11 +94,11 @@ It then generates:
 
 Responsible for:
 
-- User Interface
-- Resume Dashboard
-- Roadmap Visualization
+- Dashboard
+- Resume Analysis
+- Job Discovery
 - Interview Simulator
-- Job Platform
+- Career Roadmaps
 
 ---
 
@@ -122,9 +113,20 @@ Responsible for:
 
 - Resume Processing
 - Job APIs
-- Plan Generation
+- Learning Plan Generation
+- Interview Evaluation
 - Data Processing
-- Interview APIs
+
+---
+
+## Application Logic
+
+- Resume Scoring
+- Skill Gap Analysis
+- Career Roadmap Generation
+- Personalized Learning Plans
+- Interview Question Selection
+- Performance Evaluation
 
 ---
 
@@ -134,10 +136,10 @@ Responsible for:
 
 Stores:
 
-- User data
-- Resume analysis
-- Roadmaps
+- Resume data
+- Job information
 - Learning plans
+- User progress
 
 ---
 
@@ -156,96 +158,56 @@ Backend
 # Tech Stack
 
 | Frontend | Backend | Database | Deployment |
-|-----------|----------|-----------|------------|
+|-----------|----------|----------|------------|
 | React | FastAPI | SQLite | Vercel |
 | TypeScript | SQLAlchemy | | Render |
 | Tailwind CSS | Pandas | | |
-| React Flow | REST APIs | | |
-| Vite | Python | | |
+| React Router | REST APIs | | |
+| React Flow | Python | | |
+| Vite | | | |
 
 ---
 
 # System Architecture
 
-![Architecture](screenshots/architecture.png)
-
 The application follows a layered architecture:
 
+```
 User
-
-↓
-
+   │
+   ▼
 React Frontend
-
-↓
-
+   │
+   ▼
 FastAPI REST API
-
-↓
-
+   │
+   ▼
 SQLAlchemy ORM
-
-↓
-
+   │
+   ▼
 SQLite Database
+```
 
 Business logic powers:
 
 - Resume Scoring
+- Skill Gap Analysis
 - Career Roadmaps
 - Learning Plan Generation
 - Interview Evaluation
 
 ---
 
-# Screenshots
-
-## Landing Page
-
-![Landing](screenshots/landing.png)
-
----
-
-## Dashboard
-
-![Dashboard](screenshots/dashboard.png)
-
----
-
-## Resume Analysis
-
-![Resume](screenshots/resume.png)
-
----
-
-## Job Discovery
-
-![Jobs](screenshots/jobs.png)
-
----
-
-## Roadmap
-
-![Roadmap](screenshots/roadmap.png)
-
----
-
-## Interview Simulator
-
-![Interview](screenshots/interview.png)
-
----
-
 # Running Locally
 
-Frontend
+### Frontend
 
 ```bash
 npm install
 npm run dev
 ```
 
-Backend
+### Backend
 
 ```bash
 pip install -r requirements.txt
@@ -256,21 +218,21 @@ uvicorn app.main:app --reload
 
 # Future Improvements
 
-- AI-generated resume suggestions
-- Real-time interview coaching
+- AI-powered resume rewriting
 - Company-specific interview preparation
-- Authentication
+- Authentication and user accounts
 - Real job API integration
 - Personalized job recommendations
+- Learning analytics dashboard
 
 ---
 
 # Contributors
 
-Developed during TechFest 2026 by a team of four students from Nanyang Technological University, Singapore.
+Developed during **TechFest 2026** by a team of four students from **Nanyang Technological University, Singapore**.
 
 ---
 
 # License
 
-Educational and portfolio project.
+This project was developed for educational and portfolio purposes.

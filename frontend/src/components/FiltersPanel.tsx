@@ -51,12 +51,14 @@ export default function FiltersPanel({
           <p className="text-xs font-semibold uppercase tracking-wide text-indigo-600">
             Filters
           </p>
+
           <h2 className="text-xl font-bold text-slate-900">
             Refine your search
           </h2>
         </div>
 
         <button
+          type="button"
           onClick={onReset}
           className="text-sm font-semibold text-indigo-600 hover:text-indigo-700"
         >
@@ -97,6 +99,7 @@ export default function FiltersPanel({
                   }))
                 }
               />
+
               {location}
             </label>
           ))}
@@ -108,23 +111,28 @@ export default function FiltersPanel({
             Category
           </h3>
 
-          {["Software", "Data", "Cloud", "Analytics", "Product"].map(
-            (category) => (
-              <label
-                key={category}
-                className="mb-2 flex items-center gap-2 text-sm text-slate-700"
-              >
-                <input
-                  type="checkbox"
-                  checked={filters.category.includes(category)}
-                  onChange={() =>
-                    toggleArrayValue("category", category)
-                  }
-                />
-                {category}
-              </label>
-            )
-          )}
+          {[
+            "Software",
+            "Data",
+            "Cloud",
+            "Analytics",
+            "Product",
+          ].map((category) => (
+            <label
+              key={category}
+              className="mb-2 flex items-center gap-2 text-sm text-slate-700"
+            >
+              <input
+                type="checkbox"
+                checked={filters.category.includes(category)}
+                onChange={() =>
+                  toggleArrayValue("category", category)
+                }
+              />
+
+              {category}
+            </label>
+          ))}
         </div>
 
         {/* Employment */}
@@ -133,23 +141,27 @@ export default function FiltersPanel({
             Employment Type
           </h3>
 
-          {["Full-time", "Part-time", "Contract", "Internship"].map(
-            (type) => (
-              <label
-                key={type}
-                className="mb-2 flex items-center gap-2 text-sm text-slate-700"
-              >
-                <input
-                  type="checkbox"
-                  checked={filters.employmentType.includes(type)}
-                  onChange={() =>
-                    toggleArrayValue("employmentType", type)
-                  }
-                />
-                {type}
-              </label>
-            )
-          )}
+          {[
+            "Full-time",
+            "Part-time",
+            "Contract",
+            "Intern",
+          ].map((type) => (
+            <label
+              key={type}
+              className="mb-2 flex items-center gap-2 text-sm text-slate-700"
+            >
+              <input
+                type="checkbox"
+                checked={filters.employmentType.includes(type)}
+                onChange={() =>
+                  toggleArrayValue("employmentType", type)
+                }
+              />
+
+              {type}
+            </label>
+          ))}
         </div>
 
         {/* Experience */}
@@ -159,9 +171,9 @@ export default function FiltersPanel({
           </h3>
 
           {[
-            "Entry-level",
-            "Mid-level",
-            "Senior",
+            "Fresh Grad",
+            "Junior",
+            "Mid",
           ].map((level) => (
             <label
               key={level}
@@ -174,6 +186,7 @@ export default function FiltersPanel({
                   toggleArrayValue("experienceLevel", level)
                 }
               />
+
               {level}
             </label>
           ))}
@@ -190,13 +203,13 @@ export default function FiltersPanel({
               type="number"
               placeholder="Min"
               value={filters.salaryMin ?? ""}
-              onChange={(e) =>
+              onChange={(event) =>
                 setFilters((prev) => ({
                   ...prev,
                   salaryMin:
-                    e.target.value === ""
+                    event.target.value === ""
                       ? undefined
-                      : Number(e.target.value),
+                      : Number(event.target.value),
                 }))
               }
               className="w-1/2 rounded-lg border border-slate-300 px-3 py-2 text-sm"
@@ -206,13 +219,13 @@ export default function FiltersPanel({
               type="number"
               placeholder="Max"
               value={filters.salaryMax ?? ""}
-              onChange={(e) =>
+              onChange={(event) =>
                 setFilters((prev) => ({
                   ...prev,
                   salaryMax:
-                    e.target.value === ""
+                    event.target.value === ""
                       ? undefined
-                      : Number(e.target.value),
+                      : Number(event.target.value),
                 }))
               }
               className="w-1/2 rounded-lg border border-slate-300 px-3 py-2 text-sm"
@@ -226,7 +239,11 @@ export default function FiltersPanel({
             Workplace
           </h3>
 
-          {["Remote", "Hybrid", "On-site"].map((model) => (
+          {[
+            "Remote",
+            "Hybrid",
+            "Onsite",
+          ].map((model) => (
             <label
               key={model}
               className="mb-2 flex items-center gap-2 text-sm text-slate-700"
@@ -238,6 +255,7 @@ export default function FiltersPanel({
                   toggleArrayValue("workplaceModel", model)
                 }
               />
+
               {model}
             </label>
           ))}
@@ -253,20 +271,21 @@ export default function FiltersPanel({
             <input
               type="checkbox"
               checked={filters.visaEligible === true}
-              onChange={(e) =>
+              onChange={(event) =>
                 setFilters((prev) => ({
                   ...prev,
-                  visaEligible: e.target.checked
+                  visaEligible: event.target.checked
                     ? true
                     : undefined,
                 }))
               }
             />
+
             Sponsorship available
           </label>
         </div>
 
-        {/* Tech Stack */}
+        {/* Technical Stack */}
         <div className="md:col-span-2 lg:col-span-3">
           <h3 className="mb-3 text-sm font-semibold text-slate-900">
             Technical Stack
@@ -304,6 +323,7 @@ export default function FiltersPanel({
             ))}
           </div>
         </div>
+
       </div>
     </div>
   )

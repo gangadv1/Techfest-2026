@@ -29,7 +29,7 @@ const InterviewSimulator = () => {
   const [error, setError] = useState('');
   const [useCustomRole, setUseCustomRole] = useState(false);
   
-  const recognitionRef = useRef(null);
+  const recognitionRef = useRef<SpeechRecognition | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const fillerWords = [

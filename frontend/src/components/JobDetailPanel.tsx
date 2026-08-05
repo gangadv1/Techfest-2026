@@ -85,9 +85,7 @@ export default function JobDetailPanel({ job }: { job: Job }) {
       <button
         className="w-full rounded-xl bg-indigo-600 px-4 py-3 font-semibold text-white hover:bg-indigo-700"
         onClick={() => {
-          if (job.applyUrl) {
-            window.open(job.applyUrl, "_blank")
-          }
+          window.open("#", "_blank")
         }}
       >
         Apply Now

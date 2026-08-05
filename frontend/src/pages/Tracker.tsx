@@ -14,15 +14,10 @@ export default function Tracker() {
     localStorage.setItem('savedJobs', JSON.stringify([]))
   }
   const [activeTab, setActiveTab] = useState('dashboard')
-  const [rejectionData, setRejectionData] = useState<Record<string, number>>({})
-  const [skillProgress, setSkillProgress] = useState<Record<string, number>>({})
 
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem('savedJobs') || '[]')
-    const appData = JSON.parse(localStorage.getItem('applicationData') || '{}')
     setApplications(saved)
-    setRejectionData(appData.rejectionData || {})
-    setSkillProgress(appData.skillProgress || {})
   }, [])
 
   const handleStatusChange = (jobId: string, newStatus: string) => {

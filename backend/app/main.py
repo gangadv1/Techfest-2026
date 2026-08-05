@@ -19,6 +19,7 @@ app.add_middleware(
     "http://localhost:3000",
     "http://localhost:3001",
     "https://vector-theta-ebon.vercel.app",
+    "https://career-vector.vercel.app",
 ],
     allow_credentials=True,
     allow_methods=["*"],

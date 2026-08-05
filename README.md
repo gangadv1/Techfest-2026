@@ -1,116 +1,246 @@
-# 🚀 Vector – Personalized Career & Upskilling Platform
+# 🚀 Vector
 
-Vector is a full-stack career development platform designed to help students and early-career professionals navigate their job search with confidence. It combines resume analysis, career planning, job discovery, interview preparation, and personalized learning into a single platform.
+> A full-stack career development and upskilling platform that helps students prepare for internships and full-time roles through resume analysis, career roadmaps, interview practice, and personalized learning.
 
-Developed during **TechFest 2026**, Vector aims to bridge the gap between where a candidate is today and the skills required for their target career.
+![Dashboard](screenshots/dashboard.png)
 
 ---
 
-## ✨ Features
+## Live Demo
 
-### 📊 Resume Analysis
-- Resume scoring and ATS evaluation
+🌐 Frontend
+
+https://career-vector.vercel.app
+
+⚙️ Backend API
+
+https://vector-backend-ijym.onrender.com
+
+---
+
+# Overview
+
+Vector was developed during **TechFest 2026** by a team of four students from **Nanyang Technological University, Singapore**.
+
+The platform assists users in preparing for their careers through:
+
+- Resume analysis
+- ATS resume scoring
+- Job discovery
+- Career roadmaps
+- Skill gap analysis
+- Daily learning plans
+- Interview practice
+- Progress tracking
+
+---
+
+# Features
+
+## Resume Analysis
+
+- ATS compatibility scoring
+- Resume quality assessment
 - Industry benchmark comparison
-- Strength and weakness identification
-- Career path recommendations
+- Strength and weakness analysis
 
-### 💼 Job Discovery
-- Browse Singapore-based job opportunities
-- Search by keywords
-- Advanced filtering
-- Salary sorting
-- Job detail view
+---
 
-### 🎯 Interview Simulator
+## Job Discovery
+
+- Singapore job listings
+- Keyword search
+- Salary filtering
+- Skill-based filtering
+- Job detail pages
+
+---
+
+## Skill Gap Analysis
+
+Vector compares the user's current skills against their desired career path and identifies missing competencies.
+
+It then generates:
+
+- Personalized roadmap
+- Skill dependency graph
+- Learning sequence
+- Career readiness insights
+
+---
+
+## Personalized Learning
+
+- 7-day study plans
+- Daily learning tasks
+- Learning streaks
+- Progress tracking
+
+---
+
+## Interview Simulator
+
 - Role-specific interview questions
+- Technical & behavioural question bank
 - Speech recognition
 - Filler word detection
 - Speaking duration tracking
-- Performance scoring
-- Personalized interview feedback
-
-### 🗺️ Career Roadmaps
-- Personalized learning roadmaps
-- Skill dependency graph
-- Interactive roadmap visualization
-- Learning progress tracking
-
-### 📅 Daily Learning Planner
-- Automatically generated learning plans
-- Daily tasks
-- Weekly schedule
-- Progress tracking
-
-### 📈 Dashboard
-- Resume insights
-- Career readiness metrics
-- Learning progress
-- Interview statistics
+- Interview feedback
+- Speaking rate analysis
 
 ---
 
-## 🛠 Tech Stack
+# Architecture
 
-### Frontend
-- React
+## Frontend
+
+- React 18
 - TypeScript
 - Vite
 - Tailwind CSS
 - React Router
 - React Flow
 
-### Backend
+Responsible for:
+
+- User Interface
+- Resume Dashboard
+- Roadmap Visualization
+- Interview Simulator
+- Job Platform
+
+---
+
+## Backend
+
 - FastAPI
-- Python
 - SQLAlchemy
+- REST APIs
+- Pandas
+
+Responsible for:
+
+- Resume Processing
+- Job APIs
+- Plan Generation
+- Data Processing
+- Interview APIs
+
+---
+
+## Database
+
 - SQLite
 
-### Deployment
+Stores:
+
+- User data
+- Resume analysis
+- Roadmaps
+- Learning plans
+
+---
+
+## Deployment
+
+Frontend
+
 - Vercel
+
+Backend
+
 - Render
 
 ---
 
-## 📷 Screenshots
+# Tech Stack
 
-### Dashboard
-<img src="screenshots/dashboard.png" width="900"/>
-
-### Resume Analysis
-<img src="screenshots/resume-analysis.png" width="900"/>
-
-### Interview Simulator
-<img src="screenshots/interview.png" width="900"/>
-
-### Job Discovery
-<img src="screenshots/jobs.png" width="900"/>
+| Frontend | Backend | Database | Deployment |
+|-----------|----------|-----------|------------|
+| React | FastAPI | SQLite | Vercel |
+| TypeScript | SQLAlchemy | | Render |
+| Tailwind CSS | Pandas | | |
+| React Flow | REST APIs | | |
+| Vite | Python | | |
 
 ---
 
-## 🚀 Live Demo
+# System Architecture
 
-Frontend:
+![Architecture](screenshots/architecture.png)
 
-https://career-vector.vercel.app
+The application follows a layered architecture:
 
-Backend:
+User
 
-https://vector-backend-ijym.onrender.com
+↓
+
+React Frontend
+
+↓
+
+FastAPI REST API
+
+↓
+
+SQLAlchemy ORM
+
+↓
+
+SQLite Database
+
+Business logic powers:
+
+- Resume Scoring
+- Career Roadmaps
+- Learning Plan Generation
+- Interview Evaluation
 
 ---
 
-## ⚙️ Local Installation
+# Screenshots
 
-Clone the repository
+## Landing Page
 
-```bash
-git clone https://github.com/gangadv1/Techfest-2026.git
-```
+![Landing](screenshots/landing.png)
+
+---
+
+## Dashboard
+
+![Dashboard](screenshots/dashboard.png)
+
+---
+
+## Resume Analysis
+
+![Resume](screenshots/resume.png)
+
+---
+
+## Job Discovery
+
+![Jobs](screenshots/jobs.png)
+
+---
+
+## Roadmap
+
+![Roadmap](screenshots/roadmap.png)
+
+---
+
+## Interview Simulator
+
+![Interview](screenshots/interview.png)
+
+---
+
+# Running Locally
 
 Frontend
 
 ```bash
-cd frontend
 npm install
 npm run dev
 ```
@@ -118,50 +248,29 @@ npm run dev
 Backend
 
 ```bash
-cd backend
 pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
 ---
 
-## 📂 Project Structure
+# Future Improvements
 
-```
-frontend/
-    src/
-        components/
-        pages/
-        services/
-
-backend/
-    app/
-        api/
-        core/
-        models/
-        routes/
-```
-
----
-
-## Future Improvements
-
-- AI-powered resume rewriting
-- Live interview voice coaching
-- Real job API integrations
+- AI-generated resume suggestions
+- Real-time interview coaching
 - Company-specific interview preparation
-- User authentication
+- Authentication
+- Real job API integration
 - Personalized job recommendations
-- Learning analytics dashboard
 
 ---
 
-## Team
+# Contributors
 
-Developed during **TechFest 2026** by a team of four students from **Nanyang Technological University, Singapore**.
+Developed during TechFest 2026 by a team of four students from Nanyang Technological University, Singapore.
 
 ---
 
-## License
+# License
 
-This project was developed for educational and portfolio purposes.
+Educational and portfolio project.

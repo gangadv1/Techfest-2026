@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react"
-import Filters from "../components/Filters"
+import FiltersPanel from "../components/FiltersPanel"
 import JobCard from "../components/JobCard"
+import JobDetailPanel from "../components/JobDetailPanel"
 import { mockJobs, type Job } from "../lib/jobs/mockJobs"
 
 type Filters = {

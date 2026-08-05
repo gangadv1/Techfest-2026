@@ -1,6 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Mic, MicOff, PlayCircle, RotateCcw, Sparkles, TrendingUp, AlertCircle, Loader } from 'lucide-react';
 
+interface Analysis {
+  score: number;
+  metrics: {
+    fillerWords: number;
+    duration: number;
+    wordCount?: number;
+    speakingRate: number;
+  };
+  strengths: string[];
+  weaknesses: string[];
+  idealAnswer: string;
+  recommendations: string[];
+}
+
 const InterviewSimulator = () => {
   const [stage, setStage] = useState('setup'); // setup, generating, intro, listening, analyzing, results
   const [company, setCompany] = useState('Google');
@@ -10,7 +24,7 @@ const InterviewSimulator = () => {
   const [transcript, setTranscript] = useState('');
   const [fillerCount, setFillerCount] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [analysis, setAnalysis] = useState(null);
+  const [analysis, setAnalysis] = useState<Analysis | null>(null);
   const [isRecording, setIsRecording] = useState(false);
   const [error, setError] = useState('');
   const [useCustomRole, setUseCustomRole] = useState(false);
@@ -37,7 +51,7 @@ const InterviewSimulator = () => {
     const roleToUse = useCustomRole ? customRole : role;
 
     try {
-      const response = await fetch('http://localhost:8000/api/interview/generate-question', {
+      const response = await fetch('https://vector-backend-ijym.onrender.com/api/interview/generate-question', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -64,9 +78,10 @@ const InterviewSimulator = () => {
         startRecording();
       }, 7000);
 
-    } catch (err) {
-      setError(`Failed to generate question: ${err.message}`);
-      setStage('setup');
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Unknown error';
+    setError(`Failed to generate question: ${message}`);
+    setStage('setup');
     }
   };
 
@@ -181,7 +196,7 @@ const InterviewSimulator = () => {
     setStage('analyzing');
     
     try {
-      const response = await fetch('http://localhost:8000/api/interview/analyze-answer', {
+      const response = await fetch('https://vector-backend-ijym.onrender.com/api/interview/analyze-answer', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -589,7 +604,7 @@ const InterviewSimulator = () => {
                 Strengths
               </h3>
               <ul style={{ lineHeight: 1.8 }}>
-                {analysis.strengths.map((strength, i) => (
+                {analysis.strengths.map((strength: string, i: number) => (
                   <li key={i} style={{ color: '#333' }}>{strength}</li>
                 ))}
               </ul>
@@ -602,7 +617,7 @@ const InterviewSimulator = () => {
                 Areas to Improve
               </h3>
               <ul style={{ lineHeight: 1.8 }}>
-                {analysis.weaknesses.map((weakness, i) => (
+                {analysis.weaknesses.map((weakness: string, i: number) => (
                   <li key={i} style={{ color: '#333' }}>{weakness}</li>
                 ))}
               </ul>
@@ -628,7 +643,7 @@ const InterviewSimulator = () => {
             }}>
               <h3 style={{ color: '#f57c00', marginTop: 0 }}>💡 Personalized Recommendations</h3>
               <ul style={{ margin: 0, lineHeight: 1.8 }}>
-                {analysis.recommendations.map((rec, i) => (
+                {analysis.recommendations.map((rec: string, i: number) => (
                   <li key={i} style={{ color: '#333' }}>{rec}</li>
                 ))}
               </ul>

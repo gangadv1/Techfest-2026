@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react"
-import FiltersPanel from "../components/Filters"
+import Filters from "../components/Filters"
 import JobCard from "../components/JobCard"
-import JobDetailPanel from "../components/NodeDetailModal"
 import { mockJobs, type Job } from "../lib/jobs/mockJobs"
 
 type Filters = {
@@ -196,14 +195,10 @@ export default function FindJobs() {
 
         {/* Collapsible Filters Panel */}
         {isFiltersOpen && (
-          <div className="mb-6">
-            <FiltersPanel
-              filters={filters}
-              setFilters={setFilters}
-              onReset={resetFilters}
-            />
-          </div>
-        )}
+      <div className="mb-6">
+        <Filters />
+      </div>
+    )}
 
         {/* Main Layout: Job List + Job Detail */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
@@ -232,20 +227,27 @@ export default function FindJobs() {
             )}
           </div>
 
-          {/* Right: Job Detail (Sticky) */}
-          <div className="lg:col-span-1">
-            {selectedJob ? (
-              <div className="sticky top-24">
-                <JobDetailPanel job={selectedJob} />
-              </div>
-            ) : (
-              <div className="sticky top-24 rounded-2xl border border-slate-200 bg-white/90 p-8 text-center shadow-sm backdrop-blur">
-                <div className="text-lg font-semibold text-slate-700">Select a job to view details</div>
-              </div>
-            )}
-          </div>
+  {/* Right: Job Details */}
+  <div className="lg:col-span-1">
+    <div className="sticky top-24 rounded-2xl border border-slate-200 bg-white/90 p-8 text-center shadow-sm backdrop-blur">
+      {selectedJob ? (
+        <div>
+          <h2 className="text-lg font-bold text-slate-900 mb-2">
+            {selectedJob.title}
+          </h2>
+          <p className="text-sm text-slate-600">
+            {selectedJob.company}
+          </p>
+          <p className="text-sm text-slate-500 mt-2">
+            {selectedJob.location}
+          </p>
         </div>
-      </div>
+      ) : (
+        <div className="text-lg font-semibold text-slate-700">
+          Select a job to view details
+        </div>
+      )}
     </div>
+  </div>
   )
 }

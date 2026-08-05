@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Mic, MicOff, PlayCircle, RotateCcw, Sparkles, TrendingUp, AlertCircle, Loader } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { MicOff, RotateCcw, Sparkles, TrendingUp, AlertCircle } from 'lucide-react';
 
 interface Analysis {
   score: number;
@@ -28,10 +28,9 @@ const InterviewSimulator = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [error, setError] = useState('');
   const [useCustomRole, setUseCustomRole] = useState(false);
-  const [loading, setLoading] = useState(false);
   
   const recognitionRef = useRef(null);
-  const timerRef = useRef(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const fillerWords = [
     'um', 'uh', 'like', 'you know', 'basically', 'actually', 
@@ -279,7 +278,7 @@ const InterviewSimulator = () => {
     setCurrentQuestion('');
   };
 
-  const formatTime = (seconds) => {
+  const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins}:${secs.toString().padStart(2, '0')}`;

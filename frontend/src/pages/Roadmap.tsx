@@ -12,12 +12,11 @@ interface DayTask {
 export default function Roadmap() {
   const location = useLocation()
   const [roadmap, setRoadmap] = useState<DayTask[]>([])
-  const [currentDay, setCurrentDay] = useState(1)
 
   useEffect(() => {
     // Generate roadmap based on missing skills
-    const fitResult = location.state?.fitResult
     const mockRoadmap: DayTask[] = [
+      
       {
         day: 1,
         title: 'Introduction to Python Basics',
